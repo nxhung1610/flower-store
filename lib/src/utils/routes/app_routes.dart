@@ -1,9 +1,10 @@
 import 'package:flower_store/src/screens/screen.dart';
+import 'package:flower_store/src/utils/general.dart';
 import 'package:flutter/material.dart';
 
 class AppRoutes {
   static Route onGenerateRoute(RouteSettings settings) {
-    print('The Route is : ${settings.name}');
+    printLog('The Route is : ${settings.name}');
     switch (settings.name) {
       case '/':
         return WelcomeScreen.route();
@@ -16,15 +17,16 @@ class AppRoutes {
 
   static Route _errorRoute() {
     return MaterialPageRoute(
-        builder: (_) => Scaffold(
-              body: Container(
-                child: Center(
-                  child: Text('Error'),
-                ),
-              ),
-            ),
-        settings: RouteSettings(
-          name: '/error',
-        ));
+      builder: (_) => Scaffold(
+        body: Container(
+          child: Center(
+            child: Text('Error'),
+          ),
+        ),
+      ),
+      settings: RouteSettings(
+        name: '/error',
+      ),
+    );
   }
 }
