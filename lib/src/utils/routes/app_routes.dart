@@ -3,11 +3,11 @@ import 'package:flower_store/src/utils/general.dart';
 import 'package:flutter/material.dart';
 
 class AppRoutes {
-  static Route onGenerateRoute(RouteSettings settings) {
+  const AppRoutes._();
+
+  static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     printLog('The Route is : ${settings.name}');
     switch (settings.name) {
-      case '/':
-        return WelcomeScreen.route();
       case WelcomeScreen.nameRoute:
         return WelcomeScreen.route();
       default:
