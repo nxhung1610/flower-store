@@ -1,3 +1,5 @@
+import 'package:flower_store/src/screens/init/init_screen.dart';
+import 'package:flower_store/src/screens/login/login_screen.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/general.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +10,12 @@ class AppRoutes {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     printLog('The Route is : ${settings.name}');
     switch (settings.name) {
+      case InitScreen.nameRoute:
+        return InitScreen.route();
       case WelcomeScreen.nameRoute:
         return WelcomeScreen.route();
+      case LoginScreen.nameRoute:
+        return LoginScreen.route();
       default:
         return _errorRoute();
     }

@@ -1,5 +1,7 @@
-import 'package:flower_store/src/blocs/welcome/welcome_cubit.dart';
+import 'package:flower_store/src/prefs/PrefKeys.dart';
+import 'package:flower_store/src/screens/login/login_screen.dart';
 import 'package:flower_store/src/utils/base/screen_config.dart';
+import 'package:flower_store/src/utils/helper/app_preferences.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class WelcomeScreen extends StatefulWidget {
-  static const String nameRoute = '/';
+  static const String nameRoute = '/welcome';
   static Route route() {
     return MaterialPageRoute(
       builder: (_) => WelcomeScreen(),
@@ -26,26 +28,14 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void initState() {
-    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
-      BlocProvider.of<WelcomeCubit>(context).isAlreadyShow();
-    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ScreenConfig(
-      builder: () => BlocListener<WelcomeCubit, WelcomeState>(
-        listener: (context, state) {
-          // Kiểm tra app mới cài đặt hay không
-          if (state.isShowed) {
-            Navigator.pushNamedAndRemoveUntil(
-                context, '/home', (route) => false);
-          }
-        },
-        child: Scaffold(
-          body: _BodyScreen(),
-        ),
+      builder: () => Scaffold(
+        body: _BodyScreen(),
       ),
     );
   }
@@ -105,7 +95,7 @@ class _BodyScreen extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(15)),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () => _gotoLoginScreen(context),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: 42.w,
@@ -126,4 +116,10 @@ class _BodyScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+void _gotoLoginScreen(BuildContext context) {
+  AppPreferences.prefs.setBool(PrefKeys.SHOW_WELCOME_SCREEN, true);
+  Navigator.of(context)
+      .pushNamedAndRemoveUntil(LoginScreen.nameRoute, (route) => false);
 }

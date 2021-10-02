@@ -1,9 +1,9 @@
-import 'package:flower_store/src/blocs/welcome/welcome_cubit.dart';
+import 'package:flower_store/src/blocs/init/init_bloc.dart';
+import 'package:flower_store/src/screens/init/init_screen.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/general.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'src/utils/routes/app_routes.dart';
 import 'src/utils/themes/theme.dart';
@@ -21,7 +21,9 @@ class _AppState extends State<App> {
     printLog("[AppState] build");
     return MultiBlocProvider(
       providers: [
-        BlocProvider<WelcomeCubit>(create: (context) => WelcomeCubit()),
+        BlocProvider(
+          create: (context) => InitBloc(),
+        ),
       ],
       child: AppInit(),
     );
@@ -37,7 +39,7 @@ class AppInit extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flower Store',
       theme: AppTheme(),
-      initialRoute: WelcomeScreen.nameRoute,
+      initialRoute: InitScreen.nameRoute,
       onGenerateRoute: AppRoutes.onGenerateRoute,
     );
   }
