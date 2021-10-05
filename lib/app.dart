@@ -25,7 +25,17 @@ class _AppState extends State<App> {
           create: (context) => InitBloc(),
         ),
       ],
-      child: AppInit(),
+      child: GestureDetector(
+        onTap: () {
+          FocusScopeNode currentFocus = FocusScope.of(context);
+
+          if (!currentFocus.hasPrimaryFocus &&
+              currentFocus.focusedChild != null) {
+            FocusManager.instance.primaryFocus!.unfocus();
+          }
+        },
+        child: AppInit(),
+      ),
     );
   }
 }

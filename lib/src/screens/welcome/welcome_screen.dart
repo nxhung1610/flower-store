@@ -1,6 +1,5 @@
 import 'package:flower_store/src/prefs/PrefKeys.dart';
-import 'package:flower_store/src/screens/login/login_screen.dart';
-import 'package:flower_store/src/utils/base/screen_config.dart';
+import 'package:flower_store/src/screens/base/screen_config.dart';
 import 'package:flower_store/src/utils/helper/app_preferences.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
@@ -9,6 +8,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String nameRoute = '/welcome';

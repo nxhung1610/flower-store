@@ -1,7 +1,5 @@
 import 'package:flower_store/src/blocs/init/init_bloc.dart';
-import 'package:flower_store/src/screens/login/login_screen.dart';
-import 'package:flower_store/src/screens/welcome/welcome_screen.dart';
-import 'package:flower_store/src/utils/base/screen_config.dart';
+import 'package:flower_store/src/screens/base/screen_config.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -9,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../screen.dart';
 
 class InitScreen extends StatefulWidget {
   static const String nameRoute = '/';
