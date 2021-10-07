@@ -1,5 +1,6 @@
 import 'package:flower_store/src/screens/auth/pincode_screen.dart';
 import 'package:flower_store/src/screens/init/init_screen.dart';
+import 'package:flower_store/src/screens/main/main_screen.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/general.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,8 @@ class AppRoutes {
         return LoginScreen.route();
       case PincodeScreen.nameRoute:
         return PincodeScreen.route();
+      case MainScreen.nameRoute:
+        return MainScreen.route();
       default:
         return _errorRoute();
     }

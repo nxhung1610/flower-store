@@ -19,4 +19,8 @@ class AuthRequestSuccess extends AuthState {
   List<Object> get props => [resData];
 }
 
-class AuthRequestFail extends AuthState {}
+class AuthRequestFail extends AuthState {
+  final String message;
+
+  AuthRequestFail({required this.message});
+}

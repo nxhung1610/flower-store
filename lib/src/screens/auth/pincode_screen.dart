@@ -1,7 +1,11 @@
+import 'package:flower_store/src/blocs/auth/auth_bloc.dart';
 import 'package:flower_store/src/screens/base/screen_config.dart';
+import 'package:flower_store/src/screens/main/main_screen.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
+import 'package:flower_store/src/utils/tools/screen_tool.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -24,16 +28,33 @@ class _PincodeScreenState extends State<PincodeScreen> {
   @override
   Widget build(BuildContext context) {
     return ScreenConfig(
-      builder: () => Scaffold(
-        body: SafeArea(child: _BodyScreen()),
+      builder: () => BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthRequestValidating) {
+            ScreenTool.showLoading(context, true);
+          } else if (state is AuthRequestSuccess) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, MainScreen.nameRoute, (route) => false);
+          } else if (state is AuthRequestFail) {}
+        },
+        child: Scaffold(
+          body: SafeArea(
+            child: _BodyScreen(),
+          ),
+        ),
       ),
     );
   }
 }
 
-class _BodyScreen extends StatelessWidget {
+class _BodyScreen extends StatefulWidget {
   const _BodyScreen({Key? key}) : super(key: key);
 
+  @override
+  State<_BodyScreen> createState() => _BodyScreenState();
+}
+
+class _BodyScreenState extends State<_BodyScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,7 +92,10 @@ class _BodyScreen extends StatelessWidget {
               keyboardType: TextInputType.number,
               animationType: AnimationType.none,
               onChanged: (value) {},
-              onCompleted: (value) {},
+              onCompleted: (value) {
+                BlocProvider.of<AuthBloc>(context)
+                    .add(AuthPincodeValidateEvent(pincode: value));
+              },
             ),
           ),
           SizedBox(

@@ -7,18 +7,18 @@ abstract class AuthEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class AuthLoginDevice extends AuthEvent {
+class AuthLoginDeviceEvent extends AuthEvent {
   final String devicekey;
 
-  AuthLoginDevice({required this.devicekey});
+  AuthLoginDeviceEvent({required this.devicekey});
   @override
   // TODO: implement props
   List<Object> get props => [devicekey];
 }
 
-class AuthPincodeValidate extends AuthEvent {
+class AuthPincodeValidateEvent extends AuthEvent {
   final String pincode;
-  AuthPincodeValidate({required this.pincode});
+  AuthPincodeValidateEvent({required this.pincode});
   @override
   // TODO: implement props
   List<Object> get props => [pincode];

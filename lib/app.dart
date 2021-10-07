@@ -1,4 +1,6 @@
+import 'package:flower_store/src/blocs/auth/auth_bloc.dart';
 import 'package:flower_store/src/blocs/init/init_bloc.dart';
+import 'package:flower_store/src/blocs/main/navigator_bar/navigator_app_bar_bloc.dart';
 import 'package:flower_store/src/screens/init/init_screen.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/general.dart';
@@ -21,9 +23,15 @@ class _AppState extends State<App> {
     printLog("[AppState] build");
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
+        BlocProvider<InitBloc>(
           create: (context) => InitBloc(),
         ),
+        BlocProvider<AuthBloc>(
+          create: (context) => AuthBloc(),
+        ),
+        BlocProvider<NavigatorAppBarBloc>(
+          create: (context) => NavigatorAppBarBloc(),
+        )
       ],
       child: GestureDetector(
         onTap: () {
