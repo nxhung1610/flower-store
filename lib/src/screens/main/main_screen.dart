@@ -1,6 +1,5 @@
 import 'package:flower_store/src/blocs/main/navigator_bar/navigator_app_bar_bloc.dart';
 import 'package:flower_store/src/screens/main/page.dart';
-import 'package:flower_store/src/screens/main/widgets/main_appbar.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
@@ -30,26 +29,39 @@ class _MainScreenState extends State<MainScreen> {
     return ScreenConfig(
       builder: () => BlocBuilder<NavigatorAppBarBloc, NavigatorAppBarState>(
         builder: (context, state) => Scaffold(
-          appBar: MainAppBar(
-            title: Text(
-              BlocProvider.of<NavigatorAppBarBloc>(context)
-                  .curentPage
-                  .toString()
-                  .split('.')
-                  .last,
-              style: AppTextStyle.header4.copyWith(
-                color: AppColors.color5,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            context: context,
+          appBar: _buildAppbar(context),
+          body: _BodyScreen(
+            state: state,
           ),
-          body: _BodyScreen(),
           bottomNavigationBar: _buildBottomNavigation(context),
         ),
       ),
     );
   }
+}
+
+_buildAppbar(BuildContext context) {
+  return AppBar(
+    backgroundColor: AppColors.color9,
+    elevation: 0.5,
+    title: Text(
+      BlocProvider.of<NavigatorAppBarBloc>(context)
+          .curentPage
+          .toString()
+          .split('.')
+          .last,
+      style: AppTextStyle.header4.copyWith(
+        color: AppColors.color5,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    centerTitle: true,
+    leading: IconButton(
+      onPressed: () {},
+      icon: SvgPicture.asset('assets/ico_menu.svg'),
+    ),
+    actions: [],
+  );
 }
 
 _buildBottomNavigation(BuildContext context) {
@@ -75,7 +87,7 @@ _buildBottomNavigation(BuildContext context) {
               ? AppColors.color2
               : AppColors.color5,
         ),
-        BlocProvider.of<NavigatorAppBarBloc>(context).curentPage.toString(),
+        PageName.Home.toString().split('.').last,
       ),
       _buildBottomNavigationItem(
         SvgPicture.asset(
@@ -85,7 +97,7 @@ _buildBottomNavigation(BuildContext context) {
               ? AppColors.color2
               : AppColors.color5,
         ),
-        BlocProvider.of<NavigatorAppBarBloc>(context).curentPage.toString(),
+        PageName.Package.toString().split('.').last,
       ),
       _buildBottomNavigationItem(
         SvgPicture.asset(
@@ -95,7 +107,7 @@ _buildBottomNavigation(BuildContext context) {
               ? AppColors.color2
               : AppColors.color5,
         ),
-        BlocProvider.of<NavigatorAppBarBloc>(context).curentPage.toString(),
+        PageName.Bill.toString().split('.').last,
       ),
       _buildBottomNavigationItem(
         SvgPicture.asset(
@@ -105,7 +117,7 @@ _buildBottomNavigation(BuildContext context) {
               ? AppColors.color2
               : AppColors.color5,
         ),
-        BlocProvider.of<NavigatorAppBarBloc>(context).curentPage.toString(),
+        PageName.Statistical.toString().split('.').last,
       ),
     ],
   );
@@ -116,25 +128,22 @@ _buildBottomNavigationItem(Widget icon, String title) {
 }
 
 class _BodyScreen extends StatelessWidget {
-  const _BodyScreen({Key? key}) : super(key: key);
+  final NavigatorAppBarState state;
+  const _BodyScreen({Key? key, required this.state}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NavigatorAppBarBloc, NavigatorAppBarState>(
-      builder: (context, state) {
-        switch ((state as NavigatorTappedPageState).pageName) {
-          case PageName.Home:
-            return HomePage();
-          case PageName.Package:
-            return PackagePage();
-          case PageName.Bill:
-            return BillPage();
-          case PageName.Statistical:
-            return StatisticalPage();
-          default:
-            return Container();
-        }
-      },
-    );
+    switch ((state as NavigatorTappedPageState).pageName) {
+      case PageName.Home:
+        return HomePage();
+      case PageName.Package:
+        return PackagePage();
+      case PageName.Bill:
+        return BillPage();
+      case PageName.Statistical:
+        return StatisticalPage();
+      default:
+        return Container();
+    }
   }
 }
