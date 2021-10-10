@@ -1,4 +1,5 @@
 import 'package:flower_store/src/blocs/main/main_bloc.dart';
+import 'package:flower_store/src/blocs/main/slider_bar/app_slider_bar.dart';
 import 'package:flower_store/src/screens/main/page.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
@@ -24,12 +25,16 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  var scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return ScreenConfig(
       builder: () => BlocBuilder<MainBloc, MainState>(
         builder: (context, state) => Scaffold(
-          appBar: _buildAppbar(context),
+          key: scaffoldKey,
+          drawer: AppSliderBar(),
+          appBar: _buildAppbar(scaffoldKey, context),
           body: _BodyScreen(
             state: state,
           ),
@@ -40,7 +45,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 }
 
-_buildAppbar(BuildContext context) {
+_buildAppbar(GlobalKey<ScaffoldState> key, BuildContext context) {
   return AppBar(
     backgroundColor: AppColors.color10,
     elevation: 0.5,
@@ -53,7 +58,7 @@ _buildAppbar(BuildContext context) {
     ),
     centerTitle: true,
     leading: IconButton(
-      onPressed: () {},
+      onPressed: () => key.currentState?.openDrawer(),
       icon: SvgPicture.asset('assets/ico_menu.svg'),
     ),
     actions: [],
