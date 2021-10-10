@@ -78,7 +78,7 @@ class _BodyScreen extends StatelessWidget {
           children: [
             SvgPicture.asset(
               'assets/icon.svg',
-              color: AppColors.color9,
+              color: AppColors.color10,
             ),
             SizedBox(
               height: 20.h,
@@ -88,7 +88,7 @@ class _BodyScreen extends StatelessWidget {
               builder: (context, isLoading) {
                 if (isLoading) {
                   return SpinKitThreeBounce(
-                    color: AppColors.color9,
+                    color: AppColors.color10,
                     size: 30.w,
                   );
                 }

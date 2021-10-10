@@ -68,7 +68,7 @@ class _BodyScreenState extends State<_BodyScreen> {
           Text(
             'Enter Your Pincode',
             style: AppTextStyle.header3.copyWith(
-              color: AppColors.color5,
+              color: AppColors.color6,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -107,7 +107,7 @@ class _BodyScreenState extends State<_BodyScreen> {
             children: [
               Text(
                 'Use another device?',
-                style: AppTextStyle.header6.copyWith(color: AppColors.color7),
+                style: AppTextStyle.header6.copyWith(color: AppColors.color8),
               ),
               SizedBox(
                 width: 8.w,

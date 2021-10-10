@@ -1,4 +1,4 @@
-import 'package:flower_store/src/blocs/main/navigator_bar/navigator_app_bar_bloc.dart';
+import 'package:flower_store/src/blocs/main/bottom_nav/navigator_app_bar_bloc.dart';
 import 'package:flower_store/src/screens/main/page.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
@@ -42,7 +42,7 @@ class _MainScreenState extends State<MainScreen> {
 
 _buildAppbar(BuildContext context) {
   return AppBar(
-    backgroundColor: AppColors.color9,
+    backgroundColor: AppColors.color10,
     elevation: 0.5,
     title: Text(
       BlocProvider.of<NavigatorAppBarBloc>(context)
@@ -51,7 +51,7 @@ _buildAppbar(BuildContext context) {
           .split('.')
           .last,
       style: AppTextStyle.header4.copyWith(
-        color: AppColors.color5,
+        color: AppColors.color6,
         fontWeight: FontWeight.bold,
       ),
     ),
@@ -77,7 +77,7 @@ _buildBottomNavigation(BuildContext context) {
     showSelectedLabels: false,
     showUnselectedLabels: false,
     selectedItemColor: AppColors.color2,
-    backgroundColor: AppColors.color9,
+    backgroundColor: AppColors.color10,
     items: [
       _buildBottomNavigationItem(
         SvgPicture.asset(
@@ -85,7 +85,7 @@ _buildBottomNavigation(BuildContext context) {
           color: BlocProvider.of<NavigatorAppBarBloc>(context).curentPage ==
                   PageName.Home
               ? AppColors.color2
-              : AppColors.color5,
+              : AppColors.color6,
         ),
         PageName.Home.toString().split('.').last,
       ),
@@ -95,7 +95,7 @@ _buildBottomNavigation(BuildContext context) {
           color: BlocProvider.of<NavigatorAppBarBloc>(context).curentPage ==
                   PageName.Package
               ? AppColors.color2
-              : AppColors.color5,
+              : AppColors.color6,
         ),
         PageName.Package.toString().split('.').last,
       ),
@@ -105,7 +105,7 @@ _buildBottomNavigation(BuildContext context) {
           color: BlocProvider.of<NavigatorAppBarBloc>(context).curentPage ==
                   PageName.Bill
               ? AppColors.color2
-              : AppColors.color5,
+              : AppColors.color6,
         ),
         PageName.Bill.toString().split('.').last,
       ),
@@ -115,7 +115,7 @@ _buildBottomNavigation(BuildContext context) {
           color: BlocProvider.of<NavigatorAppBarBloc>(context).curentPage ==
                   PageName.Statistical
               ? AppColors.color2
-              : AppColors.color5,
+              : AppColors.color6,
         ),
         PageName.Statistical.toString().split('.').last,
       ),

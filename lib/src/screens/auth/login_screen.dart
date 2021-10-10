@@ -78,7 +78,7 @@ class _BodyScreen extends StatelessWidget {
                 Text(
                   'Sign In',
                   style: AppTextStyle.header2.copyWith(
-                    color: AppColors.color5,
+                    color: AppColors.color6,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -114,43 +114,29 @@ class _LoginFormState extends State<_LoginForm> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(
-          controller: deviceCodeController,
-          cursorWidth: 2.w,
-          cursorRadius: Radius.elliptical(10, 10),
-          decoration: InputDecoration(
-            contentPadding:
-                EdgeInsets.symmetric(horizontal: 20.w, vertical: 17.h),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10.w)),
-              borderSide: BorderSide(
-                color: AppColors.color8,
-                width: 2.w,
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.w),
+            color: AppColors.color4,
+          ),
+          child: TextField(
+            controller: deviceCodeController,
+            cursorWidth: 2.w,
+            cursorRadius: Radius.elliptical(10, 10),
+            decoration: InputDecoration(
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 20.w, vertical: 17.h),
+              border: InputBorder.none,
+              hintText: 'Device Code',
+              hintStyle: AppTextStyle.header5.copyWith(
+                color: AppColors.color9,
+                fontWeight: FontWeight.w600,
               ),
             ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10.w)),
-              borderSide: BorderSide(
-                color: AppColors.color8,
-                width: 2.w,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10.w)),
-              borderSide: BorderSide(
-                color: AppColors.color2,
-                width: 2.w,
-              ),
-            ),
-            hintText: 'Device Code',
-            hintStyle: AppTextStyle.header5.copyWith(
-              color: AppColors.color8,
+            style: AppTextStyle.header5.copyWith(
+              color: AppColors.color6,
               fontWeight: FontWeight.w600,
             ),
-          ),
-          style: AppTextStyle.header5.copyWith(
-            color: AppColors.color5,
-            fontWeight: FontWeight.w600,
           ),
         ),
         SizedBox(
@@ -171,7 +157,7 @@ class _LoginFormState extends State<_LoginForm> {
             child: Text(
               'Login',
               style: AppTextStyle.header5.copyWith(
-                color: AppColors.color9,
+                color: AppColors.color10,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -208,7 +194,7 @@ class _LoginPaint extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint();
-    paint.color = AppColors.color2;
+    paint.color = AppColors.color3;
     paint.style = PaintingStyle.fill;
 
     Path path = Path();

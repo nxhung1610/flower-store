@@ -105,7 +105,7 @@ class _BodyScreen extends StatelessWidget {
                   child: Text(
                     'Get Started',
                     style: AppTextStyle.header5.copyWith(
-                      color: AppColors.color9,
+                      color: AppColors.color11,
                       fontWeight: FontWeight.w600,
                     ),
                   ),

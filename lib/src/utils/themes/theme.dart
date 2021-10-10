@@ -7,7 +7,7 @@ ThemeData AppTheme() {
       primaryColorLight: AppColors.color3,
       primaryColorDark: AppColors.color1,
       scaffoldBackgroundColor: Colors.white,
-      backgroundColor: AppColors.color9,
+      backgroundColor: AppColors.color11,
       fontFamily: 'Montserrat',
       textSelectionTheme: TextSelectionThemeData(
         cursorColor: AppColors.color2,
