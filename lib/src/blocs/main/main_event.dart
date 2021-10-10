@@ -1,13 +1,13 @@
-part of 'navigator_app_bar_bloc.dart';
+part of 'main_bloc.dart';
 
-abstract class NavigatorAppBarEvent extends Equatable {
-  const NavigatorAppBarEvent();
+abstract class MainEvent extends Equatable {
+  const MainEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class NavigatorPageTappedEvent extends NavigatorAppBarEvent {
+class NavigatorPageTappedEvent extends MainEvent {
   final PageName curentPage;
   NavigatorPageTappedEvent({required this.curentPage});
   @override

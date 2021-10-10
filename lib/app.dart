@@ -1,6 +1,6 @@
 import 'package:flower_store/src/blocs/auth/auth_bloc.dart';
 import 'package:flower_store/src/blocs/init/init_bloc.dart';
-import 'package:flower_store/src/blocs/main/bottom_nav/navigator_app_bar_bloc.dart';
+import 'package:flower_store/src/blocs/main/main_bloc.dart';
 import 'package:flower_store/src/screens/init/init_screen.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/general.dart';
@@ -29,8 +29,8 @@ class _AppState extends State<App> {
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc(),
         ),
-        BlocProvider<NavigatorAppBarBloc>(
-          create: (context) => NavigatorAppBarBloc(),
+        BlocProvider<MainBloc>(
+          create: (context) => MainBloc(),
         )
       ],
       child: GestureDetector(

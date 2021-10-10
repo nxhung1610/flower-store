@@ -1,13 +1,13 @@
-part of 'navigator_app_bar_bloc.dart';
+part of 'main_bloc.dart';
 
-abstract class NavigatorAppBarState extends Equatable {
-  const NavigatorAppBarState();
+abstract class MainState extends Equatable {
+  const MainState();
 
   @override
   List<Object> get props => [];
 }
 
-class NavigatorTappedPageState extends NavigatorAppBarState {
+class NavigatorTappedPageState extends MainState {
   final PageName pageName;
 
   NavigatorTappedPageState({required this.pageName});

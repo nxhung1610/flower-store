@@ -1,4 +1,4 @@
-import 'package:flower_store/src/blocs/main/bottom_nav/navigator_app_bar_bloc.dart';
+import 'package:flower_store/src/blocs/main/main_bloc.dart';
 import 'package:flower_store/src/screens/main/page.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
@@ -27,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return ScreenConfig(
-      builder: () => BlocBuilder<NavigatorAppBarBloc, NavigatorAppBarState>(
+      builder: () => BlocBuilder<MainBloc, MainState>(
         builder: (context, state) => Scaffold(
           appBar: _buildAppbar(context),
           body: _BodyScreen(
@@ -45,11 +45,7 @@ _buildAppbar(BuildContext context) {
     backgroundColor: AppColors.color10,
     elevation: 0.5,
     title: Text(
-      BlocProvider.of<NavigatorAppBarBloc>(context)
-          .curentPage
-          .toString()
-          .split('.')
-          .last,
+      BlocProvider.of<MainBloc>(context).curentPage.toString().split('.').last,
       style: AppTextStyle.header4.copyWith(
         color: AppColors.color6,
         fontWeight: FontWeight.bold,
@@ -66,10 +62,9 @@ _buildAppbar(BuildContext context) {
 
 _buildBottomNavigation(BuildContext context) {
   return BottomNavigationBar(
-    currentIndex:
-        BlocProvider.of<NavigatorAppBarBloc>(context).curentPage.index,
+    currentIndex: BlocProvider.of<MainBloc>(context).curentPage.index,
     onTap: (value) {
-      BlocProvider.of<NavigatorAppBarBloc>(context)
+      BlocProvider.of<MainBloc>(context)
           .add(NavigatorPageTappedEvent(curentPage: PageName.values[value]));
     },
     type: BottomNavigationBarType.fixed,
@@ -82,8 +77,7 @@ _buildBottomNavigation(BuildContext context) {
       _buildBottomNavigationItem(
         SvgPicture.asset(
           'assets/ico_home.svg',
-          color: BlocProvider.of<NavigatorAppBarBloc>(context).curentPage ==
-                  PageName.Home
+          color: BlocProvider.of<MainBloc>(context).curentPage == PageName.Home
               ? AppColors.color2
               : AppColors.color6,
         ),
@@ -92,18 +86,17 @@ _buildBottomNavigation(BuildContext context) {
       _buildBottomNavigationItem(
         SvgPicture.asset(
           'assets/ico_package.svg',
-          color: BlocProvider.of<NavigatorAppBarBloc>(context).curentPage ==
-                  PageName.Package
-              ? AppColors.color2
-              : AppColors.color6,
+          color:
+              BlocProvider.of<MainBloc>(context).curentPage == PageName.Package
+                  ? AppColors.color2
+                  : AppColors.color6,
         ),
         PageName.Package.toString().split('.').last,
       ),
       _buildBottomNavigationItem(
         SvgPicture.asset(
           'assets/ico_bill.svg',
-          color: BlocProvider.of<NavigatorAppBarBloc>(context).curentPage ==
-                  PageName.Bill
+          color: BlocProvider.of<MainBloc>(context).curentPage == PageName.Bill
               ? AppColors.color2
               : AppColors.color6,
         ),
@@ -112,7 +105,7 @@ _buildBottomNavigation(BuildContext context) {
       _buildBottomNavigationItem(
         SvgPicture.asset(
           'assets/ico_statistical.svg',
-          color: BlocProvider.of<NavigatorAppBarBloc>(context).curentPage ==
+          color: BlocProvider.of<MainBloc>(context).curentPage ==
                   PageName.Statistical
               ? AppColors.color2
               : AppColors.color6,
@@ -128,7 +121,7 @@ _buildBottomNavigationItem(Widget icon, String title) {
 }
 
 class _BodyScreen extends StatelessWidget {
-  final NavigatorAppBarState state;
+  final MainState state;
   const _BodyScreen({Key? key, required this.state}) : super(key: key);
 
   @override
