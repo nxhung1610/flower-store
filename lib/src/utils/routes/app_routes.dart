@@ -1,15 +1,26 @@
+import 'package:flower_store/src/screens/auth/pincode_screen.dart';
+import 'package:flower_store/src/screens/init/init_screen.dart';
+import 'package:flower_store/src/screens/main/main_screen.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/general.dart';
 import 'package:flutter/material.dart';
 
 class AppRoutes {
-  static Route onGenerateRoute(RouteSettings settings) {
+  const AppRoutes._();
+
+  static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     printLog('The Route is : ${settings.name}');
     switch (settings.name) {
-      case '/':
-        return WelcomeScreen.route();
+      case InitScreen.nameRoute:
+        return InitScreen.route();
       case WelcomeScreen.nameRoute:
         return WelcomeScreen.route();
+      case LoginScreen.nameRoute:
+        return LoginScreen.route();
+      case PincodeScreen.nameRoute:
+        return PincodeScreen.route();
+      case MainScreen.nameRoute:
+        return MainScreen.route();
       default:
         return _errorRoute();
     }

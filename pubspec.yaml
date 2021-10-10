@@ -22,10 +22,17 @@ environment:
 
 dependencies:
   cupertino_icons: ^1.0.2
+  equatable: ^2.0.3
   flutter:
     sdk: flutter
+  flutter_bloc: ^7.3.0
+  #config
   flutter_screenutil: ^5.0.0+2
+  #util
+  flutter_spinkit: ^5.1.0
+  flutter_svg: ^0.22.0
   shared_preferences: ^2.0.7
+  pin_code_fields: ^7.3.0
 
 dev_dependencies:
   flutter_test:
