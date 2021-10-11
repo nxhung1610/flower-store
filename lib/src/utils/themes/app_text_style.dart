@@ -35,12 +35,12 @@ class AppTextStyle {
   );
   static final header7 = TextStyle(
     color: AppColors.color11,
-    fontSize: 10.sp,
+    fontSize: 12.sp,
     fontStyle: FontStyle.normal,
   );
   static final paragraph = TextStyle(
     color: AppColors.color11,
-    fontSize: 10.sp,
+    fontSize: 16.sp,
     fontStyle: FontStyle.normal,
   );
 }

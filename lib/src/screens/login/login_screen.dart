@@ -1,6 +1,7 @@
-import 'package:flower_store/src/blocs/auth/auth_bloc.dart';
-import 'package:flower_store/src/screens/auth/pincode_screen.dart';
+import 'package:flower_store/src/blocs/login/login_bloc.dart';
+
 import 'package:flower_store/src/screens/base/screen_config.dart';
+import 'package:flower_store/src/screens/main/main_screen.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
 import 'package:flower_store/src/utils/tools/screen_tool.dart';
@@ -28,14 +29,14 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return ScreenConfig(
-      builder: () => BlocListener<AuthBloc, AuthState>(
+      builder: () => BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
-          if (state is AuthRequestValidating) {
+          if (state is LoginRequestLoading) {
             ScreenTool.showLoading(context, true);
-          } else if (state is AuthRequestSuccess) {
+          } else if (state is LoginRequestSuccess) {
             Navigator.pushNamedAndRemoveUntil(
-                context, PincodeScreen.nameRoute, (route) => false);
-          } else if (state is AuthRequestFail) {}
+                context, MainScreen.nameRoute, (route) => false);
+          } else if (state is LoginRequestFail) {}
         },
         child: Scaffold(
           resizeToAvoidBottomInset: false,
@@ -76,7 +77,7 @@ class _BodyScreen extends StatelessWidget {
                   height: 30.h,
                 ),
                 Text(
-                  'Sign In',
+                  'Welcome',
                   style: AppTextStyle.header2.copyWith(
                     color: AppColors.color6,
                     fontWeight: FontWeight.bold,
@@ -109,7 +110,9 @@ class _LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<_LoginForm> {
-  final TextEditingController deviceCodeController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passWordController = TextEditingController();
+  bool _isVisiblePassword = false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -120,17 +123,59 @@ class _LoginFormState extends State<_LoginForm> {
             color: AppColors.color4,
           ),
           child: TextField(
-            controller: deviceCodeController,
+            keyboardType: TextInputType.emailAddress,
+            controller: emailController,
             cursorWidth: 2.w,
             cursorRadius: Radius.elliptical(10, 10),
             decoration: InputDecoration(
               contentPadding:
                   EdgeInsets.symmetric(horizontal: 20.w, vertical: 17.h),
               border: InputBorder.none,
-              hintText: 'Device Code',
+              hintText: 'Email',
               hintStyle: AppTextStyle.header5.copyWith(
                 color: AppColors.color9,
                 fontWeight: FontWeight.w600,
+              ),
+            ),
+            style: AppTextStyle.header5.copyWith(
+              color: AppColors.color6,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 30.h,
+        ),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.w),
+            color: AppColors.color4,
+          ),
+          child: TextField(
+            obscureText: _isVisiblePassword,
+            keyboardType: TextInputType.visiblePassword,
+            controller: passWordController,
+            cursorWidth: 2.w,
+            cursorRadius: Radius.elliptical(10, 10),
+            decoration: InputDecoration(
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 20.w, vertical: 17.h),
+              border: InputBorder.none,
+              hintText: 'Password',
+              hintStyle: AppTextStyle.header5.copyWith(
+                color: AppColors.color9,
+                fontWeight: FontWeight.w600,
+              ),
+              suffixIcon: IconButton(
+                onPressed: () => setState(() {
+                  _isVisiblePassword = !_isVisiblePassword;
+                }),
+                icon: Icon(
+                  _isVisiblePassword
+                      ? Icons.visibility_rounded
+                      : Icons.visibility_off,
+                  color: AppColors.color9,
+                ),
               ),
             ),
             style: AppTextStyle.header5.copyWith(
@@ -152,8 +197,9 @@ class _LoginFormState extends State<_LoginForm> {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            onPressed: () => context.read<AuthBloc>().add(
-                AuthLoginDeviceEvent(devicekey: deviceCodeController.text)),
+            onPressed: () => context.read<LoginBloc>().add(LoginRequestEvent(
+                email: emailController.text,
+                password: passWordController.text)),
             child: Text(
               'Login',
               style: AppTextStyle.header5.copyWith(
@@ -175,7 +221,7 @@ class _BottomPaint extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 1.sw,
-      height: 220.h,
+      height: 149.h,
       child: Stack(
         children: [
           Positioned(
@@ -200,9 +246,9 @@ class _LoginPaint extends CustomPainter {
     Path path = Path();
 
     path.moveTo(0, 0);
-    path.quadraticBezierTo(160.w, 20.h, 236.w, 220.h);
-    path.lineTo(236.w + 48.w, 220.h);
-    path.quadraticBezierTo(320.w, 120.h, 1.sw, 104.h);
+    path.quadraticBezierTo(110.w, 20.h, 147.w, 149.h);
+    path.lineTo(147.w + 136.w, 220.h);
+    path.quadraticBezierTo(300.w, 50.h, 1.sw, 149.h - 104.h);
     path.lineTo(1.sw, 220.h);
     path.lineTo(0, 220.h);
     path.close();
