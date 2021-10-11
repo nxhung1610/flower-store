@@ -46,13 +46,9 @@ class _InitScreenState extends State<InitScreen> {
                 Navigator.of(context).pushNamedAndRemoveUntil(
                     WelcomeScreen.nameRoute, (route) => false);
                 break;
-              case InitType.notlogin:
+              case InitType.main:
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                    LoginScreen.nameRoute, (route) => false);
-                break;
-              case InitType.hadlogin:
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    WelcomeScreen.nameRoute, (route) => false);
+                    MainScreen.nameRoute, (route) => false);
                 break;
             }
           }
@@ -83,18 +79,10 @@ class _BodyScreen extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            BlocSelector<InitBloc, InitState, bool>(
-              selector: (state) => state is InitLoadingState,
-              builder: (context, isLoading) {
-                if (isLoading) {
-                  return SpinKitThreeBounce(
-                    color: AppColors.color10,
-                    size: 30.w,
-                  );
-                }
-                return Container();
-              },
-            )
+            SpinKitThreeBounce(
+              color: AppColors.color10,
+              size: 30.w,
+            ),
           ],
         ));
   }

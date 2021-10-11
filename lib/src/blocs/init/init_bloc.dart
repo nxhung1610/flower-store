@@ -11,24 +11,17 @@ class InitBloc extends Bloc<InitEvent, InitState> {
   InitBloc() : super(InitInitialState()) {
     on<InitRequestedEvent>((event, emit) async {
       emit(InitLoadingState());
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(Duration(seconds: 2));
       try {
-        if (!_checkLogin()) {
-          // Check if new app , show welcome screen
-          if (!(AppPreferences.prefs.getBool(PrefKeys.SHOW_WELCOME_SCREEN) ??
-              false)) {
-            emit(InitSuccessState(initType: InitType.welcome));
-          } else
-            emit(InitSuccessState(initType: InitType.notlogin));
+        // Check if new app , show welcome screen
+        if (!(AppPreferences.prefs.getBool(PrefKeys.SHOW_WELCOME_SCREEN) ??
+            false)) {
+          emit(InitSuccessState(initType: InitType.welcome));
         } else
-          emit(InitSuccessState(initType: InitType.hadlogin));
+          emit(InitSuccessState(initType: InitType.main));
       } catch (e) {
         emit(InitFaliedState());
       }
     });
-  }
-
-  bool _checkLogin() {
-    return false;
   }
 }

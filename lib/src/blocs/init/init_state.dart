@@ -2,8 +2,7 @@ part of 'init_bloc.dart';
 
 enum InitType {
   welcome,
-  hadlogin,
-  notlogin,
+  main,
 }
 
 abstract class InitState extends Equatable {

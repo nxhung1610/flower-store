@@ -1,3 +1,4 @@
+import 'package:flower_store/src/blocs/init/init_bloc.dart';
 import 'package:flower_store/src/prefs/PrefKeys.dart';
 import 'package:flower_store/src/screens/base/screen_config.dart';
 import 'package:flower_store/src/utils/helper/app_preferences.dart';
@@ -122,5 +123,5 @@ class _BodyScreen extends StatelessWidget {
 void _gotoLoginScreen(BuildContext context) {
   AppPreferences.prefs.setBool(PrefKeys.SHOW_WELCOME_SCREEN, true);
   Navigator.of(context)
-      .pushNamedAndRemoveUntil(LoginScreen.nameRoute, (route) => false);
+      .pushNamedAndRemoveUntil(MainScreen.nameRoute, (route) => false);
 }
