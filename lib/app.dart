@@ -1,5 +1,6 @@
 import 'package:flower_store/src/blocs/auth/auth_bloc.dart';
 import 'package:flower_store/src/blocs/init/init_bloc.dart';
+import 'package:flower_store/src/blocs/login/login_bloc.dart';
 import 'package:flower_store/src/blocs/main/main_bloc.dart';
 import 'package:flower_store/src/screens/init/init_screen.dart';
 import 'package:flower_store/src/screens/screen.dart';
@@ -28,6 +29,9 @@ class _AppState extends State<App> {
         ),
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc(),
+        ),
+        BlocProvider<LoginBloc>(
+          create: (context) => LoginBloc(),
         ),
         BlocProvider<MainBloc>(
           create: (context) => MainBloc(),
