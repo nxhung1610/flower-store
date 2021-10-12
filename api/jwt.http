@@ -1,0 +1,2 @@
+### Get all staff
+GET http://localhost:3504/staff
