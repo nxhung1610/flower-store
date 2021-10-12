@@ -2,6 +2,7 @@ import 'package:flower_store/app.dart';
 import 'package:flower_store/src/screens/main/home/widget/product_widget.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,9 +18,11 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: AppColors.color4,
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 30),
-        child: ListView.builder(
+        margin: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
+        child: ListView.separated(
           itemCount: 5,
+          separatorBuilder: (BuildContext context, int index) =>
+              SizedBox(height: 20.h),
           itemBuilder: (context, index) {
             return ProductWidget();
           },
