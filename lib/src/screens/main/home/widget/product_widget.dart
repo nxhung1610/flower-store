@@ -1,4 +1,5 @@
 import 'package:flower_store/src/utils/themes/app_colors.dart';
+import 'package:flower_store/src/utils/themes/app_constant.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,8 @@ class ProductWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(horizontal: 30.w),
+      decoration: BoxDecoration(boxShadow: [AppConstant.shadowProduct]),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.w),

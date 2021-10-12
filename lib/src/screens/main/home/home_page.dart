@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: AppColors.color4,
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
+        margin: EdgeInsets.symmetric(vertical: 15.h),
         child: ListView.separated(
           itemCount: 5,
           separatorBuilder: (BuildContext context, int index) =>
