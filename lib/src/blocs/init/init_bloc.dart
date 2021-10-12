@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flower_store/src/prefs/PrefKeys.dart';
 import 'package:flower_store/src/utils/helper/app_preferences.dart';
+import 'package:flower_store/src/utils/prefs/pref_keys.dart';
 import 'package:meta/meta.dart';
 
 part 'init_event.dart';

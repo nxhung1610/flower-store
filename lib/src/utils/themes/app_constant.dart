@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppConstant {
+  static const String baseUrl = '';
+
   static final shadowProduct = BoxShadow(
     color: AppColors.color5.withOpacity(0.15),
     blurRadius: 24.w,
