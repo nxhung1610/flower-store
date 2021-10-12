@@ -45,37 +45,49 @@ module.exports = {
           true,
           "Email or Password incorrect"
         );
-        res.status(400).json(response);
+        res.status(401).json(response);
         return;
       }
-      const tokenAuth = staff.getNewTokenAuth();
-      const tokenRefesh = staff.getNewTokenRefesh();
+      const tokenAuth = await staff.getNewTokenAuth();
+      const tokenRefesh = await staff.getNewTokenRefesh();
       const response = new ResponseHelper(false, "Login Success", {
+        ...staff.toJSON(),
         tokenAuth: tokenAuth,
         tokenRefesh: tokenRefesh,
       });
       res.status(201).send(response);
     } catch (e) {
-      const response = new ResponseHelper(true, e.message);
-      res.status(400).json(response);
+      const response = new ResponseHelper(true, e.message, null);
+      res.status(403).json(response);
     }
   },
   register: async (req, res) => {
     try {
       const staff = new Staff(req.body);
-      staff
-        .save()
-        .then((doc) => {
-          const response = new ResponseHelper(false, "Register Success");
-          res.status(201).send(response);
-        })
-        .catch((e) => {
-          const response = new ResponseHelper(true, e.message);
-          res.status(400).json(response);
-        });
+      const result = await staff.save();
+      const response = new ResponseHelper(
+        false,
+        "Register Success",
+        result.toJSON()
+      );
+      res.status(201).send(response);
     } catch (e) {
-      const response = new ResponseHelper(true, e.message);
-      res.status(400).json(response);
+      const response = new ResponseHelper(true, e.message, null);
+      res.status(403).json(response);
+    }
+  },
+  logout: async (req, res) => {
+    try {
+      const staff = req.staff;
+      staff.tokenAuths.pull({ token: req.token });
+      await staff.save();
+      staff.tokenRefeshs.pull({ token: req.body.tokenRefesh });
+      await staff.save();
+      const response = new ResponseHelper(false, "Logout success", null);
+      res.status(201).send(response);
+    } catch (e) {
+      const response = new ResponseHelper(true, e.message, null);
+      res.status(403).json(response);
     }
   },
 };

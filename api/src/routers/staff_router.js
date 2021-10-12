@@ -1,5 +1,4 @@
 const express = require("express");
-const { route } = require("../app");
 
 const router = express.Router();
 const controller = require("../controllers/staff_controller");
@@ -13,6 +12,8 @@ router.post("/login", controller.login);
 router.post("/register", controller.register);
 
 router.use(authMiddleWare);
+
+router.post("/logout", controller.logout);
 // Get all staff
 router.get("/", permissionRole, controller.get_staff);
 

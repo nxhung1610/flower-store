@@ -6,8 +6,17 @@ POST http://localhost:3504/staff/login
 content-type: application/json
 
 {
-    "email" : "",
-    "password" : ""
+    "email" : "example@example.com",
+    "password" : "Xhung123"
+}
+
+### Logout
+POST http://localhost:3504/staff/logout
+content-type: application/json
+Authorization: Beaer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY1YjVkZjU4M2UzNzg2ZjUxODExZDEiLCJpYXQiOjE2MzQwNTc5ODcsImV4cCI6MTYzNDA1OTc4N30.GNIIbtJMD3pn_nALoUaPbl54mjPdoA87zsJTkw3S-bY
+
+{
+    "tokenRefesh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY1YjVkZjU4M2UzNzg2ZjUxODExZDEiLCJpYXQiOjE2MzQwNTc5ODcsImV4cCI6MTYzNDY2Mjc4N30.qsoGHjn65tFhbBPYbok-T-kZj3pmkDLQ9PVpHvDHPYs"
 }
 
 ### Register
@@ -15,7 +24,37 @@ POST http://localhost:3504/staff/register
 content-type: application/json
 
 {
+    "name" : "test",
     "email" : "example@example.com",
-    "password" : "123456789"
+    "password" : "Xhung123",
+    "role" : "61659bff2293535ee4fcaf21"
 }
 
+
+
+### Add new role
+POST  http://localhost:3504/role
+content-type: application/json
+
+{
+    "name":"Manager",
+    "color":"F56F6F"
+}
+
+# {
+#     "name":"Seller",
+#     "color":"F5EF55"
+# }
+
+# {
+#     "name":"Accountant",
+#     "color":"55F565"
+# }
+
+# {
+#     "name":"Warehouse",
+#     "color":"4B92FD"
+# }
+
+### Get all role
+GET http://localhost:3504/role

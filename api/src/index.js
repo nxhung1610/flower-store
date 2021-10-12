@@ -1,14 +1,22 @@
-const { response } = require("express");
-const app = require("./app");
+require("dotenv").config();
+
+const express = require("express");
+require("./database/mongoose");
+const morgan = require("morgan");
 const port = process.env.PORT || 3000;
+const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(morgan("dev"));
 
 // ROUTER
 app.get("/", function (req, res) {
   res.send("Active");
 });
 
-const staffRouter = require("./routers/staff_router");
-app.use("/staff", staffRouter);
+app.use("/staff", require("./routers/staff_router"));
+app.use("/role", require("./routers/role_router"));
 
 //SERVER
 app.listen(port, function () {

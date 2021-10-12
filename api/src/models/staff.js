@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { options } = require("../app");
 
 const staffSchema = mongoose.Schema({
   name: {
@@ -17,7 +16,9 @@ const staffSchema = mongoose.Schema({
   },
   email: {
     type: String,
+    unique: true,
     required: true,
+    dropDups: true,
     trim: true,
     lowercase: true,
     validate(value) {
@@ -64,8 +65,9 @@ const staffSchema = mongoose.Schema({
 staffSchema.methods.toJSON = function () {
   const staffObject = this.toObject();
   delete staffObject.pincode;
-  delete staffObject.tokenAuth;
-  delete staffObject.tokenRefesh;
+  delete staffObject.tokenAuths;
+  delete staffObject.tokenRefeshs;
+  delete staffObject.password;
   return staffObject;
 };
 
@@ -99,7 +101,7 @@ staffSchema.methods.getNewTokenAuth = async function () {
       expiresIn: "30m",
     }
   );
-  staff.tokenAuths.push({ newToken });
+  staff.tokenAuths.push({ token: newToken });
   await staff.save();
   return newToken;
 };
@@ -117,7 +119,7 @@ staffSchema.methods.getNewTokenRefesh = async function () {
       expiresIn: "7d",
     }
   );
-  staff.tokenRefeshs.push({ newToken });
+  staff.tokenRefeshs.push({ token: newToken });
   await staff.save();
   return newToken;
 };
@@ -146,7 +148,7 @@ staffSchema.statics.getNewTokenFromTokenRefesh = async function (tokenRefesh) {
 staffSchema.pre("save", async function (next) {
   const staff = this;
   if (staff.isModified("password")) {
-    staff.password = await bcrypt.hash(user.password, 8);
+    staff.password = await bcrypt.hash(staff.password, 8);
   }
   next();
 });
