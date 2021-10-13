@@ -19,12 +19,15 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: AppColors.color4,
       body: Container(
-        margin: EdgeInsets.symmetric(vertical: 15.h),
         child: ListView.separated(
-          itemCount: 5,
+          physics: BouncingScrollPhysics(),
+          itemCount: 5 + 2,
           separatorBuilder: (BuildContext context, int index) =>
               SizedBox(height: 20.h),
           itemBuilder: (context, index) {
+            if (index == 0 || index == 5 + 1) {
+              return Container(); // zero height: not visible
+            }
             return ProductWidget();
           },
         ),
