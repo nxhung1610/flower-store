@@ -1,3 +1,4 @@
+import 'package:flower_store/src/screens/main/home/update_product_page.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_constant.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
@@ -47,7 +48,14 @@ class ProductWidget extends StatelessWidget {
                                 constraints: BoxConstraints(),
                                 padding: EdgeInsets.zero,
                                 iconSize: 17.w,
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            UpdateProductPage()),
+                                  );
+                                },
                                 icon: SvgPicture.asset('assets/ico_edit.svg'))
                           ],
                         ),
