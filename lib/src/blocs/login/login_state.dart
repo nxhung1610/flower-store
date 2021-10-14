@@ -11,13 +11,7 @@ class LoginInitial extends LoginState {}
 
 class LoginRequestLoading extends LoginState {}
 
-class LoginRequestSuccess extends LoginState {
-  final dynamic resData;
-  LoginRequestSuccess({required this.resData});
-  @override
-  // TODO: implement props
-  List<Object> get props => [resData];
-}
+class LoginRequestSuccess extends LoginState {}
 
 class LoginRequestFail extends LoginState {
   final String message;

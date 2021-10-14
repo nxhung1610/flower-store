@@ -14,8 +14,6 @@ class AppRoutes {
         return InitScreen.route();
       case WelcomeScreen.nameRoute:
         return WelcomeScreen.route();
-      case LoginScreen.nameRoute:
-        return LoginScreen.route();
       case MainScreen.nameRoute:
         return MainScreen.route();
       default:
