@@ -1,7 +1,6 @@
+import 'package:flower_store/src/blocs/auth/auth.dart';
 import 'package:flower_store/src/blocs/login/login_bloc.dart';
-
 import 'package:flower_store/src/screens/base/screen_config.dart';
-import 'package:flower_store/src/screens/main/main_screen.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
 import 'package:flower_store/src/utils/tools/screen_tool.dart';
@@ -28,21 +27,26 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
+    final authBloc = BlocProvider.of<AuthBloc>(context);
     return ScreenConfig(
-      builder: () => BlocListener<LoginBloc, LoginState>(
-        listener: (context, state) {
-          if (state is LoginRequestLoading) {
-            ScreenTool.showLoading(context, true);
-          } else if (state is LoginRequestSuccess) {
-            Navigator.pushNamedAndRemoveUntil(
-                context, MainScreen.nameRoute, (route) => false);
-          } else if (state is LoginRequestFail) {}
-        },
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: _BodyScreen(),
-        ),
-      ),
+      builder: () => BlocProvider<LoginBloc>(
+          create: (context) =>
+              LoginBloc(authBloc: authBloc, authService: authBloc.authService),
+          child: BlocListener<LoginBloc, LoginState>(
+            listener: (context, state) {
+              if (state is LoginRequestLoading) {
+                ScreenTool.showLoading(context, true);
+              } else if (state is LoginRequestFail) {
+                ScreenTool.showLoading(context, false);
+              } else if (state is LoginRequestSuccess) {
+                ScreenTool.showLoading(context, false);
+              }
+            },
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              body: _BodyScreen(),
+            ),
+          )),
     );
   }
 }

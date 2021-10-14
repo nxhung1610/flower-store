@@ -7,9 +7,9 @@ abstract class AuthService {
   final String baseUrl = AppConstant.baseUrl;
 
   /// [email] Email of account.
-  /// 
+  ///
   /// [password] Password of account.
-  /// 
+  ///
   /// [Map] return the token auth vs token refesh.
   Future<APIResponse<Map<String, String>>> login({
     required String email,
@@ -17,15 +17,15 @@ abstract class AuthService {
   });
 
   /// [tokenRefesh] the token need to get new token auth to use rest api.
-  /// 
+  ///
   /// [String] return the token auth.
   Future<APIResponse<String>> requestNewToken({
     required String tokenRefesh,
   });
 }
 
-class AuthenticationService extends AuthService {
-  AuthenticationService();
+class AuthServiceImpl extends AuthService {
+  AuthServiceImpl();
 
   @override
   Future<APIResponse<Map<String, String>>> login({
@@ -33,9 +33,7 @@ class AuthenticationService extends AuthService {
     required String password,
   }) async {
     return APIResponse(
-      data: {
-
-      },
+      data: {},
     );
   }
 

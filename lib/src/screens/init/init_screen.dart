@@ -1,4 +1,4 @@
-import 'package:flower_store/src/blocs/init/init_bloc.dart';
+import 'package:flower_store/src/blocs/bloc.dart';
 import 'package:flower_store/src/screens/base/screen_config.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flutter/material.dart';

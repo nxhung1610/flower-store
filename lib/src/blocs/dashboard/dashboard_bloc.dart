@@ -1,14 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-part 'main_event.dart';
-part 'main_state.dart';
+part 'dashboard_event.dart';
+part 'dashboard_state.dart';
 
 enum PageName { Home, Package, Bill, Statistical }
 
-class MainBloc extends Bloc<MainEvent, MainState> {
+class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   PageName curentPage = PageName.Home;
-  MainBloc() : super(NavigatorTappedPageState(pageName: PageName.Home)) {
+  DashboardBloc() : super(NavigatorTappedPageState(pageName: PageName.Home)) {
     on<NavigatorPageTappedEvent>(
       (event, emit) {
         curentPage = event.curentPage;
