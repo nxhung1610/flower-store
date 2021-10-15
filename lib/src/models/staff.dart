@@ -5,7 +5,12 @@ class Staff {
   late String email;
   late String role;
 
-  Staff({required this.sId, required this.name, this.phone, required this.email, required this.role});
+  Staff(
+      {required this.sId,
+      required this.name,
+      this.phone,
+      required this.email,
+      required this.role});
 
   Staff.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];

@@ -3,7 +3,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flower_store/src/blocs/auth/auth.dart';
 import 'package:flower_store/src/models/staff.dart';
 import 'package:flower_store/src/services/authentication/authentication_service.dart';
+import 'package:flower_store/src/services/base/api_response.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -16,16 +18,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginRequestEvent>((event, emit) async {
       emit(LoginRequestLoading());
       try {
-        await Future.delayed(Duration(seconds: 2));
+        final response = await authService.login(
+          email: event.email,
+          password: event.password,
+        );
+        if (response.error) throw new Exception(response.errorMessage);
         authBloc.add(
           UserLoggedIn(
-            staff:
-                Staff(sId: 'sId', name: 'name', email: 'email', role: 'role'),
+            staff: Staff.fromJson(response.data!),
           ),
         );
         emit(LoginRequestSuccess());
       } catch (e) {
-        emit(LoginRequestFail(message: ''));
+        emit(LoginRequestFail(message: e.toString()));
       }
     });
   }

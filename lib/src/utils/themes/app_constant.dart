@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppConstant {
-  static const String baseUrl = '';
+  static const String baseUrl = 'https://flower-store-api.herokuapp.com/';
 
   static final shadowProduct = BoxShadow(
     color: AppColors.color5.withOpacity(0.05),
