@@ -111,7 +111,7 @@ class UpdateProductPage extends StatelessWidget {
                 ConstrainedBox(
                   constraints:
                       BoxConstraints.tightFor(width: 250.w, height: 50.h),
-                  child: ElevatedButton(
+                  child: TextButton(
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
                               AppColors.color2)),

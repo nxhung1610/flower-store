@@ -29,7 +29,9 @@ class _HomePageState extends State<HomePage> {
             if (index == 0 || index == 5 + 1) {
               return Container(); // zero height: not visible
             }
-            return ProductWidget();
+            return ProductWidget(
+              page: pageOfWidget.HOME,
+            );
           },
         ),
       ),
