@@ -22,14 +22,19 @@ abstract class AuthService {
 
   /// [refeshToken] the token need to get new token auth to use rest api.
   ///
-  /// [String] return the token auth.
+  /// [accessToken] return the token auth.
   Future<APIResponse<Map<String, dynamic>>> requestNewToken({
-    required String refeshToken,
+    required String refreshToken,
   });
 
-  Future<APIResponse<Map<String, dynamic>>> logout({
+  /// [accessToken]
+  Future<APIResponse<Staff>> getProfile({
     required String accessToken,
-    required String refeshToken,
+  });
+
+  /// [refeshToken] the token need to get new token access to use rest api.
+  Future<APIResponse<Map<String, dynamic>>> logout({
+    required String refreshToken,
   });
 }
 
@@ -41,7 +46,7 @@ class AuthServiceImpl extends AuthService {
     required String email,
     required String password,
   }) async {
-    return apiRequest(
+    return await apiRequest(
       '$endPoint/login',
       RequestMethod.POST,
       (json) => json,
@@ -54,18 +59,35 @@ class AuthServiceImpl extends AuthService {
 
   @override
   Future<APIResponse<Map<String, dynamic>>> requestNewToken({
-    required String refeshToken,
-  }) {
-    // TODO: implement requestNewToken
-    throw UnimplementedError();
+    required String refreshToken,
+  }) async {
+    return await apiRequest(
+      '$endPoint/token',
+      RequestMethod.POST,
+      (json) => json,
+      body: {'refreshToken': refreshToken},
+    );
   }
 
   @override
   Future<APIResponse<Map<String, dynamic>>> logout({
-    required String accessToken,
-    required String refeshToken,
-  }) {
-    // TODO: implement logout
-    throw UnimplementedError();
+    required String refreshToken,
+  }) async {
+    return await apiRequest(
+      '$endPoint/logout',
+      RequestMethod.POST,
+      (json) => json,
+      body: {'refreshToken': refreshToken},
+    );
+  }
+
+  @override
+  Future<APIResponse<Staff>> getProfile({required String accessToken}) async {
+    return await apiRequest(
+      '$endPoint/profile',
+      RequestMethod.GET,
+      (json) => Staff.fromJson(json),
+      token: accessToken,
+    );
   }
 }

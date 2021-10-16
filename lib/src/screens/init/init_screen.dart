@@ -79,10 +79,6 @@ class _BodyScreen extends StatelessWidget {
             SizedBox(
               height: 20.h,
             ),
-            SpinKitThreeBounce(
-              color: AppColors.color10,
-              size: 30.w,
-            ),
           ],
         ));
   }

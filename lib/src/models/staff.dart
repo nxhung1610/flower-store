@@ -4,6 +4,7 @@ class Staff {
   String? phone;
   late String email;
   late String role;
+  String? accessToken;
 
   Staff(
       {required this.sId,
@@ -18,6 +19,7 @@ class Staff {
     phone = json['phone'];
     email = json['email'];
     role = json['role'];
+    accessToken = json['accessToken'];
   }
 
   Map<String, dynamic> toJson() {

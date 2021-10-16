@@ -156,7 +156,7 @@ class _LoginFormState extends State<_LoginForm> {
             color: AppColors.color4,
           ),
           child: TextField(
-            obscureText: _isVisiblePassword,
+            obscureText: !_isVisiblePassword,
             keyboardType: TextInputType.visiblePassword,
             controller: passWordController,
             cursorWidth: 2.w,

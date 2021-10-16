@@ -1,8 +1,13 @@
 import 'package:flower_store/src/blocs/auth/auth.dart';
 import 'package:flower_store/src/screens/base/screen_config.dart';
 import 'package:flower_store/src/screens/screen.dart';
+import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MainScreen extends StatefulWidget {
   static const String nameRoute = '/main';
@@ -21,17 +26,56 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
-        if (state is AuthenticationLoading) {
-          return Container();
-        } else if (state is AuthenticationAuthenticated) {
+        if (state is AuthenticationAuthenticated) {
           return DashboardScreen();
-        } else {
+        } else if (state is AuthenticationNotAuthenticated) {
           return LoginScreen();
+        } else {
+          return _LoadingScreen();
         }
       },
     );
+  }
+}
+
+class _LoadingScreen extends StatefulWidget {
+  _LoadingScreen({Key? key}) : super(key: key);
+
+  @override
+  __LoadingScreenState createState() => __LoadingScreenState();
+}
+
+class __LoadingScreenState extends State<_LoadingScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        color: AppColors.color10,
+        height: 1.sh,
+        width: 1.sw,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              'assets/icon.svg',
+              color: AppColors.color2,
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            SpinKitThreeBounce(
+              color: AppColors.color2,
+              size: 30.w,
+            ),
+          ],
+        ));
   }
 }

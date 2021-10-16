@@ -18,8 +18,8 @@ Future<APIResponse<T>> apiRequest<T>(
   late http.Response resp;
   final String url = AppConstant.baseUrl + endPoint;
   final Map<String, String> headers = new Map<String, String>();
-  headers.putIfAbsent(HttpHeaders.contentTypeHeader, () => 'application/json');
-  headers.putIfAbsent(HttpHeaders.acceptHeader, () => 'application/json');
+  headers.putIfAbsent(
+      HttpHeaders.contentTypeHeader, () => 'application/json; charset=utf-8');
   if (token.isNotEmpty) {
     headers.putIfAbsent(
         HttpHeaders.authorizationHeader, () => 'Bearer ' + token);
@@ -36,14 +36,14 @@ Future<APIResponse<T>> apiRequest<T>(
         resp = await http.put(
           Uri.parse(url),
           headers: headers,
-          body: body,
+          body: jsonEncode(body),
         );
         break;
       case RequestMethod.POST:
         resp = await http.post(
           Uri.parse(url),
           headers: headers,
-          body: body,
+          body: jsonEncode(body),
         );
         break;
       case RequestMethod.DELETE:
@@ -60,14 +60,14 @@ Future<APIResponse<T>> apiRequest<T>(
         jsonDecode(resp.body), (json) => fromJson(json));
   } on TimeoutException catch (e) {
     //handleTimeout();
-    return APIResponse(error: true, errorMessage: e.message);
+    return APIResponse(error: true, message: e.message);
   } on SocketException catch (e) {
     print('Socket Error: $e');
-    return APIResponse(error: true, errorMessage: e.message);
+    return APIResponse(error: true, message: e.message);
     //handleTimeout();
   } on Error catch (e) {
     print('General Error: $e');
-    return APIResponse(error: true, errorMessage: 'General Error: $e');
+    return APIResponse(error: true, message: 'General Error: $e');
     //showError();
   }
 }

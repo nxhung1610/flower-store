@@ -7,14 +7,18 @@ abstract class AuthEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class AppLoad extends AuthEvent {}
+
 // Fired when a user has successfully logged in
 class UserLoggedIn extends AuthEvent {
-  final Staff staff;
+  final String refreshToken;
 
-  UserLoggedIn({required this.staff});
+  UserLoggedIn({
+    required this.refreshToken,
+  });
 
   @override
-  List<Object> get props => [staff];
+  List<Object> get props => [refreshToken];
 }
 
 // Fired when the user has logged out

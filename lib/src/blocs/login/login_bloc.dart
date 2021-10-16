@@ -22,10 +22,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           email: event.email,
           password: event.password,
         );
-        if (response.error) throw new Exception(response.errorMessage);
+        if (response.error) throw new Exception(response.message);
         authBloc.add(
           UserLoggedIn(
-            staff: Staff.fromJson(response.data!),
+            refreshToken: response.data!['refreshToken'],
           ),
         );
         emit(LoginRequestSuccess());
