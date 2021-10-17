@@ -23,8 +23,12 @@ abstract class AuthService {
   /// [refeshToken] the token need to get new token auth to use rest api.
   ///
   /// [accessToken] return the token auth.
-  Future<APIResponse<Map<String, dynamic>>> requestNewToken({
+  Future<APIResponse<Map<String, dynamic>>> requestNewAccessToken({
     required String refreshToken,
+  });
+
+  Future<APIResponse<Map<String, dynamic>>> validAccessToken({
+    required String accessToken,
   });
 
   /// [accessToken]
@@ -58,11 +62,11 @@ class AuthServiceImpl extends AuthService {
   }
 
   @override
-  Future<APIResponse<Map<String, dynamic>>> requestNewToken({
+  Future<APIResponse<Map<String, dynamic>>> requestNewAccessToken({
     required String refreshToken,
   }) async {
     return await apiRequest(
-      '$endPoint/token',
+      '$endPoint/refresh-acess-token',
       RequestMethod.POST,
       (json) => json,
       body: {'refreshToken': refreshToken},
@@ -87,6 +91,17 @@ class AuthServiceImpl extends AuthService {
       '$endPoint/profile',
       RequestMethod.GET,
       (json) => Staff.fromJson(json),
+      token: accessToken,
+    );
+  }
+
+  @override
+  Future<APIResponse<Map<String, dynamic>>> validAccessToken(
+      {required String accessToken}) async {
+    return await apiRequest(
+      '$endPoint/valid-access-token',
+      RequestMethod.GET,
+      (json) => json,
       token: accessToken,
     );
   }
