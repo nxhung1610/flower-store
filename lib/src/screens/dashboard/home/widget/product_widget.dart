@@ -37,7 +37,7 @@ class ProductWidget extends StatelessWidget {
     );
   }
 
-  Widget widgetofPackage() {
+  Widget widgetofPackage(BuildContext context) {
     return Container(
       child: Column(
         children: [
@@ -58,7 +58,9 @@ class ProductWidget extends StatelessWidget {
                       backgroundColor:
                           MaterialStateProperty.all<Color>(AppColors.color3),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      _showMyDialog(context);
+                    },
                     child: Text(
                       "Update",
                       style: AppTextStyle.header7.copyWith(
@@ -75,6 +77,93 @@ class ProductWidget extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+
+  Future<void> _showMyDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return Dialog(
+          elevation: 0,
+          backgroundColor: AppColors.color10,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 42.w, vertical: 20.h),
+            height: 250.h,
+            width: 345.w,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 5.h),
+                  child: Text("UPDATE",
+                      style: AppTextStyle.header4.copyWith(
+                        color: AppColors.color6,
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 40.h),
+                  child: TextField(
+                    cursorColor: AppColors.color8,
+                    keyboardType: TextInputType.number,
+                    style: AppTextStyle.paragraph
+                        .copyWith(color: AppColors.color8),
+                    decoration: InputDecoration(
+                      hintText: "Remain",
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                            color: AppColors.color3,
+                            width: 2,
+                            style: BorderStyle.solid),
+                      ),
+                      // filled: true,
+                      // fillColor: AppColors.color10,
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColors.color9,
+                              width: 2,
+                              style: BorderStyle.solid),
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 35.h),
+                  child: ConstrainedBox(
+                    constraints:
+                        BoxConstraints.tightFor(width: 150.w, height: 45.h),
+                    child: TextButton(
+                        style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(26.0),
+                            ),
+                          ),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              AppColors.color3),
+                        ),
+                        onPressed: () {
+                          _showMyDialog(context);
+                        },
+                        child: Text(
+                          "Apply",
+                          style: AppTextStyle.header6.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.color10),
+                        )),
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -150,7 +239,7 @@ class ProductWidget extends StatelessWidget {
                       ),
                       page == pageOfWidget.HOME
                           ? widgetOfHome()
-                          : widgetofPackage()
+                          : widgetofPackage(context)
                     ],
                   ),
                 ),
