@@ -4,14 +4,15 @@ class Staff {
   String? phone;
   late String email;
   late String role;
-  String? accessToken;
+  late String url;
 
   Staff(
       {required this.sId,
       required this.name,
       this.phone,
       required this.email,
-      required this.role});
+      required this.role,
+      required this.url});
 
   Staff.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -19,7 +20,7 @@ class Staff {
     phone = json['phone'];
     email = json['email'];
     role = json['role'];
-    accessToken = json['accessToken'];
+    url = json['url'];
   }
 
   Map<String, dynamic> toJson() {
@@ -29,6 +30,7 @@ class Staff {
     data['phone'] = this.phone;
     data['email'] = this.email;
     data['role'] = this.role;
+    data['url'] = this.url;
     return data;
   }
 }

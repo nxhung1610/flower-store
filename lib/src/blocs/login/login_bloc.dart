@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flower_store/src/blocs/auth/auth.dart';
 import 'package:flower_store/src/models/staff.dart';
-import 'package:flower_store/src/services/authentication/authentication_service.dart';
+import 'package:flower_store/src/services/authentication_service.dart';
 import 'package:flower_store/src/services/base/api_response.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';

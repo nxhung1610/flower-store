@@ -15,7 +15,7 @@ abstract class AuthService {
   /// [password] Password of account.
   ///
   /// [Map] return the token auth vs token refesh.
-  Future<APIResponse<Map<String, dynamic>>> login({
+  Future<APIResponse<Map<String, dynamic>?>> login({
     required String email,
     required String password,
   });
@@ -23,17 +23,21 @@ abstract class AuthService {
   /// [refeshToken] the token need to get new token auth to use rest api.
   ///
   /// [accessToken] return the token auth.
-  Future<APIResponse<Map<String, dynamic>>> requestNewToken({
+  Future<APIResponse<Map<String, dynamic>?>> requestNewAccessToken({
     required String refreshToken,
   });
 
+  Future<APIResponse<Map<String, dynamic>?>> validAccessToken({
+    required String accessToken,
+  });
+
   /// [accessToken]
-  Future<APIResponse<Staff>> getProfile({
+  Future<APIResponse<Staff?>> getProfile({
     required String accessToken,
   });
 
   /// [refeshToken] the token need to get new token access to use rest api.
-  Future<APIResponse<Map<String, dynamic>>> logout({
+  Future<APIResponse<Map<String, dynamic>?>> logout({
     required String refreshToken,
   });
 }
@@ -42,7 +46,7 @@ class AuthServiceImpl extends AuthService {
   AuthServiceImpl();
 
   @override
-  Future<APIResponse<Map<String, dynamic>>> login({
+  Future<APIResponse<Map<String, dynamic>?>> login({
     required String email,
     required String password,
   }) async {
@@ -58,11 +62,11 @@ class AuthServiceImpl extends AuthService {
   }
 
   @override
-  Future<APIResponse<Map<String, dynamic>>> requestNewToken({
+  Future<APIResponse<Map<String, dynamic>?>> requestNewAccessToken({
     required String refreshToken,
   }) async {
     return await apiRequest(
-      '$endPoint/token',
+      '$endPoint/refresh-acess-token',
       RequestMethod.POST,
       (json) => json,
       body: {'refreshToken': refreshToken},
@@ -70,7 +74,7 @@ class AuthServiceImpl extends AuthService {
   }
 
   @override
-  Future<APIResponse<Map<String, dynamic>>> logout({
+  Future<APIResponse<Map<String, dynamic>?>> logout({
     required String refreshToken,
   }) async {
     return await apiRequest(
@@ -82,11 +86,22 @@ class AuthServiceImpl extends AuthService {
   }
 
   @override
-  Future<APIResponse<Staff>> getProfile({required String accessToken}) async {
+  Future<APIResponse<Staff?>> getProfile({required String accessToken}) async {
     return await apiRequest(
       '$endPoint/profile',
       RequestMethod.GET,
       (json) => Staff.fromJson(json),
+      token: accessToken,
+    );
+  }
+
+  @override
+  Future<APIResponse<Map<String, dynamic>?>> validAccessToken(
+      {required String accessToken}) async {
+    return await apiRequest(
+      '$endPoint/valid-access-token',
+      RequestMethod.GET,
+      (json) => json,
       token: accessToken,
     );
   }

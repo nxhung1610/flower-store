@@ -4,8 +4,7 @@ class APIResponse<T> {
   String? message;
   APIResponse({this.data, this.message, this.error = false});
 
-  APIResponse.fromJson(
-      Map<String, dynamic> json, T fromJson(Map<String, dynamic> o)) {
+  APIResponse.fromJson(Map<String, dynamic> json, T fromJson(dynamic o)) {
     data = fromJson(json['data']);
     error = json['error'];
     message = json['message'];

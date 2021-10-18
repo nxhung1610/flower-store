@@ -36,7 +36,8 @@ class _MainScreenState extends State<MainScreen> {
       builder: (context, state) {
         if (state is AuthenticationAuthenticated) {
           return DashboardScreen();
-        } else if (state is AuthenticationNotAuthenticated) {
+        } else if (state is AuthenticationNotAuthenticated ||
+            state is AuthenticationFailure) {
           return LoginScreen();
         } else {
           return _LoadingScreen();

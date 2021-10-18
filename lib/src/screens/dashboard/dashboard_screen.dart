@@ -1,5 +1,4 @@
 import 'package:flower_store/src/blocs/bloc.dart';
-import 'package:flower_store/src/blocs/dashboard/slider_bar/app_slider_bar.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'app_slider_bar.dart';
 import 'bill/bill_page.dart';
 import 'home/home_page.dart';
 import 'package/package_page.dart';
@@ -25,13 +25,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenConfig(
-      builder: () => BlocProvider<DashboardBloc>(
-        create: (context) => DashboardBloc(),
-        child: BlocBuilder<DashboardBloc, DashboardState>(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<DashboardBloc>(
+          create: (context) => DashboardBloc(),
+        ),
+      ],
+      child: ScreenConfig(
+        builder: () => BlocBuilder<DashboardBloc, DashboardState>(
           builder: (context, state) => Scaffold(
             key: scaffoldKey,
-            drawer: AppSliderBar(),
+            drawer:
+                AppSliderBar(staff: BlocProvider.of<AuthBloc>(context).staff!),
             appBar: _buildAppbar(scaffoldKey, context),
             body: _BodyScreen(
               state: state,

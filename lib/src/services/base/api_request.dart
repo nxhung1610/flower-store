@@ -11,7 +11,7 @@ enum RequestMethod { GET, PUT, POST, DELETE }
 Future<APIResponse<T>> apiRequest<T>(
   String endPoint,
   RequestMethod method,
-  T fromJson(Map<String, dynamic> o), {
+  T fromJson(dynamic o), {
   Object? body,
   String token = '',
 }) async {
@@ -53,9 +53,9 @@ Future<APIResponse<T>> apiRequest<T>(
         );
         break;
       default:
-        throw new Error();
+        throw new Exception();
     }
-
+    if (resp.statusCode == 401) throw new Exception('token_expire');
     return APIResponse<T>.fromJson(
         jsonDecode(resp.body), (json) => fromJson(json));
   } on TimeoutException catch (e) {
@@ -65,7 +65,7 @@ Future<APIResponse<T>> apiRequest<T>(
     print('Socket Error: $e');
     return APIResponse(error: true, message: e.message);
     //handleTimeout();
-  } on Error catch (e) {
+  } on Exception catch (e) {
     print('General Error: $e');
     return APIResponse(error: true, message: 'General Error: $e');
     //showError();
