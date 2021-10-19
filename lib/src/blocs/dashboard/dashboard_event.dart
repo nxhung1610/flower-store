@@ -14,3 +14,5 @@ class NavigatorPageTappedEvent extends DashboardEvent {
   // TODO: implement props
   List<Object> get props => [this.curentPage];
 }
+
+class LongPressProductInHomeScreen extends DashboardEvent {}
