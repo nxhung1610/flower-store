@@ -15,3 +15,5 @@ class NavigatorTappedPageState extends DashboardState {
   // TODO: implement props
   List<Object> get props => [this.pageName];
 }
+
+class MultiDeleteProductHomeScreen extends DashboardState {}

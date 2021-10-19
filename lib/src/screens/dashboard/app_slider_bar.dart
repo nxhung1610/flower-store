@@ -45,7 +45,7 @@ class _AppSliderBarState extends State<AppSliderBar> {
                           backgroundColor: AppColors.color10,
                           radius: 41.5.w,
                           child: CachedNetworkImage(
-                            imageUrl: 'https://i.stack.imgur.com/jY2yQ.png',
+                            imageUrl: widget.staff.url,
                             imageBuilder: (context, imageProvider) {
                               return CircleAvatar(
                                 radius: 41.5.w - 2.w,

@@ -6,12 +6,12 @@ import 'package:flower_store/src/services/base/api_response.dart';
 abstract class RoleService {
   final String endPoint = 'role';
 
-  Future<APIResponse<List<Role>>> getRoles();
+  Future<APIResponse<List<Role>?>> getRoles();
 }
 
 class RoleServiceImpl extends RoleService {
   @override
-  Future<APIResponse<List<Role>>> getRoles() async {
+  Future<APIResponse<List<Role>?>> getRoles() async {
     return await apiRequest(
       '$endPoint',
       RequestMethod.GET,
