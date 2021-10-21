@@ -19,6 +19,7 @@ class AppSliderBar extends StatefulWidget {
 class _AppSliderBarState extends State<AppSliderBar> {
   @override
   Widget build(BuildContext context) {
+    final staff = widget.staff;
     return Container(
       child: Drawer(
         child: ListView(
@@ -44,29 +45,25 @@ class _AppSliderBarState extends State<AppSliderBar> {
                         CircleAvatar(
                           backgroundColor: AppColors.color10,
                           radius: 41.5.w,
-                          child: CachedNetworkImage(
-                            imageUrl: widget.staff.url,
-                            imageBuilder: (context, imageProvider) {
-                              return CircleAvatar(
-                                radius: 41.5.w - 2.w,
-                                backgroundImage: imageProvider,
-                              );
-                            },
-                            errorWidget: (context, url, error) => CircleAvatar(
-                              backgroundColor: AppColors.color9,
-                              radius: 41.5.w - 2.w,
-                              child: SvgPicture.asset(
-                                'assets/ico_camera.svg',
-                                height: 20.w,
-                              ),
-                            ),
-                          ),
+                          child: Uri.parse(staff.url).isAbsolute
+                              ? CachedNetworkImage(
+                                  imageUrl: staff.url,
+                                  imageBuilder: (context, imageProvider) {
+                                    return CircleAvatar(
+                                      radius: 41.5.w - 2.w,
+                                      backgroundImage: imageProvider,
+                                    );
+                                  },
+                                  errorWidget: (context, url, error) =>
+                                      _ErrorAvatar(),
+                                )
+                              : _ErrorAvatar(),
                         ),
                         SizedBox(
                           height: 5.h,
                         ),
                         Text(
-                          widget.staff.name,
+                          staff.name,
                           style: AppTextStyle.header5.copyWith(
                             color: AppColors.color10,
                             fontWeight: FontWeight.w600,
@@ -90,6 +87,22 @@ class _AppSliderBarState extends State<AppSliderBar> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _ErrorAvatar extends StatelessWidget {
+  const _ErrorAvatar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      backgroundColor: AppColors.color9,
+      radius: 41.5.w - 2.w,
+      child: SvgPicture.asset(
+        'assets/ico_camera.svg',
+        height: 20.w,
       ),
     );
   }

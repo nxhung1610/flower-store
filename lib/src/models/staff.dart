@@ -1,9 +1,11 @@
+import 'package:flower_store/src/models/role/role_type.dart';
+
 class Staff {
   late String sId;
   late String name;
   String? phone;
   late String email;
-  late String role;
+  late RoleType role;
   late String url;
 
   Staff(
@@ -19,7 +21,7 @@ class Staff {
     name = json['name'];
     phone = json['phone'];
     email = json['email'];
-    role = json['role'];
+    role = RoleType.values[json['role']];
     url = json['url'];
   }
 
@@ -29,7 +31,7 @@ class Staff {
     data['name'] = this.name;
     data['phone'] = this.phone;
     data['email'] = this.email;
-    data['role'] = this.role;
+    data['role'] = this.role.index;
     data['url'] = this.url;
     return data;
   }
