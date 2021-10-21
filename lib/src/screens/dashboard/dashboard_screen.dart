@@ -1,8 +1,5 @@
 import 'package:flower_store/src/blocs/bloc.dart';
-import 'package:flower_store/src/models/role.dart';
-import 'package:flower_store/src/models/staff.dart';
 import 'package:flower_store/src/screens/screen.dart';
-import 'package:flower_store/src/services/role_service.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
 import 'package:flutter/material.dart';
@@ -28,10 +25,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenConfig(
-      builder: () => BlocProvider<DashboardBloc>(
-        create: (context) => DashboardBloc(),
-        child: BlocBuilder<DashboardBloc, DashboardState>(
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<DashboardBloc>(
+          create: (context) => DashboardBloc(),
+        ),
+      ],
+      child: ScreenConfig(
+        builder: () => BlocBuilder<DashboardBloc, DashboardState>(
           builder: (context, state) => Scaffold(
             key: scaffoldKey,
             drawer:

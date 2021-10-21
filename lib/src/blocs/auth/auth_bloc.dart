@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flower_store/src/models/role.dart';
+import 'package:flower_store/src/models/role/role.dart';
 import 'package:flower_store/src/models/staff.dart';
 import 'package:flower_store/src/services/authentication_service.dart';
 import 'package:flower_store/src/services/role_service.dart';
@@ -17,7 +17,6 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthServiceImpl authService;
   Staff? staff;
-  List<Role> roles = [];
   AuthBloc({required this.authService}) : super(AuthInitial()) {
     on<AppLoad>((event, emit) async {
       final refreshToken =
@@ -47,6 +46,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<UserLoggedOut>((event, emit) {
       staff = null;
       AppPreferences.prefs.remove(PrefKeys.REFRESH_TOKEN);
+      AppPreferences.prefs.remove(PrefKeys.ACCESS_TOKEN);
       emit(AuthenticationNotAuthenticated());
     });
     add(AppLoad());
@@ -58,18 +58,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   _refreshToken() async {
-    var accessToken = AppPreferences.prefs.getString(PrefKeys.ACCESS_TOKEN);
-    final refreshToken = AppPreferences.prefs.getString(PrefKeys.REFRESH_TOKEN);
-    if (accessToken != null) {
-      final isValid =
-          await authService.validAccessToken(accessToken: accessToken);
-      if (!isValid.error) return accessToken;
+    try {
+      var accessToken = AppPreferences.prefs.getString(PrefKeys.ACCESS_TOKEN);
+      final refreshToken =
+          AppPreferences.prefs.getString(PrefKeys.REFRESH_TOKEN);
+      if (accessToken != null) {
+        final isValid =
+            await authService.validAccessToken(accessToken: accessToken);
+        if (!isValid.error) return accessToken;
+      }
+      //Get new access token
+      final getAccessToken =
+          await authService.requestNewAccessToken(refreshToken: refreshToken!);
+      if (getAccessToken.error) throw new Exception(getAccessToken.message);
+      AppPreferences.prefs.setString(PrefKeys.ACCESS_TOKEN,
+          getAccessToken.data!['accessToken'].toString());
+    } catch (e) {
+      printLog(e.toString());
+      add(UserLoggedOut());
+      throw new Exception();
     }
-    //Get new access token
-    final getAccessToken =
-        await authService.requestNewAccessToken(refreshToken: refreshToken!);
-    if (getAccessToken.error) throw new Exception(getAccessToken.message);
-    AppPreferences.prefs.setString(
-        PrefKeys.ACCESS_TOKEN, getAccessToken.data!['accessToken'].toString());
   }
 }

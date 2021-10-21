@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flower_store/src/blocs/bloc.dart';
 
 part 'dashboard_event.dart';
 part 'dashboard_state.dart';
@@ -29,5 +30,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         }
       },
     );
+    on<LongPressProductInHomeScreen>((event, emit) {
+      emit(MultiDeleteProductHomeScreen());
+    });
   }
 }
