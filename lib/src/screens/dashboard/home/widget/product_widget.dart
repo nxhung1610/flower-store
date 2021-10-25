@@ -188,62 +188,60 @@ class ProductWidget extends StatelessWidget {
                 width: 16.w,
               ),
               Expanded(
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Chậu Hana',
-                              style: AppTextStyle.header6.copyWith(
-                                  color: AppColors.color5,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            page == pageOfWidget.HOME
-                                ? IconButton(
-                                    constraints: BoxConstraints(),
-                                    padding: EdgeInsets.zero,
-                                    iconSize: 17.w,
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              UpdateProductPage(),
-                                        ),
-                                      );
-                                    },
-                                    icon:
-                                        SvgPicture.asset('assets/ico_edit.svg'))
-                                : Container()
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(right: 15.w),
-                        child: Text(
-                          "Suitable for indoor decoration.\nMatching any decoration styles.",
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppTextStyle.header7.copyWith(
-                            color: AppColors.color5,
+                  child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Chậu Hana',
+                            style: AppTextStyle.header6.copyWith(
+                                color: AppColors.color5,
+                                fontWeight: FontWeight.bold),
                           ),
+                          page == pageOfWidget.HOME
+                              ? IconButton(
+                                  constraints: BoxConstraints(),
+                                  padding: EdgeInsets.zero,
+                                  iconSize: 17.w,
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            UpdateProductPage(),
+                                      ),
+                                    );
+                                  },
+                                  icon: SvgPicture.asset('assets/ico_edit.svg'))
+                              : Container()
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5.h,
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(right: 15.w),
+                      child: Text(
+                        "Suitable for indoor decoration.\nMatching any decoration styles.",
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyle.header7.copyWith(
+                          color: AppColors.color5,
                         ),
                       ),
-                      page == pageOfWidget.HOME
-                          ? widgetOfHome()
-                          : widgetofPackage(context)
-                    ],
-                  ),
+                    ),
+                    page == pageOfWidget.HOME
+                        ? widgetOfHome()
+                        : widgetofPackage(context)
+                  ],
                 ),
-              )
+              )),
             ],
           ),
         ),
