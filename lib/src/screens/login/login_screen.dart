@@ -67,37 +67,36 @@ class _BodyScreen extends StatelessWidget {
           ),
           Positioned.fill(
             bottom: MediaQuery.of(context).viewInsets.bottom,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SvgPicture.asset(
-                  'assets/icon.svg',
-                  height: 110.h,
-                  width: 112.w,
-                  fit: BoxFit.fill,
-                ),
-                SizedBox(
-                  height: 30.h,
-                ),
-                Text(
-                  'Welcome',
-                  style: AppTextStyle.header2.copyWith(
-                    color: AppColors.color6,
-                    fontWeight: FontWeight.bold,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SvgPicture.asset(
+                    'assets/icon.svg',
+                    height: 110.h,
+                    width: 112.w,
+                    fit: BoxFit.fill,
                   ),
-                ),
-                SizedBox(
-                  height: 30.h,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 35.w),
-                  child: _LoginForm(),
-                ),
-                SizedBox(
-                  height: 57.h,
-                )
-              ],
+                  SizedBox(
+                    height: 30.h,
+                  ),
+                  Text(
+                    'Welcome',
+                    style: AppTextStyle.header2.copyWith(
+                      color: AppColors.color6,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30.h,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 35.w),
+                    child: _LoginForm(),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -137,8 +136,8 @@ class _LoginFormState extends State<_LoginForm> {
               border: InputBorder.none,
               hintText: 'Email',
               hintStyle: AppTextStyle.header5.copyWith(
-                color: AppColors.color9,
                 fontWeight: FontWeight.w600,
+                color: AppColors.color9,
               ),
             ),
             style: AppTextStyle.header5.copyWith(
@@ -167,9 +166,7 @@ class _LoginFormState extends State<_LoginForm> {
               border: InputBorder.none,
               hintText: 'Password',
               hintStyle: AppTextStyle.header5.copyWith(
-                color: AppColors.color9,
-                fontWeight: FontWeight.w600,
-              ),
+                  color: AppColors.color9, fontWeight: FontWeight.w600),
               suffixIcon: IconButton(
                 onPressed: () => setState(() {
                   _isVisiblePassword = !_isVisiblePassword;
@@ -196,6 +193,7 @@ class _LoginFormState extends State<_LoginForm> {
           height: 50.h,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
+              elevation: 0,
               primary: AppColors.color1,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),

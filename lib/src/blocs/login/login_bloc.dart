@@ -25,7 +25,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         if (response.error) throw new Exception(response.message);
         authBloc.add(
           UserLoggedIn(
-            refreshToken: response.data!['refreshToken'],
+            accessToken: response.data!['accessToken'],
           ),
         );
         emit(LoginRequestSuccess());

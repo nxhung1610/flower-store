@@ -11,14 +11,14 @@ class AppLoad extends AuthEvent {}
 
 // Fired when a user has successfully logged in
 class UserLoggedIn extends AuthEvent {
-  final String refreshToken;
+  final String accessToken;
 
   UserLoggedIn({
-    required this.refreshToken,
+    required this.accessToken,
   });
 
   @override
-  List<Object> get props => [refreshToken];
+  List<Object> get props => [accessToken];
 }
 
 // Fired when the user has logged out

@@ -19,22 +19,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Staff? staff;
   AuthBloc({required this.authService}) : super(AuthInitial()) {
     on<AppLoad>((event, emit) async {
-      final refreshToken =
-          AppPreferences.prefs.getString(PrefKeys.REFRESH_TOKEN);
-      if (refreshToken != null && refreshToken.isNotEmpty) {
-        add(UserLoggedIn(refreshToken: refreshToken));
+      final accessToken = AppPreferences.prefs.getString(PrefKeys.ACCESS_TOKEN);
+      if (accessToken != null && accessToken.isNotEmpty) {
+        add(UserLoggedIn(accessToken: accessToken));
       } else
         add(UserLoggedOut());
     });
     on<UserLoggedIn>((event, emit) async {
-      final refreshToken = event.refreshToken;
+      final accessToken = event.accessToken;
       emit(AuthenticationLoading());
-      AppPreferences.prefs.setString(PrefKeys.REFRESH_TOKEN, refreshToken);
+      AppPreferences.prefs.setString(PrefKeys.ACCESS_TOKEN, accessToken);
       try {
         if (staff == null) {
           // Get profile of accessToken
           final getInfoStaff =
-              await authService.getProfile(accessToken: await getAccessToken());
+              await authService.getProfile(accessToken: accessToken);
           if (getInfoStaff.error) throw new Exception(getInfoStaff.message);
           staff = getInfoStaff.data!;
         }
@@ -43,40 +42,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthenticationFailure(message: e.toString()));
       }
     });
-    on<UserLoggedOut>((event, emit) {
-      staff = null;
-      AppPreferences.prefs.remove(PrefKeys.REFRESH_TOKEN);
-      AppPreferences.prefs.remove(PrefKeys.ACCESS_TOKEN);
+    on<UserLoggedOut>((event, emit) async {
+      try {
+        await authService.logout(
+            accessToken:
+                AppPreferences.prefs.getString(PrefKeys.ACCESS_TOKEN)!);
+        staff = null;
+        AppPreferences.prefs.remove(PrefKeys.ACCESS_TOKEN);
+      } catch (e) {
+        printLog(e);
+      }
       emit(AuthenticationNotAuthenticated());
     });
     add(AppLoad());
-  }
-
-  Future<String> getAccessToken() async {
-    await _refreshToken();
-    return AppPreferences.prefs.getString(PrefKeys.ACCESS_TOKEN)!;
-  }
-
-  _refreshToken() async {
-    try {
-      var accessToken = AppPreferences.prefs.getString(PrefKeys.ACCESS_TOKEN);
-      final refreshToken =
-          AppPreferences.prefs.getString(PrefKeys.REFRESH_TOKEN);
-      if (accessToken != null) {
-        final isValid =
-            await authService.validAccessToken(accessToken: accessToken);
-        if (!isValid.error) return accessToken;
-      }
-      //Get new access token
-      final getAccessToken =
-          await authService.requestNewAccessToken(refreshToken: refreshToken!);
-      if (getAccessToken.error) throw new Exception(getAccessToken.message);
-      AppPreferences.prefs.setString(PrefKeys.ACCESS_TOKEN,
-          getAccessToken.data!['accessToken'].toString());
-    } catch (e) {
-      printLog(e.toString());
-      add(UserLoggedOut());
-      throw new Exception();
-    }
   }
 }

@@ -65,14 +65,7 @@ class __LoadingScreenState extends State<_LoadingScreen> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              'assets/icon.svg',
-              color: AppColors.color2,
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            SpinKitThreeBounce(
+            SpinKitFadingCube(
               color: AppColors.color2,
               size: 30.w,
             ),

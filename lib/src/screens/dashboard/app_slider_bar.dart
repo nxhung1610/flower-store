@@ -73,7 +73,7 @@ class _AppSliderBarState extends State<AppSliderBar> {
                           height: 5.h,
                         ),
                         Text(
-                          'Role',
+                          staff.email,
                           style: AppTextStyle.header6.copyWith(
                             color: AppColors.color10,
                             fontWeight: FontWeight.w600,

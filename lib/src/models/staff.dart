@@ -1,12 +1,12 @@
 import 'package:flower_store/src/models/role/role_type.dart';
 
 class Staff {
-  late String sId;
-  late String name;
+  String sId;
+  String name;
   String? phone;
-  late String email;
-  late RoleType role;
-  late String url;
+  String email;
+  RoleType role;
+  String url;
 
   Staff(
       {required this.sId,
@@ -16,13 +16,14 @@ class Staff {
       required this.role,
       required this.url});
 
-  Staff.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    name = json['name'];
-    phone = json['phone'];
-    email = json['email'];
-    role = RoleType.values[json['role']];
-    url = json['url'];
+  factory Staff.fromJson(Map<String, dynamic> json) {
+    return Staff(
+        sId: json['_id'],
+        name: json['name'],
+        phone: json['phone'],
+        email: json['email'],
+        role: RoleType.values[json['role']],
+        url: json['url']);
   }
 
   Map<String, dynamic> toJson() {
