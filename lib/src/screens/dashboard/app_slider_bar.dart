@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flower_store/src/blocs/auth/auth.dart';
 import 'package:flower_store/src/models/staff.dart';
+import 'package:flower_store/src/screens/dashboard/widgets/item_action_function.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class _AppSliderBarState extends State<AppSliderBar> {
     return Container(
       child: Drawer(
         child: ListView(
+          shrinkWrap: true,
           padding: EdgeInsets.zero,
           children: [
             Container(
@@ -35,6 +37,21 @@ class _AppSliderBarState extends State<AppSliderBar> {
               height: 220.h,
               child: Stack(
                 children: [
+                  Positioned.fill(
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          stops: [0.5, 1],
+                          colors: <Color>[
+                            Colors.transparent,
+                            AppColors.color7
+                          ], // red to yellow
+                        ),
+                      ),
+                    ),
+                  ),
                   Positioned(
                     left: 25.w,
                     bottom: 25.h,
@@ -64,7 +81,7 @@ class _AppSliderBarState extends State<AppSliderBar> {
                         ),
                         Text(
                           staff.name,
-                          style: AppTextStyle.header5.copyWith(
+                          style: AppTextStyle.header4.copyWith(
                             color: AppColors.color10,
                             fontWeight: FontWeight.w600,
                           ),
@@ -75,7 +92,7 @@ class _AppSliderBarState extends State<AppSliderBar> {
                         Text(
                           staff.email,
                           style: AppTextStyle.header6.copyWith(
-                            color: AppColors.color10,
+                            color: AppColors.color9,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -85,6 +102,7 @@ class _AppSliderBarState extends State<AppSliderBar> {
                 ],
               ),
             ),
+            ActionsFunction()
           ],
         ),
       ),
@@ -103,6 +121,35 @@ class _ErrorAvatar extends StatelessWidget {
       child: SvgPicture.asset(
         'assets/ico_camera.svg',
         height: 20.w,
+      ),
+    );
+  }
+}
+
+class ActionsFunction extends StatelessWidget {
+  const ActionsFunction({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final authBLoc = BlocProvider.of<AuthBloc>(context);
+    return Container(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        shrinkWrap: true,
+        children: [
+          ItemActionFunction(
+            listener: () {},
+            icon: SvgPicture.asset('assets/ico_notification.svg'),
+            title: 'Notification',
+          ),
+          ItemActionFunction(
+            listener: () {
+              authBLoc.add(UserLoggedOut());
+            },
+            icon: SvgPicture.asset('assets/ico_logout.svg'),
+            title: 'Logout',
+          ),
+        ],
       ),
     );
   }

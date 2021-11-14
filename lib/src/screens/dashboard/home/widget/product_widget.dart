@@ -76,7 +76,7 @@ class ProductWidget extends StatelessWidget {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: AppTextStyle.header7.copyWith(
-                              color: AppColors.color5,
+                              color: AppColors.color7,
                             ),
                           ),
                         ),
