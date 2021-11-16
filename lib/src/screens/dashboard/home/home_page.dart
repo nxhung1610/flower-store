@@ -31,9 +31,7 @@ class _HomePageState extends State<HomePage> {
               return Container(); // zero height: not visible
             }
             return ProductWidget(
-              funcLongPress: () {
-                printLog('Đã long press');
-              },
+              page: pageOfWidget.HOME,
             );
           },
         ),
