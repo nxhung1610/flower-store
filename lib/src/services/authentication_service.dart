@@ -1,11 +1,13 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:flower_store/src/models/staff.dart';
+import 'package:flower_store/src/models/model.dart';
+import 'package:flower_store/src/models/user/accountant.dart';
+import 'package:flower_store/src/models/user/seller.dart';
+import 'package:flower_store/src/models/user/warehouse.dart';
 import 'package:flower_store/src/services/base/api_request.dart';
 import 'package:flower_store/src/services/base/api_response.dart';
 import 'package:flower_store/src/utils/themes/app_constant.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'dart:io';
 
 abstract class AuthService {
   final String endPoint = 'staff';
@@ -67,7 +69,19 @@ class AuthServiceImpl extends AuthService {
     return await apiRequest(
       '$endPoint/profile',
       RequestMethod.GET,
-      (json) => Staff.fromJson(json),
+      (json) {
+        final value = (json as Map<String, dynamic>)['role'];
+        switch (RoleType.values[value]) {
+          case RoleType.Manager:
+            return Manager.fromJson(json);
+          case RoleType.Warehouse:
+            return Warehouse.fromJson(json);
+          case RoleType.Accountant:
+            return Accountant.fromJson(json);
+          case RoleType.Seller:
+            return Seller.fromJson(json);
+        }
+      },
       token: accessToken,
     );
   }

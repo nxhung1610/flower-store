@@ -1,5 +1,5 @@
 import 'package:flower_store/src/models/role/role.dart';
-import 'package:flower_store/src/models/staff.dart';
+import 'package:flower_store/src/models/user/staff.dart';
 import 'package:flower_store/src/services/base/api_request.dart';
 import 'package:flower_store/src/services/base/api_response.dart';
 

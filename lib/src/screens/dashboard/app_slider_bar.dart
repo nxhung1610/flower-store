@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flower_store/src/blocs/auth/auth.dart';
-import 'package:flower_store/src/models/staff.dart';
+import 'package:flower_store/src/models/user/manager.dart';
+import 'package:flower_store/src/models/user/staff.dart';
 import 'package:flower_store/src/screens/dashboard/widgets/item_action_function.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';

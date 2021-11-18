@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flower_store/src/models/role/role.dart';
-import 'package:flower_store/src/models/staff.dart';
+import 'package:flower_store/src/models/user/staff.dart';
 import 'package:flower_store/src/services/authentication_service.dart';
 import 'package:flower_store/src/services/role_service.dart';
 import 'package:flower_store/src/utils/general.dart';
