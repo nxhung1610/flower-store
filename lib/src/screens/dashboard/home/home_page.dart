@@ -1,7 +1,9 @@
 import 'package:flower_store/app.dart';
+import 'package:flower_store/src/blocs/dashboard/add_product/add_product_bloc.dart';
 import 'package:flower_store/src/utils/general.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -43,7 +45,12 @@ class _HomePageState extends State<HomePage> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AddProductPage()),
+              MaterialPageRoute(
+                builder: (context) => BlocProvider(
+                  create: (context) => AddProductBloc(),
+                  child: AddProductPage(),
+                ),
+              ),
             );
           },
         ),

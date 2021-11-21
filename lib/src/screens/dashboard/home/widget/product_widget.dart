@@ -1,8 +1,10 @@
+import 'package:flower_store/src/blocs/dashboard/update_product/update_product_bloc.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_constant.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -212,8 +214,11 @@ class ProductWidget extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            UpdateProductPage(),
+                                        builder: (context) => BlocProvider(
+                                          create: (context) =>
+                                              UpdateProductBloc(),
+                                          child: UpdateProductPage(),
+                                        ),
                                       ),
                                     );
                                   },
