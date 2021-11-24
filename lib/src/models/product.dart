@@ -1,3 +1,5 @@
+import 'package:flower_store/src/utils/themes/app_constant.dart';
+
 class Product {
   late String sId;
   late String name;
@@ -15,7 +17,7 @@ class Product {
   Product.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
-    image = json['image'];
+    image = AppConstant.baseUrl + json['image'];
     description = json['description'];
     basePrice = json['basePrice'];
   }
@@ -28,5 +30,10 @@ class Product {
     data['description'] = this.description;
     data['basePrice'] = this.basePrice;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'Product(sId: $sId, name: $name, image: $image, description: $description, basePrice: $basePrice)';
   }
 }

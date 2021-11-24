@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flower_store/src/blocs/dashboard/update_product/update_product_bloc.dart';
+import 'package:flower_store/src/models/product.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_constant.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
@@ -6,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../update_product_page.dart';
@@ -14,9 +17,12 @@ enum pageOfWidget { HOME, PACKAGE, NOEDIT }
 
 class ProductWidget extends StatelessWidget {
   final pageOfWidget page;
+  final Product product;
+
   const ProductWidget({
     key,
     required this.page,
+    required this.product,
   }) : super(key: key);
 
   Widget widgetOfHome() {
@@ -28,7 +34,7 @@ class ProductWidget extends StatelessWidget {
           ),
           Container(
             child: Text(
-              '30.000 VND',
+              product.basePrice.toString() + " VND",
               style: AppTextStyle.header6.copyWith(
                 color: AppColors.color5,
               ),
@@ -182,10 +188,17 @@ class ProductWidget extends StatelessWidget {
           padding: EdgeInsets.all(8.w),
           child: Row(
             children: [
-              Image(
-                  width: 114.w,
-                  height: 114.h,
-                  image: AssetImage('assets/template_plant.png')),
+              CachedNetworkImage(
+                width: 114.w,
+                height: 114.h,
+                imageUrl: product.image,
+                placeholder: (context, url) => SpinKitRing(
+                  color: AppColors.color1,
+                ),
+                errorWidget: (context, url, error) => Image(
+                  image: AssetImage('assets/template_plant.png'),
+                ),
+              ),
               SizedBox(
                 width: 16.w,
               ),
@@ -200,7 +213,7 @@ class ProductWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Chậu Hana',
+                            product.name,
                             style: AppTextStyle.header6.copyWith(
                                 color: AppColors.color5,
                                 fontWeight: FontWeight.bold),
@@ -233,7 +246,7 @@ class ProductWidget extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.only(right: 15.w),
                       child: Text(
-                        "Suitable for indoor decoration.\nMatching any decoration styles.",
+                        product.description,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyle.header7.copyWith(
