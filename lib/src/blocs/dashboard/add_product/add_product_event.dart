@@ -9,3 +9,18 @@ abstract class AddProductEvent extends Equatable {
 }
 
 class AddProductChooseImage extends AddProductEvent {}
+
+class AddProductAddNewProduct extends AddProductEvent {
+  final String name;
+  final Function(bool)? onComplete;
+  final String description;
+  final int basePrice;
+  AddProductAddNewProduct({
+    this.onComplete,
+    required this.name,
+    required this.description,
+    required this.basePrice,
+  });
+  @override
+  List<Object> get props => [name, description, basePrice];
+}

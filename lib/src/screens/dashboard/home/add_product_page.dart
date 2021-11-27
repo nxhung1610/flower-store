@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flower_store/src/blocs/dashboard/add_product/add_product_bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/add_product/add_product_event.dart';
 import 'package:flower_store/src/blocs/dashboard/add_product/add_product_helper.dart';
@@ -13,6 +14,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AddProductPage extends StatelessWidget {
+  final _nameTextController = TextEditingController();
+  final _priceTextController = TextEditingController();
+  final _descriptionTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +45,7 @@ class AddProductPage extends StatelessWidget {
                     .add(AddProductChooseImage()),
                 child: BlocBuilder<AddProductBloc, AddProductState>(
                   builder: (context, state) {
-                    return state is AddProductChooseImageSuccess
+                    return state.image != ""
                         ? SizedBox(
                             width: 260,
                             height: 190,
@@ -50,7 +55,7 @@ class AddProductPage extends StatelessWidget {
                                 fit: BoxFit.fill,
                                 child: Image.file(
                                   File(
-                                    state.image.path,
+                                    state.image,
                                   ),
                                 ),
                               ),
@@ -80,6 +85,7 @@ class AddProductPage extends StatelessWidget {
               ),
               SizedBox(height: 60.h),
               TextField(
+                controller: _nameTextController,
                 cursorColor: AppColors.color8,
                 style: AppTextStyle.paragraph.copyWith(color: AppColors.color8),
                 decoration: InputDecoration(
@@ -93,6 +99,7 @@ class AddProductPage extends StatelessWidget {
               ),
               SizedBox(height: 28.h),
               TextField(
+                controller: _priceTextController,
                 keyboardType: TextInputType.number,
                 cursorColor: AppColors.color8,
                 style: AppTextStyle.paragraph.copyWith(color: AppColors.color8),
@@ -113,6 +120,7 @@ class AddProductPage extends StatelessWidget {
                 ),
                 constraints: BoxConstraints(minHeight: 250.h),
                 child: TextField(
+                  controller: _descriptionTextController,
                   maxLines: null,
                   maxLength: 500,
                   keyboardType: TextInputType.multiline,
@@ -139,7 +147,40 @@ class AddProductPage extends StatelessWidget {
                     style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all<Color>(AppColors.color2)),
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_nameTextController.text.isEmpty ||
+                          _priceTextController.text.isEmpty) {
+                        Flushbar(
+                          title: "Fail",
+                          message: "Name or price can not be blank",
+                          duration: Duration(seconds: 3),
+                        ).show(context);
+                      } else
+                        BlocProvider.of<AddProductBloc>(context).add(
+                          AddProductAddNewProduct(
+                            onComplete: (isSucesss) async {
+                              if (isSucesss == true) {
+                                await Flushbar(
+                                  title: "Success",
+                                  message: "Product uploaded",
+                                  duration: Duration(seconds: 3),
+                                ).show(context);
+                                Navigator.pop(context, true);
+                              } else {
+                                await Flushbar(
+                                  title: "Fail",
+                                  message:
+                                      "Upload product fail( Image must be jpeg , jpg or png) ",
+                                  duration: Duration(seconds: 3),
+                                ).show(context);
+                              }
+                            },
+                            name: _nameTextController.text,
+                            description: _descriptionTextController.text,
+                            basePrice: int.parse(_priceTextController.text),
+                          ),
+                        );
+                    },
                     child: Text(
                       "Add",
                       style: AppTextStyle.header5.copyWith(

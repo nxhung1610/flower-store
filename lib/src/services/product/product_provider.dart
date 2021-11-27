@@ -19,4 +19,17 @@ class ProductProvider {
         .toList();
     return productList;
   }
+
+  Future<void> submitProduct({
+    required String name,
+    required String image,
+    required String description,
+    required int basePrice,
+  }) async {
+    final response = await ProductRepository().submitAddProduct(
+        name: name,
+        image: image,
+        description: description,
+        basePrice: basePrice);
+  }
 }

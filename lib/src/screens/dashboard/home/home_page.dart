@@ -1,6 +1,7 @@
 import 'package:flower_store/app.dart';
 import 'package:flower_store/src/blocs/dashboard/add_product/add_product_bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/home/home_bloc.dart';
+import 'package:flower_store/src/blocs/dashboard/home/home_event.dart';
 import 'package:flower_store/src/blocs/dashboard/home/home_state.dart';
 import 'package:flower_store/src/utils/general.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
@@ -52,16 +53,20 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {},
         child: IconButton(
           icon: SvgPicture.asset('assets/ico_plus.svg'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BlocProvider(
-                  create: (context) => AddProductBloc(),
-                  child: AddProductPage(),
-                ),
-              ),
-            );
+          onPressed: () async {
+            final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BlocProvider(
+                      create: (context) => AddProductBloc(),
+                      child: AddProductPage(),
+                    ),
+                  ),
+                ) ??
+                false;
+            if (result == true) {
+              BlocProvider.of<HomeBloc>(context).add(HomeLoaded());
+            }
           },
         ),
         backgroundColor: AppColors.color2,

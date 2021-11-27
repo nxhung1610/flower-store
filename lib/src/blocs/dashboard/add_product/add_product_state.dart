@@ -1,24 +1,42 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
 
-abstract class AddProductState extends Equatable {
-  const AddProductState();
+class AddProductState extends Equatable {
+  final String image;
+  AddProductState({
+    this.image = '',
+  });
+
+  AddProductState copyWith({
+    String? image,
+  }) {
+    return AddProductState(
+      image: image ?? this.image,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'image': image,
+    };
+  }
+
+  factory AddProductState.fromMap(Map<String, dynamic> map) {
+    return AddProductState(
+      image: map['image'],
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory AddProductState.fromJson(String source) =>
+      AddProductState.fromMap(json.decode(source));
 
   @override
-  List<Object> get props => [];
-}
+  bool get stringify => true;
 
-class AddProductInitState extends AddProductState {}
-
-class AddProductPickImageInitial extends AddProductState {}
-
-class AddProductChooseImageSuccess extends AddProductState {
-  final XFile image;
-
-  AddProductChooseImageSuccess({required this.image});
   @override
-  // TODO: implement props
-  List<Object> get props => [this.image];
+  List<Object> get props => [image];
 }
-
-class AddProductChooseImageFail extends AddProductState {}
