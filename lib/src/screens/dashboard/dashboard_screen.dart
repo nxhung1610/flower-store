@@ -1,4 +1,6 @@
 import 'package:flower_store/src/blocs/bloc.dart';
+import 'package:flower_store/src/blocs/dashboard/home/home_bloc.dart';
+import 'package:flower_store/src/blocs/dashboard/package/package_bloc.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
@@ -143,9 +145,15 @@ class _BodyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     switch ((state as NavigatorTappedPageState).pageName) {
       case PageName.Home:
-        return HomePage();
+        return BlocProvider(
+          create: (context) => HomeBloc(),
+          child: HomePage(),
+        );
       case PageName.Package:
-        return PackagePage();
+        return BlocProvider(
+          create: (context) => PackageBloc(),
+          child: PackagePage(),
+        );
       case PageName.Bill:
         return BillPage();
       case PageName.Statistical:

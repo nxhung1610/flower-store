@@ -1,7 +1,16 @@
+import 'dart:io';
+
+import 'package:flower_store/src/blocs/dashboard/add_product/add_product_bloc.dart';
+import 'package:flower_store/src/blocs/dashboard/add_product/add_product_event.dart';
+import 'package:flower_store/src/blocs/dashboard/add_product/add_product_state.dart';
+import 'package:flower_store/src/blocs/dashboard/update_product/update_product_bloc.dart';
+import 'package:flower_store/src/blocs/dashboard/update_product/update_product_event.dart';
+import 'package:flower_store/src/blocs/dashboard/update_product/update_product_state.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -34,22 +43,47 @@ class UpdateProductPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 60.h),
             child: Column(
               children: [
-                Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/icon.svg',
-                      ),
-                      SizedBox(height: 20.h),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 77.w),
-                        child: Text('Choose your product image',
-                            textAlign: TextAlign.center,
-                            style: AppTextStyle.header4
-                                .copyWith(color: AppColors.color2)),
-                      )
-                    ],
+                InkWell(
+                  onTap: () => BlocProvider.of<UpdateProductBloc>(context)
+                      .add(UpdateProductChooseImage()),
+                  child: BlocBuilder<UpdateProductBloc, UpdateProductState>(
+                    builder: (context, state) {
+                      return state is UpdateProductChooseImageSuccess
+                          ? SizedBox(
+                              width: 260,
+                              height: 190,
+                              child: Container(
+                                color: AppColors.color1,
+                                child: FittedBox(
+                                  fit: BoxFit.fill,
+                                  child: Image.file(
+                                    File(
+                                      state.image.path,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/icon.svg',
+                                  ),
+                                  SizedBox(height: 20.h),
+                                  Container(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 77.w),
+                                    child: Text('Choose your product image',
+                                        textAlign: TextAlign.center,
+                                        style: AppTextStyle.header4
+                                            .copyWith(color: AppColors.color2)),
+                                  )
+                                ],
+                              ),
+                            );
+                    },
                   ),
                 ),
                 SizedBox(height: 60.h),
