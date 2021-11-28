@@ -138,6 +138,12 @@ class ActionsFunction extends StatelessWidget {
         padding: EdgeInsets.zero,
         shrinkWrap: true,
         children: [
+          
+          ItemActionFunction(
+            listener: () {},
+            icon: SvgPicture.asset('assets/ico_account_setting.svg'),
+            title: 'Manager Account',
+          ),
           ItemActionFunction(
             listener: () {},
             icon: SvgPicture.asset('assets/ico_notification.svg'),
