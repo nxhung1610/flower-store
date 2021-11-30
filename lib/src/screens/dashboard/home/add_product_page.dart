@@ -50,7 +50,7 @@ class AddProductPage extends StatelessWidget {
                             width: 260,
                             height: 190,
                             child: Container(
-                              color: AppColors.color1,
+                              color: Colors.transparent,
                               child: FittedBox(
                                 fit: BoxFit.fill,
                                 child: Image.file(

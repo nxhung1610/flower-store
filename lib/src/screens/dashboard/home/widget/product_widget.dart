@@ -3,6 +3,9 @@ import 'package:flower_store/src/blocs/dashboard/home/home_bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/home/home_event.dart';
 import 'package:flower_store/src/blocs/dashboard/update_product/update_product_bloc.dart';
 import 'package:flower_store/src/models/product.dart';
+import 'package:flower_store/src/models/role/role.dart';
+import 'package:flower_store/src/models/role/role_type.dart';
+import 'package:flower_store/src/models/staff.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_constant.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
@@ -19,10 +22,12 @@ enum pageOfWidget { HOME, PACKAGE, NOEDIT }
 
 class ProductWidget extends StatelessWidget {
   final pageOfWidget page;
+  final RoleType role;
   final Product product;
 
   const ProductWidget({
     key,
+    required this.role,
     required this.page,
     required this.product,
   }) : super(key: key);
@@ -221,7 +226,7 @@ class ProductWidget extends StatelessWidget {
                                 color: AppColors.color5,
                                 fontWeight: FontWeight.bold),
                           ),
-                          page == pageOfWidget.HOME
+                          page == pageOfWidget.HOME && role != RoleType.Seller
                               ? IconButton(
                                   constraints: BoxConstraints(),
                                   padding: EdgeInsets.zero,

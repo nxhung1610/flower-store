@@ -127,7 +127,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                               width: 260,
                               height: 190,
                               child: Container(
-                                color: AppColors.color1,
+                                color: Colors.transparent,
                                 child: FittedBox(
                                   fit: BoxFit.fill,
                                   child: Image.file(
@@ -147,7 +147,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                                     height: 114.h,
                                     imageUrl: state.image,
                                     placeholder: (context, url) => SpinKitRing(
-                                      color: AppColors.color1,
+                                      color: Colors.transparent,
                                     ),
                                     errorWidget: (context, url, error) => Image(
                                       image: AssetImage(
