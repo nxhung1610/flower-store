@@ -6,7 +6,7 @@ import 'package:flower_store/src/services/product/product_provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
-  AddProductBloc() : super(AddProductState()) {
+  AddProductBloc() : super(AddProductState(loading: false)) {
     on<AddProductChooseImage>((event, emit) async {
       final image = await openImagePicker();
       if (image != null) {
@@ -15,6 +15,7 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
         emit(state.copyWith(image: ""));
     });
     on<AddProductAddNewProduct>((event, emit) async {
+      emit(state.copyWith(loading: true));
       try {
         await ProductProvider().submitProduct(
             name: event.name,
@@ -29,6 +30,7 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
         if (event.onComplete == null) return;
         event.onComplete!(false);
       }
-    });
+      emit(state.copyWith(loading: false));
+    }, transformer: debounce(Duration(seconds: 3)));
   }
 }

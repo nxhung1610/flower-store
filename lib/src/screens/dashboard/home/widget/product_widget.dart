@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flower_store/src/blocs/dashboard/home/home_bloc.dart';
+import 'package:flower_store/src/blocs/dashboard/home/home_event.dart';
 import 'package:flower_store/src/blocs/dashboard/update_product/update_product_bloc.dart';
 import 'package:flower_store/src/models/product.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
@@ -177,6 +179,7 @@ class ProductWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(product.image);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30.w),
       decoration: BoxDecoration(boxShadow: [AppConstant.shadowProduct]),
@@ -223,17 +226,22 @@ class ProductWidget extends StatelessWidget {
                                   constraints: BoxConstraints(),
                                   padding: EdgeInsets.zero,
                                   iconSize: 17.w,
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => BlocProvider(
-                                          create: (context) =>
-                                              UpdateProductBloc(),
-                                          child: UpdateProductPage(),
-                                        ),
-                                      ),
-                                    );
+                                  onPressed: () async {
+                                    final result = await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => BlocProvider(
+                                              create: (context) =>
+                                                  UpdateProductBloc(product),
+                                              child: UpdateProductPage(),
+                                            ),
+                                          ),
+                                        ) ??
+                                        false;
+                                    if (result == true) {
+                                      BlocProvider.of<HomeBloc>(context)
+                                          .add(HomeLoaded());
+                                    }
                                   },
                                   icon: SvgPicture.asset('assets/ico_edit.svg'))
                               : Container()

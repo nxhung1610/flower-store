@@ -32,4 +32,27 @@ class ProductProvider {
         description: description,
         basePrice: basePrice);
   }
+
+  Future<void> updateProduct({
+    required String name,
+    required String image,
+    required String description,
+    required int basePrice,
+    required String sId,
+  }) async {
+    final response = await ProductRepository().updateProduct(
+        sId: sId,
+        name: name,
+        image: image,
+        description: description,
+        basePrice: basePrice);
+  }
+
+  Future<void> deleteProduct({
+    required String sId,
+  }) async {
+    final response = await ProductRepository().deleteProduct(
+      sId: sId,
+    );
+  }
 }
