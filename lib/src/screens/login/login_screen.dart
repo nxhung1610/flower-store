@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return ScreenConfig(
       builder: () => BlocProvider<LoginBloc>(
           create: (context) =>
-              LoginBloc(authBloc: authBloc, authService: authBloc.authService),
+              LoginBloc(authBloc: authBloc),
           child: BlocListener<LoginBloc, LoginState>(
             listener: (context, state) {
               if (state is LoginRequestLoading) {

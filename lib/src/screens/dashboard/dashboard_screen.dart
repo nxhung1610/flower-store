@@ -38,7 +38,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           builder: (context, state) => Scaffold(
             key: scaffoldKey,
             drawer:
-                AppSliderBar(staff: BlocProvider.of<AuthBloc>(context).staff!),
+                AppSliderBar(staff: (context.read<AuthBloc>().state as AuthenticationAuthenticated).staff),
             appBar: _buildAppbar(scaffoldKey, context),
             body: _BodyScreen(
               state: state,
