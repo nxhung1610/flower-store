@@ -1,6 +1,7 @@
 import 'package:flower_store/src/blocs/bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/home/home_bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/package/package_bloc.dart';
+import 'package:flower_store/src/models/role/role_type.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
@@ -51,6 +52,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 }
 
+Widget cartIcon(BuildContext context) {
+  RoleType role =
+      (context.read<AuthBloc>().state as AuthenticationAuthenticated)
+          .staff
+          .role;
+  return role != RoleType.Seller
+      ? SizedBox.shrink()
+      : IconButton(
+          iconSize: 30.h,
+          onPressed: () {},
+          icon: SvgPicture.asset('assets/ico_cart.svg'),
+        );
+}
+
 _buildAppbar(GlobalKey<ScaffoldState> key, BuildContext context) {
   return AppBar(
     backgroundColor: AppColors.color10,
@@ -71,7 +86,14 @@ _buildAppbar(GlobalKey<ScaffoldState> key, BuildContext context) {
       onPressed: () => key.currentState?.openDrawer(),
       icon: SvgPicture.asset('assets/ico_menu.svg'),
     ),
-    actions: [],
+    actions: [
+      cartIcon(context),
+      IconButton(
+        iconSize: 30.h,
+        onPressed: () {},
+        icon: SvgPicture.asset('assets/ico_search.svg'),
+      ),
+    ],
   );
 }
 

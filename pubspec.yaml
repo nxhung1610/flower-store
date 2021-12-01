@@ -41,6 +41,7 @@ dependencies:
   another_flushbar: ^1.10.26
   mime_type: ^1.0.0
   reflectable: ^3.0.4
+  stream_transform: ^2.0.0
 
 dev_dependencies:
   flutter_test:

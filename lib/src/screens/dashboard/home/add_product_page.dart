@@ -50,7 +50,7 @@ class AddProductPage extends StatelessWidget {
                             width: 260,
                             height: 190,
                             child: Container(
-                              color: AppColors.color1,
+                              color: Colors.transparent,
                               child: FittedBox(
                                 fit: BoxFit.fill,
                                 child: Image.file(
@@ -143,50 +143,58 @@ class AddProductPage extends StatelessWidget {
               ConstrainedBox(
                 constraints:
                     BoxConstraints.tightFor(width: 250.w, height: 50.h),
-                child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(AppColors.color2)),
-                    onPressed: () {
-                      if (_nameTextController.text.isEmpty ||
-                          _priceTextController.text.isEmpty) {
-                        Flushbar(
-                          title: "Fail",
-                          message: "Name or price can not be blank",
-                          duration: Duration(seconds: 3),
-                        ).show(context);
-                      } else
-                        BlocProvider.of<AddProductBloc>(context).add(
-                          AddProductAddNewProduct(
-                            onComplete: (isSucesss) async {
-                              if (isSucesss == true) {
-                                await Flushbar(
-                                  title: "Success",
-                                  message: "Product uploaded",
-                                  duration: Duration(seconds: 3),
-                                ).show(context);
-                                Navigator.pop(context, true);
-                              } else {
-                                await Flushbar(
-                                  title: "Fail",
-                                  message:
-                                      "Upload product fail( Image must be jpeg , jpg or png) ",
-                                  duration: Duration(seconds: 3),
-                                ).show(context);
-                              }
-                            },
-                            name: _nameTextController.text,
-                            description: _descriptionTextController.text,
-                            basePrice: int.parse(_priceTextController.text),
-                          ),
-                        );
-                    },
-                    child: Text(
-                      "Add",
-                      style: AppTextStyle.header5.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.color10),
-                    )),
+                child: BlocBuilder<AddProductBloc, AddProductState>(
+                  builder: (context, state) {
+                    return ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                AppColors.color2)),
+                        onPressed: state.loading
+                            ? null
+                            : () {
+                                if (_nameTextController.text.isEmpty ||
+                                    _priceTextController.text.isEmpty) {
+                                  Flushbar(
+                                    title: "Fail",
+                                    message: "Name or price can not be blank",
+                                    duration: Duration(seconds: 3),
+                                  ).show(context);
+                                } else
+                                  BlocProvider.of<AddProductBloc>(context).add(
+                                    AddProductAddNewProduct(
+                                      onComplete: (isSucesss) async {
+                                        if (isSucesss == true) {
+                                          await Flushbar(
+                                            title: "Success",
+                                            message: "Product uploaded",
+                                            duration: Duration(seconds: 3),
+                                          ).show(context);
+                                          Navigator.pop(context, true);
+                                        } else {
+                                          await Flushbar(
+                                            title: "Fail",
+                                            message:
+                                                "Upload product fail( Image must be jpeg , jpg or png) ",
+                                            duration: Duration(seconds: 3),
+                                          ).show(context);
+                                        }
+                                      },
+                                      name: _nameTextController.text,
+                                      description:
+                                          _descriptionTextController.text,
+                                      basePrice:
+                                          int.parse(_priceTextController.text),
+                                    ),
+                                  );
+                              },
+                        child: Text(
+                          "Add",
+                          style: AppTextStyle.header5.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.color10),
+                        ));
+                  },
+                ),
               )
             ],
           ),

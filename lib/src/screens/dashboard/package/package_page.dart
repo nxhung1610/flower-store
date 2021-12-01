@@ -1,3 +1,4 @@
+import 'package:flower_store/src/blocs/auth/auth.dart';
 import 'package:flower_store/src/blocs/dashboard/package/package_bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/package/package_state.dart';
 import 'package:flower_store/src/screens/dashboard/home/widget/product_widget.dart';
@@ -31,6 +32,10 @@ class _PackagePageState extends State<PackagePage> {
                     SizedBox(height: 20.h),
                 itemBuilder: (context, index) {
                   return ProductWidget(
+                    role: (context.read<AuthBloc>().state
+                            as AuthenticationAuthenticated)
+                        .staff
+                        .role,
                     page: pageOfWidget.PACKAGE,
                     product: state.productList[index],
                   );
