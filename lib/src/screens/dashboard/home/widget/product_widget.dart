@@ -5,7 +5,6 @@ import 'package:flower_store/src/blocs/dashboard/update_product/update_product_b
 import 'package:flower_store/src/models/product.dart';
 import 'package:flower_store/src/models/role/role.dart';
 import 'package:flower_store/src/models/role/role_type.dart';
-import 'package:flower_store/src/models/staff.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_constant.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';

@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 
 import 'package:flower_store/src/blocs/dashboard/home/home_helper.dart';
 import 'package:flower_store/src/models/product.dart';
-import 'package:flower_store/src/models/staff.dart';
 
 class HomeState extends Equatable {
   @override
