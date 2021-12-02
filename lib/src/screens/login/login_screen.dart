@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flower_store/src/blocs/auth/auth.dart';
 import 'package:flower_store/src/blocs/login/login_bloc.dart';
 import 'package:flower_store/src/screens/base/screen_config.dart';
@@ -30,14 +31,19 @@ class _LoginScreenState extends State<LoginScreen> {
     final authBloc = BlocProvider.of<AuthBloc>(context);
     return ScreenConfig(
       builder: () => BlocProvider<LoginBloc>(
-          create: (context) =>
-              LoginBloc(authBloc: authBloc),
+          create: (context) => LoginBloc(authBloc: authBloc),
           child: BlocListener<LoginBloc, LoginState>(
             listener: (context, state) {
               if (state is LoginRequestLoading) {
                 ScreenTool.showLoading(context, true);
               } else if (state is LoginRequestFail) {
                 ScreenTool.showLoading(context, false);
+                Flushbar(
+                    title: "Login Failed",
+                    message: state.message,
+                    duration: Duration(
+                      milliseconds: 1000,
+                    )).show(context);
               } else if (state is LoginRequestSuccess) {
                 ScreenTool.showLoading(context, false);
               }

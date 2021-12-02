@@ -17,6 +17,8 @@ class AuthenticationRepository extends BaseRepository {
         'email': email,
         'password': password,
       });
+      if (!res.data["error"])
+        BaseRepository.tokenAuth = res.data["accessToken"];
       return res;
     } on DioError catch (error) {
       throw error.response as Response;
@@ -29,7 +31,7 @@ class AuthenticationRepository extends BaseRepository {
       var res = await client.post('/staff/logout', data: {
         'accessToken': BaseRepository.tokenAuth,
       });
-      if (!res.data!.error) clearSession();
+      if (!res.data["error"]) clearSession();
       return res;
     } on DioError catch (error) {
       throw error.response as Response;

@@ -49,7 +49,7 @@ class ProductRepository {
         "${data.fields} ${(await MultipartFile.fromFile(image, contentType: MediaType(mimee, type))).filename}");
 
     Response response = await _dio.post(
-      "$baseUrl${this.endPoint}",
+      "$baseUrl/${this.endPoint}",
       data: data,
     );
 
@@ -87,7 +87,7 @@ class ProductRepository {
     });
 
     Response response = await _dio.patch(
-      "$baseUrl${this.endPoint}$sId",
+      "$baseUrl/${this.endPoint}$sId",
       data: data,
     );
 
@@ -98,7 +98,7 @@ class ProductRepository {
     Dio _dio = Dio();
     _dio.options.headers = {'Authorization': 'Bearer $accessToken'};
     print('1');
-    Response response = await _dio.delete("$baseUrl${this.endPoint}$sId");
+    Response response = await _dio.delete("$baseUrl/${this.endPoint}$sId");
     return response;
   }
 }
