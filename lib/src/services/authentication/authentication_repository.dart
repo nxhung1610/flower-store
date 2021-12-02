@@ -18,7 +18,7 @@ class AuthenticationRepository extends BaseRepository {
         'password': password,
       });
       if (!res.data["error"])
-        BaseRepository.tokenAuth = res.data["accessToken"];
+        BaseRepository.tokenAuth = res.data["data"]["accessToken"];
       return res;
     } on DioError catch (error) {
       throw error.response as Response;

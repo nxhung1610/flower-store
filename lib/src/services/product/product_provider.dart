@@ -1,14 +1,12 @@
 import 'package:flower_store/src/models/product.dart';
+import 'package:flower_store/src/services/base/base_provider.dart';
 import 'package:flower_store/src/services/product/product_repository.dart';
 
-class ProductProvider {
-  static final ProductProvider _singleton = ProductProvider._internal();
-
-  factory ProductProvider() {
-    return _singleton;
+class ProductProvider extends BaseProvider<ProductRepository> {
+  @override
+  ProductRepository initRepository() {
+    return ProductRepository();
   }
-
-  ProductProvider._internal();
 
   Future<List<Product>> getAllProduct() async {
     final response = await ProductRepository().getAllProduct();

@@ -19,12 +19,11 @@ class AuthenticationProvider extends BaseProvider<AuthenticationRepository> {
     return AuthenticationRepository();
   }
 
-  Future<String> login({
+  Future login({
     required String email,
     required String password,
   }) async {
-    var res = await repository.login(email: email, password: password);
-    return res.data["message"];
+    await repository.login(email: email, password: password);
   }
 
   Future logout() async {
