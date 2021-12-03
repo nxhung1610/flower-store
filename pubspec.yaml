@@ -25,7 +25,7 @@ dependencies:
   equatable: ^2.0.3
   flutter:
     sdk: flutter
-  flutter_bloc: ^7.3.0
+  flutter_bloc: 
   #config
   flutter_screenutil: ^5.0.0+2
   #util
@@ -36,6 +36,12 @@ dependencies:
   cached_network_image: ^3.1.0
   #service
   http: ^0.13.4
+  image_picker: ^0.8.4+4
+  dio: ^4.0.4
+  another_flushbar: ^1.10.26
+  mime_type: ^1.0.0
+  reflectable: ^3.0.4
+  stream_transform: ^2.0.0
 
 dev_dependencies:
   flutter_test:

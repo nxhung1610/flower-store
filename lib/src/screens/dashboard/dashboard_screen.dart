@@ -1,4 +1,7 @@
 import 'package:flower_store/src/blocs/bloc.dart';
+import 'package:flower_store/src/blocs/dashboard/home/home_bloc.dart';
+import 'package:flower_store/src/blocs/dashboard/package/package_bloc.dart';
+import 'package:flower_store/src/models/role/role_type.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
@@ -24,19 +27,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
+  void initState() {
+    context.read<DashboardBloc>().add(DashboardLoaded());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<DashboardBloc>(
-          create: (context) => DashboardBloc(),
+        BlocProvider<HomeBloc>(
+          create: (context) => HomeBloc(),
+        ),
+        BlocProvider<PackageBloc>(
+          create: (context) => PackageBloc(),
         ),
       ],
       child: ScreenConfig(
         builder: () => BlocBuilder<DashboardBloc, DashboardState>(
           builder: (context, state) => Scaffold(
             key: scaffoldKey,
-            drawer:
-                AppSliderBar(staff: BlocProvider.of<AuthBloc>(context).staff!),
+            drawer: AppSliderBar(
+                staff: (context.read<AuthBloc>().state
+                        as AuthenticationAuthenticated)
+                    .staff),
             appBar: _buildAppbar(scaffoldKey, context),
             body: _BodyScreen(
               state: state,
@@ -49,16 +63,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 }
 
+Widget cartIcon(BuildContext context) {
+  RoleType role =
+      (context.read<AuthBloc>().state as AuthenticationAuthenticated)
+          .staff
+          .role;
+  return role != RoleType.Seller
+      ? SizedBox.shrink()
+      : IconButton(
+          iconSize: 30.h,
+          onPressed: () {},
+          icon: SvgPicture.asset('assets/ico_cart.svg'),
+        );
+}
+
 _buildAppbar(GlobalKey<ScaffoldState> key, BuildContext context) {
   return AppBar(
     backgroundColor: AppColors.color10,
     elevation: 0.5,
     title: Text(
-      BlocProvider.of<DashboardBloc>(context)
-          .curentPage
-          .toString()
-          .split('.')
-          .last,
+      context.read<DashboardBloc>().curentPage.toString().split('.').last,
       style: AppTextStyle.header4.copyWith(
         color: AppColors.color6,
         fontWeight: FontWeight.bold,
@@ -69,15 +93,24 @@ _buildAppbar(GlobalKey<ScaffoldState> key, BuildContext context) {
       onPressed: () => key.currentState?.openDrawer(),
       icon: SvgPicture.asset('assets/ico_menu.svg'),
     ),
-    actions: [],
+    actions: [
+      cartIcon(context),
+      IconButton(
+        iconSize: 30.h,
+        onPressed: () {},
+        icon: SvgPicture.asset('assets/ico_search.svg'),
+      ),
+    ],
   );
 }
 
 _buildBottomNavigation(BuildContext context) {
   return BottomNavigationBar(
-    currentIndex: BlocProvider.of<DashboardBloc>(context).curentPage.index,
+    currentIndex:
+        context.read<DashboardBloc>().curentPage?.index ?? PageName.Home.index,
     onTap: (value) {
-      BlocProvider.of<DashboardBloc>(context)
+      context
+          .read<DashboardBloc>()
           .add(NavigatorPageTappedEvent(curentPage: PageName.values[value]));
     },
     type: BottomNavigationBarType.fixed,
@@ -141,6 +174,7 @@ class _BodyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (state is DashboardInitState) return Container();
     switch ((state as NavigatorTappedPageState).pageName) {
       case PageName.Home:
         return HomePage();

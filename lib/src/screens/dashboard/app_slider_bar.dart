@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flower_store/src/blocs/auth/auth.dart';
-import 'package:flower_store/src/models/staff.dart';
+import 'package:flower_store/src/models/model.dart';
+import 'package:flower_store/src/models/user/manager.dart';
+import 'package:flower_store/src/models/user/staff.dart';
 import 'package:flower_store/src/screens/dashboard/widgets/item_action_function.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
@@ -102,7 +104,9 @@ class _AppSliderBarState extends State<AppSliderBar> {
                 ],
               ),
             ),
-            ActionsFunction()
+            ActionsFunction(
+              staff: staff,
+            )
           ],
         ),
       ),
@@ -127,7 +131,8 @@ class _ErrorAvatar extends StatelessWidget {
 }
 
 class ActionsFunction extends StatelessWidget {
-  const ActionsFunction({Key? key}) : super(key: key);
+  final Staff staff;
+  const ActionsFunction({Key? key, required this.staff}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -137,11 +142,41 @@ class ActionsFunction extends StatelessWidget {
         padding: EdgeInsets.zero,
         shrinkWrap: true,
         children: [
-          ItemActionFunction(
-            listener: () {},
-            icon: SvgPicture.asset('assets/ico_notification.svg'),
-            title: 'Notification',
-          ),
+          (staff is Manager)
+              ? ItemActionFunction(
+                  listener: () {},
+                  icon: SvgPicture.asset('assets/ico_account_setting.svg'),
+                  title: 'Manager Account',
+                )
+              : Container(),
+          (staff is Manager)
+              ? ItemActionFunction(
+                  listener: () {},
+                  icon: SvgPicture.asset('assets/ico_notification.svg'),
+                  title: 'Notification Manager',
+                )
+              : Container(),
+          !(staff is Manager)
+              ? ItemActionFunction(
+                  listener: () {},
+                  icon: SvgPicture.asset('assets/ico_notification.svg'),
+                  title: 'Notification',
+                )
+              : Container(),
+          (staff is Manager)
+              ? ItemActionFunction(
+                  listener: () {},
+                  icon: SvgPicture.asset('assets/ico_report.svg'),
+                  title: 'Reports',
+                )
+              : Container(),
+          (staff is Accountant)
+              ? ItemActionFunction(
+                  listener: () {},
+                  icon: SvgPicture.asset('assets/ico_report.svg'),
+                  title: 'Request Reports',
+                )
+              : Container(),
           ItemActionFunction(
             listener: () {
               authBLoc.add(UserLoggedOut());

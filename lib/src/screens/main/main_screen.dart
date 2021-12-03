@@ -1,4 +1,5 @@
 import 'package:flower_store/src/blocs/auth/auth.dart';
+import 'package:flower_store/src/blocs/bloc.dart';
 import 'package:flower_store/src/screens/base/screen_config.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
@@ -35,10 +36,16 @@ class _MainScreenState extends State<MainScreen> {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is AuthenticationAuthenticated) {
-          return DashboardScreen();
+          return BlocProvider<DashboardBloc>(
+            create: (context) => DashboardBloc(),
+            child: DashboardScreen(),
+          );
         } else if (state is AuthenticationNotAuthenticated ||
             state is AuthenticationFailure) {
-          return LoginScreen();
+          return BlocProvider<LoginBloc>(
+            create: (context) => LoginBloc(authBloc: context.read<AuthBloc>()),
+            child: LoginScreen(),
+          );
         } else {
           return _LoadingScreen();
         }
