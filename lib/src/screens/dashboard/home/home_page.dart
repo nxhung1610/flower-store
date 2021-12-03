@@ -24,6 +24,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    context.read<HomeBloc>().add(HomeLoaded());
+    super.initState();
+  }
+
   Widget? floatingActionButton(RoleType role) {
     if (role != RoleType.Seller && role != RoleType.Accountant)
       return FloatingActionButton(

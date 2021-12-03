@@ -27,19 +27,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
+  void initState() {
+    context.read<DashboardBloc>().add(DashboardLoaded());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<DashboardBloc>(
-          create: (context) => DashboardBloc(),
+        BlocProvider<HomeBloc>(
+          create: (context) => HomeBloc(),
+        ),
+        BlocProvider<PackageBloc>(
+          create: (context) => PackageBloc(),
         ),
       ],
       child: ScreenConfig(
         builder: () => BlocBuilder<DashboardBloc, DashboardState>(
           builder: (context, state) => Scaffold(
             key: scaffoldKey,
-            drawer:
-                AppSliderBar(staff: (context.read<AuthBloc>().state as AuthenticationAuthenticated).staff),
+            drawer: AppSliderBar(
+                staff: (context.read<AuthBloc>().state
+                        as AuthenticationAuthenticated)
+                    .staff),
             appBar: _buildAppbar(scaffoldKey, context),
             body: _BodyScreen(
               state: state,
@@ -71,11 +82,7 @@ _buildAppbar(GlobalKey<ScaffoldState> key, BuildContext context) {
     backgroundColor: AppColors.color10,
     elevation: 0.5,
     title: Text(
-      BlocProvider.of<DashboardBloc>(context)
-          .curentPage
-          .toString()
-          .split('.')
-          .last,
+      context.read<DashboardBloc>().curentPage.toString().split('.').last,
       style: AppTextStyle.header4.copyWith(
         color: AppColors.color6,
         fontWeight: FontWeight.bold,
@@ -99,9 +106,11 @@ _buildAppbar(GlobalKey<ScaffoldState> key, BuildContext context) {
 
 _buildBottomNavigation(BuildContext context) {
   return BottomNavigationBar(
-    currentIndex: BlocProvider.of<DashboardBloc>(context).curentPage.index,
+    currentIndex:
+        context.read<DashboardBloc>().curentPage?.index ?? PageName.Home.index,
     onTap: (value) {
-      BlocProvider.of<DashboardBloc>(context)
+      context
+          .read<DashboardBloc>()
           .add(NavigatorPageTappedEvent(curentPage: PageName.values[value]));
     },
     type: BottomNavigationBarType.fixed,
@@ -165,17 +174,12 @@ class _BodyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (state is DashboardInitState) return Container();
     switch ((state as NavigatorTappedPageState).pageName) {
       case PageName.Home:
-        return BlocProvider(
-          create: (context) => HomeBloc(),
-          child: HomePage(),
-        );
+        return HomePage();
       case PageName.Package:
-        return BlocProvider(
-          create: (context) => PackageBloc(),
-          child: PackagePage(),
-        );
+        return PackagePage();
       case PageName.Bill:
         return BillPage();
       case PageName.Statistical:

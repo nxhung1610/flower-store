@@ -13,6 +13,5 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       print(_productList.toString());
       emit(HomeLoadSucess(productList: _productList));
     });
-    add(HomeLoaded());
   }
 }
