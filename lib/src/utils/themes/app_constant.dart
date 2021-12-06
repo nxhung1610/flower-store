@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppConstant {
-  static const String _devUrl = "http://localhost:3000/";
-  static const String _runUrl = "https://flower-store-api.herokuapp.com/";
+  static const String _devUrl = "http://localhost:3000";
+  static const String _runUrl = "https://flower-store-api.herokuapp.com";
   static const bool isDebug = false;
 
   static const String baseUrl = isDebug ? _devUrl : _runUrl;

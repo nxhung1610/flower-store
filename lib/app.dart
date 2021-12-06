@@ -1,7 +1,6 @@
 import 'package:flower_store/src/blocs/bloc.dart';
 import 'package:flower_store/src/screens/init/init_screen.dart';
 import 'package:flower_store/src/screens/screen.dart';
-import 'package:flower_store/src/services/authentication_service.dart';
 import 'package:flower_store/src/utils/general.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,7 +25,7 @@ class _AppState extends State<App> {
           create: (context) => InitBloc(),
         ),
         BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(authService: AuthServiceImpl()),
+          create: (context) => AuthBloc(),
         ),
       ],
       child: GestureDetector(
