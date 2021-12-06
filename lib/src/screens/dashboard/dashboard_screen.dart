@@ -36,6 +36,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<SlideBarMenuBloc>(
+          create: (context) => SlideBarMenuBloc(),
+        ),
         BlocProvider<HomeBloc>(
           create: (context) => HomeBloc(),
         ),

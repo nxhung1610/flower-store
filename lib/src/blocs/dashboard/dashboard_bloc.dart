@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flower_store/src/blocs/bloc.dart';
+import 'package:flower_store/src/models/model.dart';
 import 'package:flutter/cupertino.dart';
 
 part 'dashboard_event.dart';
@@ -11,6 +12,7 @@ enum PageName { Home, Package, Bill, Statistical }
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   PageName? curentPage;
   Map<PageName, Widget> pages = {};
+
   DashboardBloc() : super(DashboardInitState()) {
     on<DashboardLoaded>((event, emit) {
       curentPage = PageName.Home;
@@ -38,4 +40,6 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       },
     );
   }
+
+
 }

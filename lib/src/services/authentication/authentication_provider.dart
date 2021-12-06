@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flower_store/src/models/model.dart';
+import 'package:flower_store/src/models/user/user_helper.dart';
 import 'package:flower_store/src/services/authentication/authentication_repository.dart';
 import 'package:flower_store/src/services/base/base_provider.dart';
 import 'package:flower_store/src/services/base/base_repository.dart';
@@ -33,15 +34,18 @@ class AuthenticationProvider extends BaseProvider<AuthenticationRepository> {
   Future<Staff> profileInfo() async {
     var res = await repository.profile();
     var staff = res.data["data"];
-    switch (RoleType.values[staff['role']]) {
-      case RoleType.Manager:
-        return Manager.fromJson(staff);
-      case RoleType.Warehouse:
-        return Warehouse.fromJson(staff);
-      case RoleType.Accountant:
-        return Accountant.fromJson(staff);
-      case RoleType.Seller:
-        return Seller.fromJson(staff);
-    }
+    return UserHelper().convertToType(staff);
+  }
+
+  Future<List<Role>> roles() async {
+    var res = await repository.getRoles();
+    var roles = res.data["data"] as List;
+    return roles.map((e) => Role.fromJson(e)).toList();
+  }
+
+  Future<List<Staff>> staffs() async {
+    var res = await repository.getStaffs();
+    var staffs = res.data["data"] as List;
+    return staffs.map((e) => UserHelper().convertToType(e)).toList();
   }
 }

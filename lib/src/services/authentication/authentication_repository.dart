@@ -47,4 +47,24 @@ class AuthenticationRepository extends BaseRepository {
       throw error.response as Response;
     }
   }
+
+  Future<Response> getRoles() async {
+    try {
+      var client = init();
+      var res = await client.get('/role');
+      return res;
+    } on DioError catch (error) {
+      throw error.response as Response;
+    }
+  }
+
+  Future<Response> getStaffs() async {
+    try {
+      var client = init();
+      var res = await client.get('/staff');
+      return res;
+    } on DioError catch (error) {
+      throw error.response as Response;
+    }
+  }
 }
