@@ -3,3 +3,6 @@ export './role/role_type.dart';
 
 export './user/staff.dart';
 export './user/manager.dart';
+export './user/seller.dart';
+export './user/accountant.dart';
+export './user/warehouse.dart';

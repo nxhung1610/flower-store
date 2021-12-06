@@ -17,6 +17,7 @@ class ItemActionFunction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      splashFactory: InkRipple.splashFactory,
       onTap: listener,
       child: Container(
         padding: EdgeInsets.all(17.w),

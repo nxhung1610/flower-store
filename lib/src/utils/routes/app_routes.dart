@@ -1,5 +1,6 @@
 import 'package:flower_store/src/screens/init/init_screen.dart';
 import 'package:flower_store/src/screens/main/main_screen.dart';
+import 'package:flower_store/src/screens/manager_account/manager_account_page.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/general.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,8 @@ class AppRoutes {
         return WelcomeScreen.route();
       case MainScreen.nameRoute:
         return MainScreen.route();
+      case ManagerAccountPage.nameRoute:
+        return ManagerAccountPage.route();
       default:
         return _errorRoute();
     }
