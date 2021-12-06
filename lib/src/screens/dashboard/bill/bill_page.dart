@@ -77,46 +77,61 @@ class _BillPageState extends State<BillPage> {
                       width: 441,
                       height: 64,
                       color: AppColors.color10,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 26),
-                            child: Container(
-                              child: Text(
-                                '#123',
-                                style: AppTextStyle.header6.copyWith(
-                                  color: AppColors.color8,
-                                  fontWeight: FontWeight.normal,
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 26),
+                                  child: Container(
+                                    child: Text(
+                                      '#123',
+                                      style: AppTextStyle.header6.copyWith(
+                                        color: AppColors.color8,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 27),
-                            child: Container(
-                              child: Text(
-                                'Jul 1,2021',
-                                style: AppTextStyle.header6.copyWith(
-                                  color: AppColors.color3,
-                                  fontWeight: FontWeight.w600,
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 27),
+                                  child: Container(
+                                    child: Text(
+                                      'Jul 1,2021',
+                                      style: AppTextStyle.header6.copyWith(
+                                        color: AppColors.color3,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: Container(
-                              child: Text(
-                                '100,000 VND',
-                                style: AppTextStyle.header6.copyWith(
-                                  color: AppColors.color6,
-                                  fontWeight: FontWeight.w600,
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8),
+                                  child: Container(
+                                    child: Text(
+                                      '100,000 VND',
+                                      style: AppTextStyle.header6.copyWith(
+                                        color: AppColors.color6,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ),
-                        ],
+                            SizedBox(
+                              height: 24.h,
+                            ),
+                            const Divider(
+                              height: 1,
+                              thickness: 0.5,
+                              indent: 20,
+                              endIndent: 20,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     onTap: () {
