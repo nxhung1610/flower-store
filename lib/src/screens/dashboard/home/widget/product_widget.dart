@@ -137,13 +137,17 @@ class ProductWidget extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 10.h),
-                  child: CachedNetworkImage(
-                    imageUrl: product.image,
-                    placeholder: (context, url) => SpinKitRing(
-                      color: AppColors.color1,
-                    ),
-                    errorWidget: (context, url, error) => Image(
-                      image: AssetImage('assets/template_plant.png'),
+                  child: Container(
+                    child: CachedNetworkImage(
+                      height: 411.h,
+                      fit: BoxFit.fitHeight,
+                      imageUrl: product.image,
+                      placeholder: (context, url) => SpinKitRing(
+                        color: AppColors.color1,
+                      ),
+                      errorWidget: (context, url, error) => Image(
+                        image: AssetImage('assets/template_plant.png'),
+                      ),
                     ),
                   ),
                 ),
