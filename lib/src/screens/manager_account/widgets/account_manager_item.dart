@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flower_store/src/models/model.dart';
+import 'package:flower_store/src/utils/components/shimmer_widget.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +30,10 @@ class AccountManagerItem extends StatelessWidget {
               height: 50.w,
               width: 50.w,
               imageUrl: staff.url,
-              placeholder: (context, url) => SpinKitRing(
-                size: 10.sp,
-                color: AppColors.color1,
+              placeholder: (context, url) => ShimmerWidget(
+                height: 50.w,
+                width: 50.w,
+                shape: const CircleBorder(),
               ),
               errorWidget: (context, url, error) => Container(
                 decoration: BoxDecoration(

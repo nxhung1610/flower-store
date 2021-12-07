@@ -2,7 +2,10 @@ import 'package:flower_store/src/blocs/auth/auth.dart';
 import 'package:flower_store/src/blocs/bloc.dart';
 import 'package:flower_store/src/models/model.dart';
 import 'package:flower_store/src/screens/manager_account/widgets/account_manager_item.dart';
+import 'package:flower_store/src/screens/manager_account/widgets/account_manager_item_shimmer.dart';
 import 'package:flower_store/src/screens/screen.dart';
+import 'package:flower_store/src/utils/components/loading_widget.dart';
+import 'package:flower_store/src/utils/components/shimmer_widget.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
 import 'package:flutter/material.dart';
@@ -74,46 +77,41 @@ class _BodyScreenState extends State<BodyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        BlocBuilder<ManagerAccountBloc, ManagerAccountState>(
-          builder: (context, state) {
-            if (state is StaffLoadedSuccess) {
-              var staffs = state.staffs;
-              var roles = context.read<ManagerAccountBloc>().roles;
-              return SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: Container(
-                    child: ListView.separated(
-                  itemBuilder: (context, index) => AccountManagerItem(
-                    staff: staffs[index],
-                    roles: roles,
-                  ),
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: staffs.length,
-                  separatorBuilder: (BuildContext context, int index) =>
-                      Divider(
-                    height: 1,
-                  ),
-                )),
-              );
-            } else if (state is StaffLoadedFailed) {
-              return Container();
-            } else {
-              return Positioned.fill(
-                child: Center(
-                  child: SpinKitRing(
-                    lineWidth: 6.sp,
-                    size: 50.sp,
-                    color: AppColors.color1,
-                  ),
-                ),
-              );
-            }
-          },
-        ),
-      ],
+    return BlocBuilder<ManagerAccountBloc, ManagerAccountState>(
+      builder: (context, state) {
+        if (state is StaffLoadedSuccess) {
+          var staffs = state.staffs;
+          var roles = context.read<ManagerAccountBloc>().roles;
+          return SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Container(
+                child: ListView.separated(
+              itemBuilder: (context, index) => AccountManagerItem(
+                staff: staffs[index],
+                roles: roles,
+              ),
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: staffs.length,
+              separatorBuilder: (BuildContext context, int index) => Divider(
+                height: 1,
+              ),
+            )),
+          );
+        } else if (state is StaffLoadedFailed) {
+          return Container();
+        } else {
+          return Container(
+            child: ListView.separated(
+              separatorBuilder: (BuildContext context, int index) => Divider(
+                height: 1,
+              ),
+              itemCount: 4,
+              itemBuilder: (context, index) => AccountManagerItemShimmer(),
+            ),
+          );
+        }
+      },
     );
   }
 }

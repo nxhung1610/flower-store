@@ -5,6 +5,7 @@ import 'package:flower_store/src/blocs/dashboard/home/home_bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/home/home_event.dart';
 import 'package:flower_store/src/blocs/dashboard/home/home_state.dart';
 import 'package:flower_store/src/models/role/role_type.dart';
+import 'package:flower_store/src/utils/components/loading_widget.dart';
 import 'package:flower_store/src/utils/general.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -95,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                     );
                   } else {
                     return Center(
-                      child: SpinKitRing(color: AppColors.color1),
+                      child: LoadingWidget(),
                     );
                   }
                 },
