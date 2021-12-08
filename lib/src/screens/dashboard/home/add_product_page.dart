@@ -7,6 +7,7 @@ import 'package:flower_store/src/blocs/dashboard/add_product/add_product_helper.
 import 'package:flower_store/src/blocs/dashboard/add_product/add_product_state.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
+import 'package:flower_store/src/utils/tools/screen_tool.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -143,7 +144,10 @@ class AddProductPage extends StatelessWidget {
               ConstrainedBox(
                 constraints:
                     BoxConstraints.tightFor(width: 250.w, height: 50.h),
-                child: BlocBuilder<AddProductBloc, AddProductState>(
+                child: BlocConsumer<AddProductBloc, AddProductState>(
+                  listener: (context, state) {
+                    if (state.loading) ScreenTool.showLoading(context, true);
+                  },
                   builder: (context, state) {
                     return ElevatedButton(
                         style: ButtonStyle(
@@ -163,6 +167,7 @@ class AddProductPage extends StatelessWidget {
                                   BlocProvider.of<AddProductBloc>(context).add(
                                     AddProductAddNewProduct(
                                       onComplete: (isSucesss) async {
+                                        ScreenTool.showLoading(context, false);
                                         if (isSucesss == true) {
                                           await Flushbar(
                                             title: "Success",

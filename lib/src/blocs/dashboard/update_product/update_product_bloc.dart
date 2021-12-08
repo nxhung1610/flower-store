@@ -44,9 +44,6 @@ class UpdateProductBloc extends Bloc<UpdateProductEvent, UpdateProductState> {
         }
         emit(state.copyWith(loading: false));
       },
-      transformer: debounce(
-        Duration(seconds: 3),
-      ),
     );
     on<UpdateProductDelete>(
       (event, emit) async {

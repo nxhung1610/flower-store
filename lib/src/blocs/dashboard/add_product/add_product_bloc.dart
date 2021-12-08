@@ -14,23 +14,25 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
       } else
         emit(state.copyWith(image: ""));
     });
-    on<AddProductAddNewProduct>((event, emit) async {
-      emit(state.copyWith(loading: true));
-      try {
-        await ProductProvider().submitProduct(
-            name: event.name,
-            image: state.image,
-            description: event.description,
-            basePrice: event.basePrice);
-        if (event.onComplete == null) return;
-        event.onComplete!(true);
-      } on DioError catch (e) {
-        print(e);
-        print(" res ${e.response!.data}");
-        if (event.onComplete == null) return;
-        event.onComplete!(false);
-      }
-      emit(state.copyWith(loading: false));
-    }, transformer: debounce(Duration(seconds: 3)));
+    on<AddProductAddNewProduct>(
+      (event, emit) async {
+        emit(state.copyWith(loading: true));
+        try {
+          await ProductProvider().submitProduct(
+              name: event.name,
+              image: state.image,
+              description: event.description,
+              basePrice: event.basePrice);
+          if (event.onComplete == null) return;
+          event.onComplete!(true);
+        } on DioError catch (e) {
+          print(e);
+          print(" res ${e.response!.data}");
+          if (event.onComplete == null) return;
+          event.onComplete!(false);
+        }
+        emit(state.copyWith(loading: false));
+      },
+    );
   }
 }

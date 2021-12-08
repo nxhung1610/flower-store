@@ -12,6 +12,7 @@ import 'package:flower_store/src/blocs/dashboard/update_product/update_product_s
 import 'package:flower_store/src/models/product.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
+import 'package:flower_store/src/utils/tools/screen_tool.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,49 +44,37 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
   final _priceTextController = TextEditingController();
   final _descriptionTextController = TextEditingController();
 
-  void showAlertDiag() {
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: const Text('Deleting'),
-        content: const Text('Are you sure want to delete this product'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              bloc.add(UpdateProductDelete(
-                onComplete: (isSucesss) async {
-                  if (isSucesss == true) {
-                    await Flushbar(
-                      title: "Success",
-                      message: "Delete product sucess",
-                      duration: Duration(seconds: 3),
-                    ).show(context);
-                  } else {
-                    await Flushbar(
-                      title: "Fail",
-                      message: "Delete product fail ",
-                      duration: Duration(seconds: 3),
-                    ).show(context);
-                  }
+  Future<bool> showAlertDiag(Function(bool) onComplete) async {
+    return await showDialog<bool>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('Deleting'),
+            content: const Text('Are you sure want to delete this product'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  bloc.add(
+                    UpdateProductDelete(onComplete: onComplete),
+                  );
+                  Navigator.pop(context, true);
                 },
-              ));
-            },
-            child: const Text(
-              'OK',
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
-            ),
+                child: const Text(
+                  'OK',
+                  style:
+                      TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+                ),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text(
-              'Cancel',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
-      ),
-    );
+        ) ??
+        false;
   }
 
   @override
@@ -94,7 +83,26 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
       appBar: AppBar(
         actions: [
           IconButton(
-              onPressed: () => showAlertDiag(),
+              onPressed: () async {
+                final deleteComplete = await showAlertDiag((isSucesss) async {
+                  ScreenTool.showLoading(context, false);
+                  if (isSucesss == true) {
+                    await Flushbar(
+                      title: "Success",
+                      message: "Delete product sucess",
+                      duration: Duration(seconds: 3),
+                    ).show(context);
+                    Navigator.pop(context, true);
+                  } else {
+                    await Flushbar(
+                      title: "Fail",
+                      message: "Delete product fail ",
+                      duration: Duration(seconds: 3),
+                    ).show(context);
+                  }
+                });
+                if (deleteComplete) ScreenTool.showLoading(context, true);
+              },
               icon: SvgPicture.asset('assets/ico_delete.svg'))
         ],
         elevation: 1,
@@ -123,28 +131,25 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                   child: BlocBuilder<UpdateProductBloc, UpdateProductState>(
                     builder: (context, state) {
                       return !state.image.contains("http")
-                          ? SizedBox(
-                              width: 260,
-                              height: 190,
-                              child: Container(
-                                color: Colors.transparent,
-                                child: FittedBox(
-                                  fit: BoxFit.fill,
-                                  child: Image.file(
-                                    File(
-                                      state.image,
-                                    ),
+                          ? Container(
+                              width: 260.w,
+                              height: 190.h,
+                              child: FittedBox(
+                                fit: BoxFit.fill,
+                                child: Image.file(
+                                  File(
+                                    state.image,
                                   ),
                                 ),
                               ),
                             )
-                          : Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CachedNetworkImage(
-                                    width: 114.w,
-                                    height: 114.h,
+                          : Center(
+                              child: Container(
+                                width: 260.w,
+                                height: 190.h,
+                                child: FittedBox(
+                                  fit: BoxFit.cover,
+                                  child: CachedNetworkImage(
                                     imageUrl: state.image,
                                     placeholder: (context, url) => SpinKitRing(
                                       color: Colors.transparent,
@@ -154,7 +159,7 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                                           'assets/template_plant.png'),
                                     ),
                                   ),
-                                ],
+                                ),
                               ),
                             );
                     },
@@ -222,7 +227,10 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                 ConstrainedBox(
                   constraints:
                       BoxConstraints.tightFor(width: 250.w, height: 50.h),
-                  child: BlocBuilder<UpdateProductBloc, UpdateProductState>(
+                  child: BlocConsumer<UpdateProductBloc, UpdateProductState>(
+                    listener: (context, state) {
+                      if (state.loading) ScreenTool.showLoading(context, true);
+                    },
                     builder: (context, state) {
                       return ElevatedButton(
                           style: ButtonStyle(
@@ -243,6 +251,8 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                                         .add(
                                       UpdateProductUpdateProduct(
                                         onComplete: (isSucesss) async {
+                                          ScreenTool.showLoading(
+                                              context, false);
                                           if (isSucesss == true) {
                                             await Flushbar(
                                               title: "Success",
