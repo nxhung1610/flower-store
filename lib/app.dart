@@ -27,6 +27,12 @@ class _AppState extends State<App> {
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc(),
         ),
+        BlocProvider<DashboardBloc>(
+          create: (context) => DashboardBloc(),
+        ),
+        BlocProvider<ManagerAccountBloc>(
+          create: (context) => ManagerAccountBloc(),
+        ),
       ],
       child: GestureDetector(
         onTap: () {

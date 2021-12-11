@@ -1,6 +1,8 @@
 import 'package:flower_store/src/blocs/auth/auth.dart';
 import 'package:flower_store/src/blocs/bloc.dart';
 import 'package:flower_store/src/models/model.dart';
+import 'package:flower_store/src/screens/dashboard/home/add_product_page.dart';
+import 'package:flower_store/src/screens/manager_account/add_account/add_account_page.dart';
 import 'package:flower_store/src/screens/manager_account/widgets/account_manager_item.dart';
 import 'package:flower_store/src/screens/manager_account/widgets/account_manager_item_shimmer.dart';
 import 'package:flower_store/src/screens/screen.dart';
@@ -12,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ManagerAccountPage extends StatefulWidget {
   static const String nameRoute = '/manager-account';
@@ -38,24 +41,23 @@ class _ManagerAccountPageState extends State<ManagerAccountPage> {
   Widget build(BuildContext context) {
     return Material(
         child: ScreenConfig(
-      builder: () => BlocProvider<ManagerAccountBloc>(
-        create: (context) => ManagerAccountBloc(),
-        child: Scaffold(
-          appBar: AppBar(
-            elevation: 1,
-            iconTheme: IconThemeData(
+      builder: () => Scaffold(
+        appBar: AppBar(
+          elevation: 1,
+          iconTheme: IconThemeData(
+            color: AppColors.color5,
+          ),
+          centerTitle: true,
+          backgroundColor: AppColors.color10,
+          title: Text(
+            'Manager Account',
+            style: AppTextStyle.header4.copyWith(
+              fontWeight: FontWeight.bold,
               color: AppColors.color5,
             ),
-            centerTitle: true,
-            backgroundColor: AppColors.color10,
-            title: Text(
-              'Manager Account',
-              style: AppTextStyle.header4.copyWith(
-                  fontWeight: FontWeight.bold, color: AppColors.color5),
-            ),
           ),
-          body: BodyScreen(),
         ),
+        body: BodyScreen(),
       ),
     ));
   }
@@ -86,13 +88,48 @@ class _BodyScreenState extends State<BodyScreen> {
             physics: BouncingScrollPhysics(),
             child: Container(
                 child: ListView.separated(
-              itemBuilder: (context, index) => AccountManagerItem(
-                staff: staffs[index],
-                roles: roles,
-              ),
+              itemBuilder: (context, index) {
+                if (index < staffs.length)
+                  return AccountManagerItem(
+                    staff: staffs[index],
+                    roles: roles,
+                  );
+                else
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddAccountPage(),
+                        ),
+                      );
+                    },
+                    splashFactory: InkRipple.splashFactory,
+                    child: Container(
+                      child: Center(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SvgPicture.asset('assets/ico_add.svg'),
+                            SizedBox(
+                              width: 11.w,
+                            ),
+                            Text(
+                              'Add Account',
+                              style: AppTextStyle.header5.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.color8),
+                            )
+                          ],
+                        ),
+                      ),
+                      padding: EdgeInsets.all(20.w),
+                    ),
+                  );
+              },
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: staffs.length,
+              itemCount: staffs.length + 1,
               separatorBuilder: (BuildContext context, int index) => Divider(
                 height: 1,
               ),

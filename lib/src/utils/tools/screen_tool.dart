@@ -1,3 +1,4 @@
+import 'package:flower_store/src/utils/components/loading_widget.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,10 +20,7 @@ class ScreenTool {
         backgroundColor: Colors.transparent,
         elevation: 0,
         child: Center(
-          child: SpinKitThreeBounce(
-            color: AppColors.color2,
-            size: 30.w,
-          ),
+          child: LoadingWidget(),
         ),
       );
       showDialog(

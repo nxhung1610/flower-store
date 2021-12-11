@@ -8,7 +8,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RoleBoxItem extends StatefulWidget {
   final RoleType role;
-  RoleBoxItem({Key? key, required this.role}) : super(key: key);
+  final bool isPadding;
+  RoleBoxItem({Key? key, required this.role, this.isPadding = false})
+      : super(key: key);
 
   @override
   _RoleBoxItemState createState() => _RoleBoxItemState();
@@ -19,7 +21,9 @@ class _RoleBoxItemState extends State<RoleBoxItem> {
   Widget build(BuildContext context) {
     final role = this.widget.role;
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 4.h),
+      padding: EdgeInsets.symmetric(
+          horizontal: widget.isPadding ? 65.w : 13.w,
+          vertical: widget.isPadding ? 14.h : 4.h),
       decoration: BoxDecoration(
         color: _colorFromRole(context),
         borderRadius: BorderRadius.circular(10.w),
