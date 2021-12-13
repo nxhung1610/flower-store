@@ -353,7 +353,12 @@ class ProductWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     print(product.image);
     return GestureDetector(
-      onTap: () => showBottomDialog(context),
+      onTap: () {
+        if (role == RoleType.Seller)
+          showBottomDialog(context);
+        else
+          null;
+      },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 30.w),
         decoration: BoxDecoration(boxShadow: [AppConstant.shadowProduct]),
