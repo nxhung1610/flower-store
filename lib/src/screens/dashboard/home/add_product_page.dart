@@ -48,8 +48,8 @@ class AddProductPage extends StatelessWidget {
                   builder: (context, state) {
                     return state.image != ""
                         ? SizedBox(
-                            width: 260,
-                            height: 190,
+                            width: 260.w,
+                            height: 190.h,
                             child: Container(
                               color: Colors.transparent,
                               child: FittedBox(
