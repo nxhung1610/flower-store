@@ -48,4 +48,5 @@ class AuthenticationProvider extends BaseProvider<AuthenticationRepository> {
     var staffs = res.data["data"] as List;
     return staffs.map((e) => UserHelper().convertToType(e)).toList();
   }
+  
 }

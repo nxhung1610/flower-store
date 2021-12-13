@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flower_store/src/blocs/bloc.dart';
+import 'package:flower_store/src/models/enums.dart';
 import 'package:flower_store/src/models/model.dart';
 import 'package:flower_store/src/screens/base/screen_config.dart';
 import 'package:flower_store/src/screens/manager_account/widgets/account_row_info.dart';
@@ -58,24 +59,20 @@ class _BodyScreen extends StatefulWidget {
 }
 
 class __BodyScreenState extends State<_BodyScreen> {
-  bool isNameReadOnly = true;
   final focusName = FocusNode();
   final nameStaff = TextEditingController(text: 'Staff Name');
 
-  bool isRoleReadOnly = true;
-  RoleType role = RoleType.Seller;
-
   @override
   void initState() {
+    final addAccountBloc = context.read<AddAccountBloc>();
     focusName.addListener(() {
       if (!focusName.hasFocus) {
-        setState(() {
-          isNameReadOnly = true;
-        });
-        if (nameStaff.text.trim().isEmpty) nameStaff.text = 'Staff Name';
+        addAccountBloc.add(NameStaffStatus(isNameReadOnly: true));
+        if (addAccountBloc.state.nameStaff.trim().isEmpty)
+          addAccountBloc.add(NameStaffChanged(nameStaff: 'Staff Name'));
       } else
         nameStaff.selection = TextSelection.fromPosition(
-            TextPosition(offset: nameStaff.text.length));
+            TextPosition(offset: addAccountBloc.state.nameStaff.length));
     });
 
     super.initState();
@@ -83,15 +80,15 @@ class __BodyScreenState extends State<_BodyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final addAccountBloc = context.read<AddAccountBloc>();
     return BlocListener<AddAccountBloc, AddAccountState>(
       listener: (context, state) {
-        if (state is AddAccountChoosingImage) {
-          ScreenTool.showLoading(context, state.isChoosing);
-        }
+        if (state.status == FormStatus.Loading)
+          ScreenTool.showLoading(context, state.isLoading);
       },
       child: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (notification) {
-          notification.disallowGlow();
+          notification.disallowIndicator();
           return true;
         },
         child: SingleChildScrollView(
@@ -105,26 +102,22 @@ class __BodyScreenState extends State<_BodyScreen> {
                   child: Stack(
                     children: [
                       BlocBuilder<AddAccountBloc, AddAccountState>(
-                        builder: (context, state) {
-                          return Container(
-                            width: double.infinity,
-                            height: 191.h,
-                            decoration: BoxDecoration(
-                              color: AppColors.color9,
-                              image: DecorationImage(
-                                colorFilter: ColorFilter.mode(
-                                    AppColors.color10.withOpacity(0.5),
-                                    BlendMode.dstATop),
-                                image: FileImage(
-                                  File((state is AddAccountChooseImageSuccess)
-                                      ? state.image
-                                      : ''),
-                                ),
-                                fit: BoxFit.cover,
+                        builder: (context, state) => Container(
+                          width: double.infinity,
+                          height: 191.h,
+                          decoration: BoxDecoration(
+                            color: AppColors.color9,
+                            image: DecorationImage(
+                              colorFilter: ColorFilter.mode(
+                                  AppColors.color10.withOpacity(0.5),
+                                  BlendMode.dstATop),
+                              image: FileImage(
+                                File(state.avatarPath),
                               ),
+                              fit: BoxFit.cover,
                             ),
-                          );
-                        },
+                          ),
+                        ),
                       ),
                       Center(
                         child: Padding(
@@ -135,37 +128,34 @@ class __BodyScreenState extends State<_BodyScreen> {
                             onTap: () => context
                                 .read<AddAccountBloc>()
                                 .add(AddAccountChooseImage()),
-                            child: Container(
-                              height: 200.w,
-                              width: 200.w,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 5.sp,
-                                  color: AppColors.color10,
+                            child: BlocBuilder<AddAccountBloc, AddAccountState>(
+                              builder: (context, state) => Container(
+                                height: 200.w,
+                                width: 200.w,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 5.sp,
+                                    color: AppColors.color10,
+                                  ),
+                                  color: AppColors.color9,
+                                  shape: BoxShape.circle,
                                 ),
-                                color: AppColors.color9,
-                                shape: BoxShape.circle,
-                              ),
-                              child:
-                                  BlocBuilder<AddAccountBloc, AddAccountState>(
-                                builder: (context, state) {
-                                  if (state is AddAccountChooseImageSuccess) {
-                                    return ClipRRect(
-                                      borderRadius: BorderRadius.circular(95.w),
-                                      child: Image.file(
-                                        File(state.image),
-                                        fit: BoxFit.fill,
+                                child: state.avatarPath.isNotEmpty
+                                    ? ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(95.w),
+                                        child: Image.file(
+                                          File(state.avatarPath),
+                                          fit: BoxFit.fill,
+                                        ),
+                                      )
+                                    : Center(
+                                        child: SvgPicture.asset(
+                                          'assets/ico_camera.svg',
+                                          height: 40.w,
+                                          color: AppColors.color10,
+                                        ),
                                       ),
-                                    );
-                                  } else
-                                    return Center(
-                                      child: SvgPicture.asset(
-                                        'assets/ico_camera.svg',
-                                        height: 40.w,
-                                        color: AppColors.color10,
-                                      ),
-                                    );
-                                },
                               ),
                             ),
                           ),
@@ -185,18 +175,24 @@ class __BodyScreenState extends State<_BodyScreen> {
                       width: 25.w,
                     ),
                     IntrinsicWidth(
-                      child: TextField(
-                        style: AppTextStyle.header4.copyWith(
-                          color: AppColors.color6,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                        autofocus: true,
-                        controller: nameStaff,
-                        readOnly: isNameReadOnly,
-                        focusNode: focusName,
+                      child: BlocBuilder<AddAccountBloc, AddAccountState>(
+                        builder: (context, state) {
+                          return TextField(
+                            style: AppTextStyle.header4.copyWith(
+                              color: AppColors.color6,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                            ),
+                            autofocus: true,
+                            controller: nameStaff,
+                            readOnly: state.isNameReadOnly,
+                            focusNode: focusName,
+                            onChanged: (value) => addAccountBloc
+                                .add(NameStaffChanged(nameStaff: value)),
+                          );
+                        },
                       ),
                     ),
                     SizedBox(
@@ -212,10 +208,9 @@ class __BodyScreenState extends State<_BodyScreen> {
                       ),
                       splashRadius: 20.w,
                       onPressed: () {
-                        setState(() {
-                          isNameReadOnly = !isNameReadOnly;
-                        });
-                        if (!isNameReadOnly) return;
+                        addAccountBloc.add(NameStaffStatus(
+                            isNameReadOnly:
+                                !addAccountBloc.state.isNameReadOnly));
                         focusName.requestFocus();
                         // FocusScope.of(context).requestFocus(focusName);
                       },
@@ -230,11 +225,13 @@ class __BodyScreenState extends State<_BodyScreen> {
                       width: 25.w,
                     ),
                     IntrinsicWidth(
-                      child: Text(
-                        role.toString().split('.')[1],
-                        style: AppTextStyle.header5.copyWith(
-                          color: AppColors.color6,
-                          fontStyle: FontStyle.normal,
+                      child: BlocBuilder<AddAccountBloc, AddAccountState>(
+                        builder: (context, state) => Text(
+                          state.role.toString().split('.')[1],
+                          style: AppTextStyle.header5.copyWith(
+                            color: AppColors.color6,
+                            fontStyle: FontStyle.normal,
+                          ),
                         ),
                       ),
                     ),
@@ -253,9 +250,7 @@ class __BodyScreenState extends State<_BodyScreen> {
                       onPressed: () async {
                         final choose = (await _showDialogChooseRole());
                         if (choose != null)
-                          setState(() {
-                            role = choose;
-                          });
+                          addAccountBloc.add(RoleChanged(type: choose));
                       },
                     )
                   ],
@@ -264,7 +259,9 @@ class __BodyScreenState extends State<_BodyScreen> {
                   height: 50.h,
                 ),
                 AccountRowInfo(
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    addAccountBloc.add(PhoneNumberChanged(phoneNumber: value));
+                  },
                   icon: SvgPicture.asset(
                     'assets/ico_phone.svg',
                   ),
@@ -272,10 +269,21 @@ class __BodyScreenState extends State<_BodyScreen> {
                   intputType: TextInputType.number,
                 ),
                 AccountRowInfo(
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    addAccountBloc
+                        .add(EmailAddressChanged(emailAddress: value));
+                  },
                   icon: SvgPicture.asset('assets/ico_email.svg'),
                   hintText: 'Email Address',
                   intputType: TextInputType.emailAddress,
+                ),
+                AccountRowInfo(
+                  onChanged: (value) {
+                    addAccountBloc.add(PasswordChanged(password: value));
+                  },
+                  icon: SvgPicture.asset('assets/ico_unclock.svg'),
+                  hintText: 'Password',
+                  intputType: TextInputType.text,
                 ),
                 SizedBox(
                   height: 60.h,
@@ -292,7 +300,9 @@ class __BodyScreenState extends State<_BodyScreen> {
                       vertical: 15.h,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    addAccountBloc.add(AddAccountSubmit());
+                  },
                   child: Text(
                     'Create',
                     style: AppTextStyle.header4.copyWith(

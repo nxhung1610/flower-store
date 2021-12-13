@@ -38,6 +38,10 @@ class AccountRowInfo extends StatelessWidget {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: hintText,
+                hintStyle: AppTextStyle.header5.copyWith(
+                  color: AppColors.color8,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               style: AppTextStyle.header5.copyWith(
                 color: AppColors.color6,
