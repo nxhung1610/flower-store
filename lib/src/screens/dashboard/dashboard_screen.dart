@@ -2,6 +2,7 @@ import 'package:flower_store/src/blocs/bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/home/home_bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/package/package_bloc.dart';
 import 'package:flower_store/src/models/role/role_type.dart';
+import 'package:flower_store/src/screens/dashboard/cart/cart_page.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
@@ -75,7 +76,12 @@ Widget cartIcon(BuildContext context) {
       ? SizedBox.shrink()
       : IconButton(
           iconSize: 30.h,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CartPage()),
+            );
+          },
           icon: SvgPicture.asset('assets/ico_cart.svg'),
         );
 }
