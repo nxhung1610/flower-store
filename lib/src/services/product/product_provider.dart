@@ -26,7 +26,7 @@ class ProductProvider extends BaseProvider<ProductRepository> {
   }) async {
     final response = await ProductRepository().submitAddProduct(
         name: name,
-        image: image,
+        imagePath: image,
         description: description,
         basePrice: basePrice);
   }

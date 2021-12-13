@@ -31,7 +31,10 @@ class ScreenTool {
         },
       );
     } else {
-      if (_dialogContext != null) Navigator.pop(_dialogContext!);
+      if (_dialogContext != null) {
+        Navigator.pop(_dialogContext!);
+        _dialogContext = null;
+      }
     }
   }
 

@@ -10,9 +10,9 @@ class AddAccountState extends Equatable {
   final String? errorMessage;
   final FormStatus status;
 
-  bool isNameReadOnly;
+  final bool isNameReadOnly;
 
-  bool isLoading;
+  final bool isLoading;
 
   AddAccountState(
       {this.avatarPath = '',
@@ -51,7 +51,7 @@ class AddAccountState extends Equatable {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         avatarPath,
         nameStaff,
         role,
@@ -60,6 +60,7 @@ class AddAccountState extends Equatable {
         password,
         isNameReadOnly,
         isLoading,
-        status
+        status,
+        errorMessage
       ];
 }

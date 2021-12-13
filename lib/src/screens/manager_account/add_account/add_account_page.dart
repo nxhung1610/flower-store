@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flower_store/src/blocs/bloc.dart';
 import 'package:flower_store/src/models/enums.dart';
@@ -83,8 +84,31 @@ class __BodyScreenState extends State<_BodyScreen> {
     final addAccountBloc = context.read<AddAccountBloc>();
     return BlocListener<AddAccountBloc, AddAccountState>(
       listener: (context, state) {
-        if (state.status == FormStatus.Loading)
-          ScreenTool.showLoading(context, state.isLoading);
+        switch (state.status) {
+          case FormStatus.Loading:
+            ScreenTool.showLoading(context, state.isLoading);
+            break;
+
+          case FormStatus.FillForm:
+            break;
+          case FormStatus.Error:
+            Flushbar(
+                title: "Account Submit",
+                message: state.errorMessage,
+                duration: Duration(
+                  milliseconds: 1000,
+                )).show(context);
+            break;
+          case FormStatus.Success:
+            Navigator.pop(context,true);
+            Flushbar(
+                title: "Account Submit",
+                message: "Add Account Success",
+                duration: Duration(
+                  milliseconds: 1000,
+                )).show(context);
+            break;
+        }
       },
       child: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (notification) {
@@ -332,7 +356,6 @@ class __BodyScreenState extends State<_BodyScreen> {
             borderRadius: BorderRadius.all(Radius.circular(10.w)),
           ),
           child: Container(
-            width: 250.w,
             padding: EdgeInsets.all(18.w),
             child: ListView.separated(
               separatorBuilder: (context, index) => SizedBox(

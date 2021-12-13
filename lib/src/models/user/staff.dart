@@ -1,4 +1,5 @@
 import 'package:flower_store/src/models/role/role_type.dart';
+import 'package:flower_store/src/utils/themes/app_constant.dart';
 
 abstract class Staff<T> {
   final String sId;
@@ -22,7 +23,7 @@ abstract class Staff<T> {
         phone = json['phone'],
         email = json['email'],
         role = RoleType.values[json['role']],
-        url = json['url'];
+        url = "${AppConstant.baseUrl}${json['url']}";
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

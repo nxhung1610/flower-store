@@ -5,6 +5,8 @@ import 'package:flower_store/src/services/authentication/authentication_provider
 import 'package:flower_store/src/services/base/base_provider.dart';
 import 'package:flower_store/src/services/base/base_repository.dart';
 import 'package:flower_store/src/services/base/base_response.dart';
+import 'package:mime_type/mime_type.dart';
+import 'package:http_parser/http_parser.dart';
 
 class AuthenticationRepository extends BaseRepository {
   Future<Response> login({
@@ -68,5 +70,36 @@ class AuthenticationRepository extends BaseRepository {
     }
   }
 
-  
+  Future<Response> register(
+      {required String avatarPath,
+      required String nameStaff,
+      required RoleType role,
+      required String phoneNumber,
+      required String emailAddress,
+      required String password}) async {
+    try {
+      var client = init();
+      var imageData;
+      if (avatarPath.isNotEmpty) {
+        String mimeType = mime(avatarPath)!;
+        String mimee = mimeType.split('/')[0];
+        String type = mimeType.split('/')[1];
+        imageData = await MultipartFile.fromFile(avatarPath,
+            contentType: MediaType(mimee, type));
+      }
+
+      var data = FormData.fromMap({
+        "name": nameStaff,
+        "email": emailAddress,
+        "phone": phoneNumber,
+        "password": password,
+        "role": role.index,
+        'image': imageData,
+      });
+      var res = await client.post('/staff/register', data: data);
+      return res;
+    } on DioError catch (error) {
+      throw error.response as Response;
+    }
+  }
 }

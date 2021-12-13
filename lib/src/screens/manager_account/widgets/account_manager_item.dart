@@ -30,6 +30,15 @@ class AccountManagerItem extends StatelessWidget {
               height: 50.w,
               width: 50.w,
               imageUrl: staff.url,
+              imageBuilder: (context, imageProvider) {
+                return Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.color9,
+                    shape: BoxShape.circle,
+                    image: DecorationImage(image: imageProvider),
+                  ),
+                );
+              },
               placeholder: (context, url) => ShimmerWidget(
                 height: 50.w,
                 width: 50.w,

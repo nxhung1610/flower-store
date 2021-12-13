@@ -48,5 +48,22 @@ class AuthenticationProvider extends BaseProvider<AuthenticationRepository> {
     var staffs = res.data["data"] as List;
     return staffs.map((e) => UserHelper().convertToType(e)).toList();
   }
-  
+
+  Future<Staff> register(
+      {required String avatarPath,
+      required String nameStaff,
+      required RoleType role,
+      required String phoneNumber,
+      required String emailAddress,
+      required String password}) async {
+    var res = await repository.register(
+        avatarPath: avatarPath,
+        nameStaff: nameStaff,
+        role: role,
+        phoneNumber: phoneNumber,
+        emailAddress: emailAddress,
+        password: password);
+    var staff = UserHelper().convertToType(res.data['data']);
+    return staff;
+  }
 }

@@ -25,7 +25,9 @@ class AccountManagerItemShimmer extends StatelessWidget {
           ),
           ShimmerWidget(
             height: 15.w,
-            width: 0.7.sw,
+            width: 0.8.sw,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.sp))),
           ),
         ],
       ),

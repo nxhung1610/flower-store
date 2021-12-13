@@ -96,13 +96,17 @@ class _BodyScreenState extends State<BodyScreen> {
                   );
                 else
                   return InkWell(
-                    onTap: () {
-                      Navigator.push(
+                    onTap: () async {
+                      final result = await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => AddAccountPage(),
                         ),
                       );
+                      if (result is bool && result)
+                        context
+                            .read<ManagerAccountBloc>()
+                            .add(StaffLoadedEvent());
                     },
                     splashFactory: InkRipple.splashFactory,
                     child: Container(
