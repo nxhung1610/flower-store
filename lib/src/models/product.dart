@@ -17,7 +17,7 @@ class Product {
   Product.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
-    image = AppConstant.baseUrl + '/' + json['image'];
+    image = '${AppConstant.baseUrl}${json['image']}';
     description = json['description'];
     basePrice = json['basePrice'];
   }

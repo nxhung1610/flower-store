@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flower_store/src/blocs/dashboard/add_product/add_product_event.dart';
-import 'package:flower_store/src/blocs/dashboard/add_product/add_product_helper.dart';
 import 'package:flower_store/src/blocs/dashboard/add_product/add_product_state.dart';
 import 'package:flower_store/src/blocs/dashboard/update_product/update_product_event.dart';
 import 'package:flower_store/src/blocs/dashboard/update_product/update_product_state.dart';
 import 'package:flower_store/src/models/product.dart';
 import 'package:flower_store/src/services/product/product_provider.dart';
+import 'package:flower_store/src/utils/helper/app_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UpdateProductBloc extends Bloc<UpdateProductEvent, UpdateProductState> {

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flower_store/src/blocs/dashboard/add_product/add_product_bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/add_product/add_product_event.dart';
-import 'package:flower_store/src/blocs/dashboard/add_product/add_product_helper.dart';
 import 'package:flower_store/src/blocs/dashboard/add_product/add_product_state.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';

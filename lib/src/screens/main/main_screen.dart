@@ -36,10 +36,7 @@ class _MainScreenState extends State<MainScreen> {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is AuthenticationAuthenticated) {
-          return BlocProvider<DashboardBloc>(
-            create: (context) => DashboardBloc(),
-            child: DashboardScreen(),
-          );
+          return DashboardScreen();
         } else if (state is AuthenticationNotAuthenticated ||
             state is AuthenticationFailure) {
           return BlocProvider<LoginBloc>(
