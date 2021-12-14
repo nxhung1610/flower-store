@@ -3,6 +3,7 @@ import 'package:flower_store/src/blocs/bloc.dart';
 import 'package:flower_store/src/models/model.dart';
 import 'package:flower_store/src/screens/dashboard/home/add_product_page.dart';
 import 'package:flower_store/src/screens/manager_account/add_account/add_account_page.dart';
+import 'package:flower_store/src/screens/manager_account/detail_account/detail_account_page.dart';
 import 'package:flower_store/src/screens/manager_account/widgets/account_manager_item.dart';
 import 'package:flower_store/src/screens/manager_account/widgets/account_manager_item_shimmer.dart';
 import 'package:flower_store/src/screens/screen.dart';
@@ -17,11 +18,11 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ManagerAccountPage extends StatefulWidget {
-  static const String nameRoute = '/manager-account';
-  static Route route() {
+  static const String nameRoute = '/manager/account';
+  static Route route(RouteSettings settings) {
     return MaterialPageRoute(
       builder: (_) => ManagerAccountPage(),
-      settings: RouteSettings(name: nameRoute),
+      settings: settings,
     );
   }
 
@@ -93,15 +94,25 @@ class _BodyScreenState extends State<BodyScreen> {
                   return AccountManagerItem(
                     staff: staffs[index],
                     roles: roles,
+                    onTap: () async {
+                      final result = await Navigator.pushNamed(
+                        context,
+                        DetailAccountPage.nameRoute,
+                        arguments: staffs[index],
+                      );
+                      if (result is bool && result)
+                        context
+                            .read<ManagerAccountBloc>()
+                            .add(StaffLoadedEvent());
+                    },
                   );
                 else
                   return InkWell(
                     onTap: () async {
-                      final result = await Navigator.push(
+                      await Future.delayed(Duration(milliseconds: 500));
+                      final result = await Navigator.pushNamed(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => AddAccountPage(),
-                        ),
+                        AddAccountPage.nameRoute,
                       );
                       if (result is bool && result)
                         context
@@ -142,14 +153,17 @@ class _BodyScreenState extends State<BodyScreen> {
         } else if (state is StaffLoadedFailed) {
           return Container();
         } else {
-          return Container(
-            child: ListView.separated(
-              separatorBuilder: (BuildContext context, int index) => Divider(
-                height: 1,
-              ),
-              itemCount: 4,
-              itemBuilder: (context, index) => AccountManagerItemShimmer(),
-            ),
+          // return Container(
+          //   child: ListView.separated(
+          //     separatorBuilder: (BuildContext context, int index) => Divider(
+          //       height: 1,
+          //     ),
+          //     itemCount: 4,
+          //     itemBuilder: (context, index) => AccountManagerItemShimmer(),
+          //   ),
+          // );
+          return Center(
+            child: LoadingWidget(),
           );
         }
       },

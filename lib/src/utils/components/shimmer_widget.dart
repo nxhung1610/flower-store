@@ -30,7 +30,7 @@ class ShimmerWidget extends StatelessWidget {
           ),
         ),
         direction: ShimmerDirection.ltr,
-        baseColor: baseColor ?? AppColors.color9,
+        baseColor: baseColor ?? AppColors.color9.withOpacity(0.8),
         highlightColor: highlightColor ?? AppColors.color9.withOpacity(0.5),
       ),
     );

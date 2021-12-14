@@ -1,5 +1,7 @@
 import 'package:flower_store/src/screens/init/init_screen.dart';
 import 'package:flower_store/src/screens/main/main_screen.dart';
+import 'package:flower_store/src/screens/manager_account/add_account/add_account_page.dart';
+import 'package:flower_store/src/screens/manager_account/detail_account/detail_account_page.dart';
 import 'package:flower_store/src/screens/manager_account/manager_account_page.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/general.dart';
@@ -12,13 +14,17 @@ class AppRoutes {
     printLog('The Route is : ${settings.name}');
     switch (settings.name) {
       case InitScreen.nameRoute:
-        return InitScreen.route();
+        return InitScreen.route(settings);
       case WelcomeScreen.nameRoute:
-        return WelcomeScreen.route();
+        return WelcomeScreen.route(settings);
       case MainScreen.nameRoute:
-        return MainScreen.route();
+        return MainScreen.route(settings);
       case ManagerAccountPage.nameRoute:
-        return ManagerAccountPage.route();
+        return ManagerAccountPage.route(settings);
+      case DetailAccountPage.nameRoute:
+        return DetailAccountPage.route(settings);
+      case AddAccountPage.nameRoute:
+        return AddAccountPage.route(settings);
       default:
         return _errorRoute();
     }

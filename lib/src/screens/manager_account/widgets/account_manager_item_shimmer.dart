@@ -16,6 +16,7 @@ class AccountManagerItemShimmer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ShimmerWidget(
+            
             height: 50.w,
             width: 50.w,
             shape: const CircleBorder(),

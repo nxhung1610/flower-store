@@ -2,9 +2,8 @@ import 'dart:io';
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flower_store/src/blocs/manager_account/add_account/add_account.dart';
+import 'package:flower_store/src/blocs/manager_account/detail_account/detail_account.dart';
 import 'package:flower_store/src/blocs/manager_account/manager_account.dart';
-
 import 'package:flower_store/src/models/enums.dart';
 import 'package:flower_store/src/models/model.dart';
 import 'package:flower_store/src/screens/base/screen_config.dart';
@@ -13,32 +12,65 @@ import 'package:flower_store/src/screens/manager_account/widgets/role_box_item.d
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
 import 'package:flower_store/src/utils/tools/screen_tool.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class AddAccountPage extends StatefulWidget {
-  static const String nameRoute = '/account/create';
+Future<bool> showAlertDiag({required BuildContext context}) async {
+  return await showDialog<bool>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Deleting'),
+          content: const Text('Are you sure want to delete this staff'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, true);
+              },
+              child: const Text(
+                'OK',
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.red),
+              ),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+      ) ??
+      false;
+}
+
+class DetailAccountPage extends StatefulWidget {
+  static const String nameRoute = '/account/detail';
   static Route route(RouteSettings settings) {
     return MaterialPageRoute(
-      builder: (_) => AddAccountPage(),
+      builder: (_) => DetailAccountPage(),
       settings: settings,
     );
   }
 
-  AddAccountPage({Key? key}) : super(key: key);
+  DetailAccountPage({Key? key}) : super(key: key);
 
   @override
-  _AddAccountPageState createState() => _AddAccountPageState();
+  _DetailAccountPageState createState() => _DetailAccountPageState();
 }
 
-class _AddAccountPageState extends State<AddAccountPage> {
+class _DetailAccountPageState extends State<DetailAccountPage> {
   @override
   Widget build(BuildContext context) {
+    var staff = ModalRoute.of(context)!.settings.arguments! as Staff;
     return ScreenConfig(
-      builder: () => BlocProvider<AddAccountBloc>(
-        create: (context) => AddAccountBloc(),
+      builder: () => BlocProvider<DetailAccountBloc>(
+        create: (context) {
+          return DetailAccountBloc(staff: staff);
+        },
         child: Scaffold(
           appBar: AppBar(
             elevation: 1,
@@ -48,12 +80,27 @@ class _AddAccountPageState extends State<AddAccountPage> {
             centerTitle: true,
             backgroundColor: AppColors.color10,
             title: Text(
-              'Add Account',
+              'Detail Account',
               style: AppTextStyle.header4.copyWith(
                 fontWeight: FontWeight.bold,
                 color: AppColors.color5,
               ),
             ),
+            actions: [
+              Builder(builder: (context) {
+                return IconButton(
+                    onPressed: () async {
+                      final isAccept = await showAlertDiag(
+                        context: context,
+                      );
+                      if (isAccept)
+                        context
+                            .read<DetailAccountBloc>()
+                            .add(DetailAcccountDelete());
+                    },
+                    icon: SvgPicture.asset('assets/ico_delete.svg'));
+              })
+            ],
           ),
           body: _BodyScreen(),
         ),
@@ -71,39 +118,28 @@ class _BodyScreen extends StatefulWidget {
 
 class __BodyScreenState extends State<_BodyScreen> {
   final focusName = FocusNode();
-  final nameStaff = TextEditingController(text: 'Staff Name');
+  final nameStaff = TextEditingController();
 
   @override
   void initState() {
-    final addAccountBloc = context.read<AddAccountBloc>();
-    focusName.addListener(() {
-      if (!focusName.hasFocus) {
-        addAccountBloc.add(NameStaffStatus(isNameReadOnly: true));
-        if (addAccountBloc.state.nameStaff.trim().isEmpty)
-          addAccountBloc.add(NameStaffChanged(nameStaff: 'Staff Name'));
-      } else
-        nameStaff.selection = TextSelection.fromPosition(
-            TextPosition(offset: addAccountBloc.state.nameStaff.length));
-    });
-
+    nameStaff.text = context.read<DetailAccountBloc>().staff.name;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final addAccountBloc = context.read<AddAccountBloc>();
-    return BlocListener<AddAccountBloc, AddAccountState>(
+    final detailAccountBloc = context.read<DetailAccountBloc>();
+    return BlocListener<DetailAccountBloc, DetailAccountState>(
       listener: (context, state) {
         switch (state.status) {
           case FormStatus.Loading:
             ScreenTool.showLoading(context, state.isLoading);
             break;
-
           case FormStatus.FillForm:
             break;
           case FormStatus.Error:
             Flushbar(
-                title: "Account Submit",
+                title: "Detail Submit",
                 message: state.errorMessage,
                 duration: Duration(
                   milliseconds: 1000,
@@ -112,8 +148,8 @@ class __BodyScreenState extends State<_BodyScreen> {
           case FormStatus.Success:
             Navigator.pop(context, true);
             Flushbar(
-                title: "Account Submit",
-                message: "Add Account Success",
+                title: "Detail Submit",
+                message: "Detail Account Update Success",
                 duration: Duration(
                   milliseconds: 1000,
                 )).show(context);
@@ -135,21 +171,31 @@ class __BodyScreenState extends State<_BodyScreen> {
                 Container(
                   child: Stack(
                     children: [
-                      BlocBuilder<AddAccountBloc, AddAccountState>(
+                      BlocBuilder<DetailAccountBloc, DetailAccountState>(
                         builder: (context, state) => Container(
                           width: double.infinity,
                           height: 191.h,
                           decoration: BoxDecoration(
                             color: AppColors.color9,
-                            image: DecorationImage(
-                              colorFilter: ColorFilter.mode(
-                                  AppColors.color10.withOpacity(0.5),
-                                  BlendMode.dstATop),
-                              image: FileImage(
-                                File(state.avatarPath),
-                              ),
-                              fit: BoxFit.cover,
-                            ),
+                            image: state.isAvatarLocal
+                                ? DecorationImage(
+                                    colorFilter: ColorFilter.mode(
+                                        AppColors.color10.withOpacity(0.5),
+                                        BlendMode.dstATop),
+                                    image: FileImage(
+                                      File(state.avatarPath),
+                                    ),
+                                    fit: BoxFit.cover,
+                                  )
+                                : DecorationImage(
+                                    colorFilter: ColorFilter.mode(
+                                        AppColors.color10.withOpacity(0.5),
+                                        BlendMode.dstATop),
+                                    image: CachedNetworkImageProvider(
+                                      state.avatarPath,
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
                         ),
                       ),
@@ -159,10 +205,10 @@ class __BodyScreenState extends State<_BodyScreen> {
                           child: InkWell(
                             splashColor: AppColors.color10,
                             borderRadius: BorderRadius.circular(100.w),
-                            onTap: () => context
-                                .read<AddAccountBloc>()
-                                .add(AddAccountChooseImage()),
-                            child: BlocBuilder<AddAccountBloc, AddAccountState>(
+                            onTap: () => detailAccountBloc
+                                .add(DetailAccountChooseImage()),
+                            child: BlocBuilder<DetailAccountBloc,
+                                DetailAccountState>(
                               builder: (context, state) => Container(
                                 height: 200.w,
                                 width: 200.w,
@@ -178,10 +224,17 @@ class __BodyScreenState extends State<_BodyScreen> {
                                     ? ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(95.w),
-                                        child: Image.file(
-                                          File(state.avatarPath),
-                                          fit: BoxFit.fill,
-                                        ),
+                                        child: state.isAvatarLocal
+                                            ? Image.file(
+                                                File(state.avatarPath),
+                                                fit: BoxFit.fill,
+                                              )
+                                            : CachedNetworkImage(
+                                                imageUrl: state.avatarPath,
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Container(),
+                                              ),
                                       )
                                     : Center(
                                         child: SvgPicture.asset(
@@ -209,7 +262,7 @@ class __BodyScreenState extends State<_BodyScreen> {
                       width: 25.w,
                     ),
                     IntrinsicWidth(
-                      child: BlocBuilder<AddAccountBloc, AddAccountState>(
+                      child: BlocBuilder<DetailAccountBloc, DetailAccountState>(
                         builder: (context, state) {
                           return TextField(
                             style: AppTextStyle.header4.copyWith(
@@ -223,7 +276,7 @@ class __BodyScreenState extends State<_BodyScreen> {
                             controller: nameStaff,
                             readOnly: state.isNameReadOnly,
                             focusNode: focusName,
-                            onChanged: (value) => addAccountBloc
+                            onChanged: (value) => detailAccountBloc
                                 .add(NameStaffChanged(nameStaff: value)),
                           );
                         },
@@ -242,9 +295,9 @@ class __BodyScreenState extends State<_BodyScreen> {
                       ),
                       splashRadius: 20.w,
                       onPressed: () {
-                        addAccountBloc.add(NameStaffStatus(
+                        detailAccountBloc.add(NameStaffStatus(
                             isNameReadOnly:
-                                !addAccountBloc.state.isNameReadOnly));
+                                !detailAccountBloc.state.isNameReadOnly));
                         focusName.requestFocus();
                         // FocusScope.of(context).requestFocus(focusName);
                       },
@@ -259,7 +312,7 @@ class __BodyScreenState extends State<_BodyScreen> {
                       width: 25.w,
                     ),
                     IntrinsicWidth(
-                      child: BlocBuilder<AddAccountBloc, AddAccountState>(
+                      child: BlocBuilder<DetailAccountBloc, DetailAccountState>(
                         builder: (context, state) => Text(
                           state.role.toString().split('.')[1],
                           style: AppTextStyle.header5.copyWith(
@@ -284,7 +337,7 @@ class __BodyScreenState extends State<_BodyScreen> {
                       onPressed: () async {
                         final choose = (await _showDialogChooseRole());
                         if (choose != null)
-                          addAccountBloc.add(RoleChanged(type: choose));
+                          detailAccountBloc.add(RoleChanged(type: choose));
                       },
                     )
                   ],
@@ -293,8 +346,10 @@ class __BodyScreenState extends State<_BodyScreen> {
                   height: 50.h,
                 ),
                 AccountRowInfo(
+                  initText: detailAccountBloc.staff.phone,
                   onChanged: (value) {
-                    addAccountBloc.add(PhoneNumberChanged(phoneNumber: value));
+                    detailAccountBloc
+                        .add(PhoneNumberChanged(phoneNumber: value));
                   },
                   icon: SvgPicture.asset(
                     'assets/ico_phone.svg',
@@ -303,21 +358,14 @@ class __BodyScreenState extends State<_BodyScreen> {
                   intputType: TextInputType.number,
                 ),
                 AccountRowInfo(
+                  initText: detailAccountBloc.staff.email,
                   onChanged: (value) {
-                    addAccountBloc
+                    detailAccountBloc
                         .add(EmailAddressChanged(emailAddress: value));
                   },
                   icon: SvgPicture.asset('assets/ico_email.svg'),
                   hintText: 'Email Address',
                   intputType: TextInputType.emailAddress,
-                ),
-                AccountRowInfo(
-                  onChanged: (value) {
-                    addAccountBloc.add(PasswordChanged(password: value));
-                  },
-                  icon: SvgPicture.asset('assets/ico_unclock.svg'),
-                  hintText: 'Password',
-                  intputType: TextInputType.text,
                 ),
                 SizedBox(
                   height: 60.h,
@@ -335,10 +383,10 @@ class __BodyScreenState extends State<_BodyScreen> {
                     ),
                   ),
                   onPressed: () {
-                    addAccountBloc.add(AddAccountSubmit());
+                    detailAccountBloc.add(DetailAccountSubmit());
                   },
                   child: Text(
-                    'Create',
+                    'Update',
                     style: AppTextStyle.header4.copyWith(
                       color: AppColors.color10,
                       fontWeight: FontWeight.w600,

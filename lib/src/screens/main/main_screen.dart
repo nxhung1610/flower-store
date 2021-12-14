@@ -12,10 +12,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class MainScreen extends StatefulWidget {
   static const String nameRoute = '/main';
-  static Route route() {
+  static Route route(RouteSettings settings) {
     return MaterialPageRoute(
       builder: (context) => MainScreen(),
-      settings: RouteSettings(name: nameRoute),
+      settings: settings,
     );
   }
 

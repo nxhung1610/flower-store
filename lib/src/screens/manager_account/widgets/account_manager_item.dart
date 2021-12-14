@@ -12,14 +12,19 @@ import 'role_box_item.dart';
 class AccountManagerItem extends StatelessWidget {
   final Staff staff;
   List<Role>? roles = [];
-  AccountManagerItem({Key? key, required this.staff, this.roles})
+  final Function() onTap;
+  AccountManagerItem(
+      {Key? key, required this.staff, this.roles, required this.onTap})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       splashFactory: InkRipple.splashFactory,
-      onTap: () {},
+      onTap: () async {
+        await Future.delayed(Duration(milliseconds: 500));
+        onTap();
+      },
       child: Container(
         padding: EdgeInsets.all(10.sp),
         child: Row(

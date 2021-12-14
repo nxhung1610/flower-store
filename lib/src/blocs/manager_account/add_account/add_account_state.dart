@@ -9,9 +9,7 @@ class AddAccountState extends Equatable {
   final String password;
   final String? errorMessage;
   final FormStatus status;
-
   final bool isNameReadOnly;
-
   final bool isLoading;
 
   AddAccountState(
@@ -38,16 +36,17 @@ class AddAccountState extends Equatable {
       bool? isLoading,
       String? errorMessage}) {
     return AddAccountState(
-        avatarPath: avatarPath ?? this.avatarPath,
-        nameStaff: nameStaff ?? this.nameStaff,
-        role: role ?? this.role,
-        phoneNumber: phoneNumber ?? this.phoneNumber,
-        emailAddress: emailAddress ?? this.emailAddress,
-        password: password ?? this.password,
-        isNameReadOnly: isNameReadOnly ?? this.isNameReadOnly,
-        isLoading: isLoading ?? this.isLoading,
-        errorMessage: errorMessage ?? this.errorMessage,
-        status: status ?? this.status);
+      avatarPath: avatarPath ?? this.avatarPath,
+      nameStaff: nameStaff ?? this.nameStaff,
+      role: role ?? this.role,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      emailAddress: emailAddress ?? this.emailAddress,
+      password: password ?? this.password,
+      isNameReadOnly: isNameReadOnly ?? this.isNameReadOnly,
+      isLoading: isLoading ?? this.isLoading,
+      errorMessage: errorMessage ?? this.errorMessage,
+      status: status ?? this.status,
+    );
   }
 
   @override

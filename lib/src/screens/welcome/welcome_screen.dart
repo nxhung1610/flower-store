@@ -14,10 +14,10 @@ import '../screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String nameRoute = '/welcome';
-  static Route route() {
+  static Route route(RouteSettings settings) {
     return MaterialPageRoute(
       builder: (_) => WelcomeScreen(),
-      settings: RouteSettings(name: nameRoute),
+      settings: settings,
     );
   }
 

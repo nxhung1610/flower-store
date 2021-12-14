@@ -66,4 +66,31 @@ class AuthenticationProvider extends BaseProvider<AuthenticationRepository> {
     var staff = UserHelper().convertToType(res.data['data']);
     return staff;
   }
+
+  Future<Staff> update(
+      {required String staffId,
+      required bool isAvatarLocal,
+      required String avatarPath,
+      required String? nameStaff,
+      required RoleType? role,
+      required String? phoneNumber,
+      required String? emailAddress}) async {
+    var res = await repository.update(
+      staffId: staffId,
+      isAvatarLocal: isAvatarLocal,
+      avatarPath: avatarPath,
+      nameStaff: nameStaff,
+      role: role,
+      phoneNumber: phoneNumber,
+      emailAddress: emailAddress,
+    );
+    var staff = UserHelper().convertToType(res.data['data']);
+    return staff;
+  }
+
+  Future delete({required String staffId}) async {
+    await repository.delete(
+      staffId: staffId,
+    );
+  }
 }

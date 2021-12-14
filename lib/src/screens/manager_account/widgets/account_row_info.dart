@@ -6,16 +6,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AccountRowInfo extends StatelessWidget {
   final Widget icon;
   final Function(String value) onChanged;
-
-  bool isNameReadOnly = true;
   final String hintText;
   final TextInputType intputType;
+  final String? initText;
   AccountRowInfo(
       {Key? key,
       required this.onChanged,
       required this.icon,
       this.hintText = '',
-      this.intputType = TextInputType.text})
+      this.intputType = TextInputType.text,
+      this.initText})
       : super(key: key);
 
   @override
@@ -32,6 +32,9 @@ class AccountRowInfo extends StatelessWidget {
           Expanded(child: Container()),
           IntrinsicWidth(
             child: TextField(
+              controller: initText != null
+                  ? TextEditingController(text: initText)
+                  : null,
               textAlign: TextAlign.right,
               keyboardType: intputType,
               onChanged: (value) => onChanged(value),

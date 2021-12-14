@@ -18,7 +18,10 @@ class ItemActionFunction extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       splashFactory: InkRipple.splashFactory,
-      onTap: listener,
+      onTap: () async {
+        await Future.delayed(Duration(milliseconds: 500));
+        listener();
+      },
       child: Container(
         padding: EdgeInsets.all(17.w),
         child: Row(

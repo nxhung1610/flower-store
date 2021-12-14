@@ -1,7 +1,7 @@
 import 'package:flower_store/src/models/role/role_type.dart';
 import 'package:flower_store/src/utils/themes/app_constant.dart';
 
-abstract class Staff<T> {
+abstract class Staff {
   final String sId;
   final String name;
   final String? phone;

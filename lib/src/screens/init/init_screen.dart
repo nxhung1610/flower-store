@@ -13,10 +13,10 @@ import '../screen.dart';
 class InitScreen extends StatefulWidget {
   static const String nameRoute = '/';
 
-  static Route route() {
+  static Route route(RouteSettings settings) {
     return MaterialPageRoute(
       builder: (_) => InitScreen(),
-      settings: RouteSettings(name: nameRoute),
+      settings: settings,
     );
   }
 

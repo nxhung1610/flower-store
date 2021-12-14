@@ -102,4 +102,51 @@ class AuthenticationRepository extends BaseRepository {
       throw error.response as Response;
     }
   }
+
+  Future<Response> update({
+    required String staffId,
+    required bool isAvatarLocal,
+    required String avatarPath,
+    required String? nameStaff,
+    required RoleType? role,
+    required String? phoneNumber,
+    required String? emailAddress,
+  }) async {
+    try {
+      var client = init();
+      var imageData;
+      if (isAvatarLocal && avatarPath.isNotEmpty) {
+        String mimeType = mime(avatarPath)!;
+        String mimee = mimeType.split('/')[0];
+        String type = mimeType.split('/')[1];
+        imageData = await MultipartFile.fromFile(avatarPath,
+            contentType: MediaType(mimee, type));
+      }
+      var mapData = {
+        "name": nameStaff,
+        "email": emailAddress,
+        "phone": phoneNumber,
+        "role": role?.index,
+        'image': imageData,
+      };
+      mapData.removeWhere((key, value) => value == null);
+      var data = FormData.fromMap(mapData);
+
+      var res = await client.patch('/staff/$staffId', data: data);
+      return res;
+    } on DioError catch (error) {
+      throw error.response as Response;
+    }
+  }
+
+  Future delete({
+    required String staffId,
+  }) async {
+    try {
+      var client = init();
+      await client.delete('/staff/$staffId');
+    } on DioError catch (error) {
+      throw error.response as Response;
+    }
+  }
 }
