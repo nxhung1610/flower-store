@@ -1,4 +1,3 @@
-import 'package:flower_store/src/screens/dashboard/bill/detail_bill_widget/detail_bill_detail_widged.dart';
 import 'package:flower_store/src/screens/dashboard/bill/detail_bill_widget/detail_bill_expandable_widget.dart';
 import 'package:flower_store/src/screens/dashboard/bill/detail_bill_widget/detail_bill_info_widget.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';

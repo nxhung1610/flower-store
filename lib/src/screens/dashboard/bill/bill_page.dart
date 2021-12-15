@@ -121,15 +121,6 @@ class _BillPageState extends State<BillPage> {
                                 ),
                               ],
                             ),
-                            SizedBox(
-                              height: 24.h,
-                            ),
-                            const Divider(
-                              height: 1,
-                              thickness: 0.5,
-                              indent: 20,
-                              endIndent: 20,
-                            ),
                           ],
                         ),
                       ),
