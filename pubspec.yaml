@@ -44,6 +44,7 @@ dependencies:
   reflectable: ^3.0.4
   stream_transform: ^2.0.0
   shimmer: ^2.0.0
+  optional: ^6.1.0+1
 
 
 dev_dependencies:

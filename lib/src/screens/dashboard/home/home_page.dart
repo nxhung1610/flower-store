@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget? floatingActionButton(RoleType role) {
-    if (role != RoleType.Seller && role != RoleType.Accountant)
+    if (role == RoleType.Warehouse)
       return FloatingActionButton(
         onPressed: () {},
         child: IconButton(
@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
             .role;
     return Scaffold(
       backgroundColor: AppColors.color4,
-      body: role == RoleType.Accountant
+      body: (role == RoleType.Accountant || role == RoleType.Manager)
           ? Center(
               child: SvgPicture.asset(
                 'assets/icon.svg',
