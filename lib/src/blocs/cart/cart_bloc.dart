@@ -36,5 +36,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           selectedProduct: Optional.ofNullable(state.selectedProduct),
           cartProducts: [...state.cartProducts, state.selectedProduct!]));
     });
+    on<CartRemoveProduct>((event, emit) {
+      final newList = [...state.cartProducts];
+      newList
+          .removeWhere((element) => element.sId == event.selectedProduct.sId);
+      emit(state.copyWith(cartProducts: newList));
+    });
   }
 }

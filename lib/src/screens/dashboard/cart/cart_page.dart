@@ -31,9 +31,6 @@ class CartPage extends StatelessWidget {
       ),
       body: BlocBuilder<CartBloc, CartState>(
         builder: (context, state) {
-          var listPrice = state.cartProducts.map((e) => e.basePrice);
-          var listQuantity = state.cartProducts.map((e) => e.quantity);
-
           return Container(
             child: Column(
               mainAxisSize: MainAxisSize.max,

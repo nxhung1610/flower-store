@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flower_store/src/blocs/cart/cart_bloc.dart';
+import 'package:flower_store/src/blocs/cart/cart_event.dart';
 import 'package:flower_store/src/models/cart/cart_product.dart';
 import 'package:flower_store/src/models/product.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
@@ -6,6 +8,7 @@ import 'package:flower_store/src/utils/themes/app_constant.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -56,7 +59,11 @@ class CartWidget extends StatelessWidget {
                         constraints: BoxConstraints(),
                         padding: EdgeInsets.zero,
                         iconSize: 20.h,
-                        onPressed: () {},
+                        onPressed: () {
+                          BlocProvider.of<CartBloc>(context).add(
+                              CartRemoveProduct(
+                                  selectedProduct: this.cartProduct));
+                        },
                         icon: SvgPicture.asset('assets/ico_delete.svg'),
                       )
                     ],

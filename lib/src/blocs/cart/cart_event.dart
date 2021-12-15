@@ -22,3 +22,17 @@ class CartBottomDialogPressed extends CartEvent {
 }
 
 class CartBottomDialogAddPress extends CartEvent {}
+
+class CartRemoveProduct extends CartEvent {
+  final CartProduct selectedProduct;
+
+  CartRemoveProduct({
+    required this.selectedProduct,
+  });
+  @override
+  List<Object> get props => [selectedProduct];
+}
+
+class CartCartPageAmountIncrementPressed extends CartEvent {}
+
+class CartCartPageAmountDecrementPressed extends CartEvent {}
