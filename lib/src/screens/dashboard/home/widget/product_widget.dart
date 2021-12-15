@@ -45,8 +45,8 @@ class ProductWidget extends StatelessWidget {
           Container(
             child: Text(
               product.basePrice.toString() + " VND",
-              style: AppTextStyle.header6.copyWith(
-                color: AppColors.color5,
+              style: AppTextStyle.header5.copyWith(
+                color: AppColors.color6,
               ),
             ),
           )
@@ -111,6 +111,7 @@ class ProductWidget extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return Container(
+          width: double.infinity,
           decoration: BoxDecoration(
             color: AppColors.color10,
             borderRadius: BorderRadius.only(
@@ -121,11 +122,11 @@ class ProductWidget extends StatelessWidget {
           child: SingleChildScrollView(
             physics: NeverScrollableScrollPhysics(),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 8.h),
+                  padding: EdgeInsets.all(5.w),
                   child: Center(
                     child: Container(
                       width: 100.w,
@@ -139,17 +140,16 @@ class ProductWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10.h),
-                  child: Container(
-                    height: 411.h,
-                    child: FittedBox(
-                      fit: BoxFit.fitHeight,
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 13.w),
+                  height: 411.h,
+                  width: double.infinity,
+                  child: FittedBox(
+                    fit: BoxFit.fill,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.w),
                       child: CachedNetworkImage(
                         imageUrl: product.image,
-                        placeholder: (context, url) => SpinKitRing(
-                          color: AppColors.color1,
-                        ),
                         errorWidget: (context, url, error) => Image(
                           image: AssetImage('assets/template_plant.png'),
                         ),
@@ -205,79 +205,89 @@ class ProductWidget extends StatelessWidget {
                         EdgeInsets.symmetric(vertical: 10.h, horizontal: 25.w),
                     child: Row(
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              color: AppColors.color3,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25.h))),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 15.h,
-                              horizontal: 17.w,
-                            ),
-                            child: Row(
-                              children: [
-                                IconButton(
-                                  constraints: BoxConstraints(),
-                                  padding: EdgeInsets.zero,
-                                  iconSize: 15.w,
-                                  onPressed: () {
-                                    BlocProvider.of<CartBloc>(context).add(
-                                        CartBottomDialogAmountDecrementPressed());
-                                  },
-                                  icon:
-                                      SvgPicture.asset('assets/ico_minus.svg'),
-                                ),
-                                SizedBox(
-                                  width: 30.w,
-                                ),
-                                BlocBuilder<CartBloc, CartState>(
-                                  builder: (context, state) {
-                                    return Text(
-                                      state.selectedProduct!.quantity
-                                          .toString(),
-                                      style: AppTextStyle.header5.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColors.color10,
-                                      ),
-                                    );
-                                  },
-                                ),
-                                SizedBox(
-                                  width: 30.w,
-                                ),
-                                IconButton(
-                                  constraints: BoxConstraints(),
-                                  padding: EdgeInsets.zero,
-                                  iconSize: 15.w,
-                                  onPressed: () {
-                                    BlocProvider.of<CartBloc>(context).add(
-                                        CartBottomDialogAmountIncrementPressed());
-                                  },
-                                  icon: SvgPicture.asset(
-                                      'assets/ico_plus_amount.svg'),
-                                ),
-                              ],
+                        ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(25.w)),
+                          child: Material(
+                            child: Container(
+                              padding: EdgeInsets.all(7.w),
+                              decoration: BoxDecoration(
+                                color: AppColors.color3,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25.w)),
+                              ),
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                    constraints: BoxConstraints(),
+                                    iconSize: 15.w,
+                                    onPressed: () {
+                                      BlocProvider.of<CartBloc>(context).add(
+                                          CartBottomDialogAmountDecrementPressed());
+                                    },
+                                    icon: SvgPicture.asset(
+                                        'assets/ico_minus.svg'),
+                                  ),
+                                  SizedBox(
+                                    width: 15.w,
+                                  ),
+                                  BlocBuilder<CartBloc, CartState>(
+                                    builder: (context, state) {
+                                      return Text(
+                                        state.selectedProduct!.quantity
+                                            .toString(),
+                                        style: AppTextStyle.header5.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.color10,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  SizedBox(
+                                    width: 15.w,
+                                  ),
+                                  IconButton(
+                                    constraints: BoxConstraints(),
+                                    iconSize: 15.w,
+                                    onPressed: () {
+                                      BlocProvider.of<CartBloc>(context).add(
+                                          CartBottomDialogAmountIncrementPressed());
+                                    },
+                                    icon: SvgPicture.asset(
+                                        'assets/ico_plus_amount.svg'),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
                         Expanded(
                           child: SizedBox(),
                         ),
-                        GestureDetector(
-                          onTap: () {
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            primary: AppColors.color3.withOpacity(0.5),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.w),
+                            ),
+                          ),
+                          onPressed: () async {
+                            await Future.delayed(Duration(milliseconds: 300));
                             BlocProvider.of<CartBloc>(context)
                                 .add(CartBottomDialogAddPress());
                             Navigator.pop(context);
                           },
-                          child: Text(
-                            'ADD TO CART',
-                            style: AppTextStyle.header6.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.color2,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10.w, vertical: 5.w),
+                            child: Text(
+                              'ADD TO CART',
+                              style: AppTextStyle.header5.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.color2,
+                              ),
                             ),
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
@@ -380,15 +390,14 @@ class ProductWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(product.image);
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         if (role == RoleType.Seller) {
           BlocProvider.of<CartBloc>(context).add(CartBottomDialogPressed(
               selectedProduct: CartProduct.fromProduct(this.product)));
 
           showBottomDialog(context);
-        } else
-          null;
+        }
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 30.w),
@@ -401,86 +410,90 @@ class ProductWidget extends StatelessWidget {
             padding: EdgeInsets.all(8.w),
             child: Row(
               children: [
-                CachedNetworkImage(
-                  width: 114.w,
-                  height: 114.h,
-                  imageUrl: product.image,
-                  placeholder: (context, url) => SpinKitRing(
-                    color: AppColors.color1,
-                  ),
-                  errorWidget: (context, url, error) => Image(
-                    image: AssetImage('assets/template_plant.png'),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(5.w),
+                  child: CachedNetworkImage(
+                    fit: BoxFit.fill,
+                    width: 114.h,
+                    height: 114.h,
+                    imageUrl: product.image,
+                    errorWidget: (context, url, error) => Image(
+                      image: AssetImage('assets/template_plant.png'),
+                    ),
                   ),
                 ),
                 SizedBox(
                   width: 16.w,
                 ),
                 Expanded(
-                    child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              product.name,
-                              style: AppTextStyle.header6.copyWith(
-                                  color: AppColors.color5,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            page == pageOfWidget.HOME && role != RoleType.Seller
-                                ? IconButton(
-                                    constraints: BoxConstraints(),
-                                    padding: EdgeInsets.zero,
-                                    iconSize: 17.w,
-                                    onPressed: () async {
-                                      final result = await Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  BlocProvider(
-                                                create: (context) =>
-                                                    UpdateProductBloc(product),
-                                                child: UpdateProductPage(),
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                product.name,
+                                style: AppTextStyle.header5.copyWith(
+                                    color: AppColors.color5,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              page == pageOfWidget.HOME &&
+                                      role != RoleType.Seller
+                                  ? IconButton(
+                                      constraints: BoxConstraints(),
+                                      padding: EdgeInsets.zero,
+                                      iconSize: 17.w,
+                                      onPressed: () async {
+                                        final result = await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    BlocProvider(
+                                                  create: (context) =>
+                                                      UpdateProductBloc(
+                                                          product),
+                                                  child: UpdateProductPage(),
+                                                ),
                                               ),
-                                            ),
-                                          ) ??
-                                          false;
-                                      if (result == true) {
-                                        BlocProvider.of<HomeBloc>(context)
-                                            .add(HomeLoaded());
-                                      }
-                                    },
-                                    icon:
-                                        SvgPicture.asset('assets/ico_edit.svg'),
-                                  )
-                                : Container()
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(right: 15.w),
-                        child: Text(
-                          product.description,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppTextStyle.header7.copyWith(
-                            color: AppColors.color5,
+                                            ) ??
+                                            false;
+                                        if (result == true) {
+                                          BlocProvider.of<HomeBloc>(context)
+                                              .add(HomeLoaded());
+                                        }
+                                      },
+                                      icon: SvgPicture.asset(
+                                          'assets/ico_edit.svg'),
+                                    )
+                                  : Container()
+                            ],
                           ),
                         ),
-                      ),
-                      page == pageOfWidget.HOME
-                          ? widgetOfHome()
-                          : widgetofPackage(context)
-                    ],
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(right: 15.w),
+                          child: Text(
+                            product.description,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTextStyle.header6.copyWith(
+                              color: AppColors.color5,
+                            ),
+                          ),
+                        ),
+                        page == pageOfWidget.HOME
+                            ? widgetOfHome()
+                            : widgetofPackage(context)
+                      ],
+                    ),
                   ),
-                )),
+                ),
               ],
             ),
           ),
