@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flower_store/src/blocs/cart/cart_bloc.dart';
 import 'package:flower_store/src/blocs/cart/cart_event.dart';
+import 'package:flower_store/src/blocs/cart/cart_state.dart';
 import 'package:flower_store/src/models/cart/cart_product.dart';
 import 'package:flower_store/src/models/product.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
@@ -104,18 +105,26 @@ class CartWidget extends StatelessWidget {
                               constraints: BoxConstraints(),
                               padding: EdgeInsets.zero,
                               iconSize: 10.w,
-                              onPressed: () {},
+                              onPressed: () {
+                                BlocProvider.of<CartBloc>(context).add(
+                                    CartCartPageAmountDecrementPressed(
+                                        selectedProduct: this.cartProduct));
+                              },
                               icon: SvgPicture.asset('assets/ico_minus.svg'),
                             ),
                             SizedBox(
                               width: 25.w,
                             ),
-                            Text(
-                              cartProduct.quantity.toString(),
-                              style: AppTextStyle.header5.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.color10,
-                              ),
+                            BlocBuilder<CartBloc, CartState>(
+                              builder: (context, state) {
+                                return Text(
+                                  cartProduct.quantity.toString(),
+                                  style: AppTextStyle.header5.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.color10,
+                                  ),
+                                );
+                              },
                             ),
                             SizedBox(
                               width: 25.w,
@@ -124,7 +133,11 @@ class CartWidget extends StatelessWidget {
                               constraints: BoxConstraints(),
                               padding: EdgeInsets.zero,
                               iconSize: 12.w,
-                              onPressed: () {},
+                              onPressed: () {
+                                BlocProvider.of<CartBloc>(context).add(
+                                    CartCartPageAmountIncrementPressed(
+                                        selectedProduct: this.cartProduct));
+                              },
                               icon: SvgPicture.asset(
                                   'assets/ico_plus_amount.svg'),
                             ),

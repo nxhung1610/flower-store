@@ -33,6 +33,22 @@ class CartRemoveProduct extends CartEvent {
   List<Object> get props => [selectedProduct];
 }
 
-class CartCartPageAmountIncrementPressed extends CartEvent {}
+class CartCartPageAmountIncrementPressed extends CartEvent {
+  final CartProduct selectedProduct;
 
-class CartCartPageAmountDecrementPressed extends CartEvent {}
+  CartCartPageAmountIncrementPressed({
+    required this.selectedProduct,
+  });
+  @override
+  List<Object> get props => [selectedProduct];
+}
+
+class CartCartPageAmountDecrementPressed extends CartEvent {
+  final CartProduct selectedProduct;
+
+  CartCartPageAmountDecrementPressed({
+    required this.selectedProduct,
+  });
+  @override
+  List<Object> get props => [selectedProduct];
+}

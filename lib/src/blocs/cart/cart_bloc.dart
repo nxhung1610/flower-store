@@ -1,6 +1,7 @@
 import 'package:flower_store/src/blocs/cart/cart_event.dart';
 import 'package:flower_store/src/blocs/cart/cart_state.dart';
 import 'package:flower_store/src/models/cart/cart_product.dart';
+import 'package:flower_store/src/models/product.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:optional/optional.dart';
 
@@ -40,6 +41,33 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       final newList = [...state.cartProducts];
       newList
           .removeWhere((element) => element.sId == event.selectedProduct.sId);
+      emit(state.copyWith(cartProducts: newList));
+    });
+    on<CartCartPageAmountIncrementPressed>((event, emit) {
+      final newList = [...state.cartProducts];
+      newList[newList.indexWhere(
+          (element) => element.sId == event.selectedProduct.sId)] = newList[
+              newList.indexWhere(
+                  (element) => element.sId == event.selectedProduct.sId)]
+          .copyWith(
+              quantity: newList[newList.indexWhere((element) =>
+                          element.sId == event.selectedProduct.sId)]
+                      .quantity +
+                  1);
+      emit(state.copyWith(cartProducts: newList));
+    });
+    on<CartCartPageAmountDecrementPressed>((event, emit) {
+      if (event.selectedProduct.quantity <= 1) return;
+      final newList = [...state.cartProducts];
+      newList[newList.indexWhere(
+          (element) => element.sId == event.selectedProduct.sId)] = newList[
+              newList.indexWhere(
+                  (element) => element.sId == event.selectedProduct.sId)]
+          .copyWith(
+              quantity: newList[newList.indexWhere((element) =>
+                          element.sId == event.selectedProduct.sId)]
+                      .quantity -
+                  1);
       emit(state.copyWith(cartProducts: newList));
     });
   }
