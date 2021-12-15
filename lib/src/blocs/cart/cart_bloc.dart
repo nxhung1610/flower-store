@@ -35,15 +35,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<CartBottomDialogAddPress>((event, emit) {
       if (state.cartProducts.any((e) => e.sId == state.selectedProduct!.sId)) {
         final newList = [...state.cartProducts];
-        newList[newList.indexWhere(
-            (element) => element.sId == state.selectedProduct!.sId)] = newList[
-                newList.indexWhere(
-                    (element) => element.sId == state.selectedProduct!.sId)]
-            .copyWith(
-                quantity: newList[newList.indexWhere((element) =>
-                            element.sId == state.selectedProduct!.sId)]
-                        .quantity +
-                    state.selectedProduct!.quantity);
+        final oldProduct = newList
+            .indexWhere((element) => element.sId == state.selectedProduct!.sId);
+        newList[oldProduct] = newList[oldProduct].copyWith(
+            quantity:
+                newList[oldProduct].quantity + state.selectedProduct!.quantity);
         emit(state.copyWith(cartProducts: newList));
       } else
         emit(state.copyWith(
@@ -58,29 +54,19 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     });
     on<CartCartPageAmountIncrementPressed>((event, emit) {
       final newList = [...state.cartProducts];
-      newList[newList.indexWhere(
-          (element) => element.sId == event.selectedProduct.sId)] = newList[
-              newList.indexWhere(
-                  (element) => element.sId == event.selectedProduct.sId)]
-          .copyWith(
-              quantity: newList[newList.indexWhere((element) =>
-                          element.sId == event.selectedProduct.sId)]
-                      .quantity +
-                  1);
+      final eventId = event.selectedProduct.sId;
+      var oldProduct = newList.indexWhere((element) => element.sId == eventId);
+      newList[oldProduct] = newList[oldProduct]
+          .copyWith(quantity: newList[oldProduct].quantity + 1);
       emit(state.copyWith(cartProducts: newList));
     });
     on<CartCartPageAmountDecrementPressed>((event, emit) {
       if (event.selectedProduct.quantity <= 1) return;
       final newList = [...state.cartProducts];
-      newList[newList.indexWhere(
-          (element) => element.sId == event.selectedProduct.sId)] = newList[
-              newList.indexWhere(
-                  (element) => element.sId == event.selectedProduct.sId)]
-          .copyWith(
-              quantity: newList[newList.indexWhere((element) =>
-                          element.sId == event.selectedProduct.sId)]
-                      .quantity -
-                  1);
+      final eventId = event.selectedProduct.sId;
+      var oldProduct = newList.indexWhere((element) => element.sId == eventId);
+      newList[oldProduct] = newList[oldProduct]
+          .copyWith(quantity: newList[oldProduct].quantity - 1);
       emit(state.copyWith(cartProducts: newList));
     });
   }
