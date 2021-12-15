@@ -33,9 +33,22 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           selectedProduct: Optional.ofNullable(event.selectedProduct)));
     });
     on<CartBottomDialogAddPress>((event, emit) {
-      emit(state.copyWith(
-          selectedProduct: Optional.ofNullable(state.selectedProduct),
-          cartProducts: [...state.cartProducts, state.selectedProduct!]));
+      if (state.cartProducts.any((e) => e.sId == state.selectedProduct!.sId)) {
+        final newList = [...state.cartProducts];
+        newList[newList.indexWhere(
+            (element) => element.sId == state.selectedProduct!.sId)] = newList[
+                newList.indexWhere(
+                    (element) => element.sId == state.selectedProduct!.sId)]
+            .copyWith(
+                quantity: newList[newList.indexWhere((element) =>
+                            element.sId == state.selectedProduct!.sId)]
+                        .quantity +
+                    state.selectedProduct!.quantity);
+        emit(state.copyWith(cartProducts: newList));
+      } else
+        emit(state.copyWith(
+            selectedProduct: Optional.ofNullable(state.selectedProduct),
+            cartProducts: [...state.cartProducts, state.selectedProduct!]));
     });
     on<CartRemoveProduct>((event, emit) {
       final newList = [...state.cartProducts];
