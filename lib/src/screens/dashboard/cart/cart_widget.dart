@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flower_store/src/models/cart/cart_product.dart';
 import 'package:flower_store/src/models/product.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_constant.dart';
@@ -10,8 +11,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CartWidget extends StatelessWidget {
-  // final Product product;
-  const CartWidget({Key? key}) : super(key: key);
+  final CartProduct cartProduct;
+  const CartWidget({Key? key, required this.cartProduct}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +25,7 @@ class CartWidget extends StatelessWidget {
             width: 114.w,
             height: 114.h,
             //imageUrl: product.image,
-            imageUrl:
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png",
+            imageUrl: cartProduct.image,
             placeholder: (context, url) => SpinKitRing(
               color: AppColors.color1,
             ),
@@ -47,8 +47,7 @@ class CartWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        //product.name,
-                        'TESTING',
+                        cartProduct.name,
                         style: AppTextStyle.header6.copyWith(
                             color: AppColors.color5,
                             fontWeight: FontWeight.bold),
@@ -69,8 +68,7 @@ class CartWidget extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(right: 15.w),
                   child: Text(
-                    //product.description,
-                    'Description',
+                    cartProduct.description,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: AppTextStyle.header7.copyWith(
@@ -106,7 +104,7 @@ class CartWidget extends StatelessWidget {
                               width: 25.w,
                             ),
                             Text(
-                              '1',
+                              cartProduct.quantity.toString(),
                               style: AppTextStyle.header5.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: AppColors.color10,
@@ -131,7 +129,7 @@ class CartWidget extends StatelessWidget {
                       child: SizedBox(),
                     ),
                     Text(
-                      '30.000 VND',
+                      cartProduct.basePrice.toString(),
                       style: AppTextStyle.header6.copyWith(
                         fontWeight: FontWeight.bold,
                         color: AppColors.color2,

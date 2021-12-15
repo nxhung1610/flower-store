@@ -1,7 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flower_store/src/blocs/cart/cart_bloc.dart';
+import 'package:flower_store/src/blocs/cart/cart_event.dart';
+import 'package:flower_store/src/blocs/cart/cart_state.dart';
 import 'package:flower_store/src/blocs/dashboard/home/home_bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/home/home_event.dart';
 import 'package:flower_store/src/blocs/dashboard/update_product/update_product_bloc.dart';
+import 'package:flower_store/src/models/cart/cart_product.dart';
 import 'package:flower_store/src/models/product.dart';
 import 'package:flower_store/src/models/role/role.dart';
 import 'package:flower_store/src/models/role/role_type.dart';
@@ -170,12 +174,18 @@ class ProductWidget extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      SizedBox(
+                        height: 10.h,
+                      ),
                       Text(
                         this.product.description,
                         style: AppTextStyle.header6.copyWith(
                           fontSize: 14.sp,
                           color: AppColors.color8,
                         ),
+                      ),
+                      SizedBox(
+                        height: 10.h,
                       ),
                       Text(
                         this.product.basePrice.toString() + " VND",
@@ -211,19 +221,27 @@ class ProductWidget extends StatelessWidget {
                                   constraints: BoxConstraints(),
                                   padding: EdgeInsets.zero,
                                   iconSize: 15.w,
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    BlocProvider.of<CartBloc>(context).add(
+                                        CartBottomDialogAmountDecrementPressed());
+                                  },
                                   icon:
                                       SvgPicture.asset('assets/ico_minus.svg'),
                                 ),
                                 SizedBox(
                                   width: 30.w,
                                 ),
-                                Text(
-                                  '1',
-                                  style: AppTextStyle.header5.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.color10,
-                                  ),
+                                BlocBuilder<CartBloc, CartState>(
+                                  builder: (context, state) {
+                                    return Text(
+                                      state.selectedProduct!.quantity
+                                          .toString(),
+                                      style: AppTextStyle.header5.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.color10,
+                                      ),
+                                    );
+                                  },
                                 ),
                                 SizedBox(
                                   width: 30.w,
@@ -232,7 +250,10 @@ class ProductWidget extends StatelessWidget {
                                   constraints: BoxConstraints(),
                                   padding: EdgeInsets.zero,
                                   iconSize: 15.w,
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    BlocProvider.of<CartBloc>(context).add(
+                                        CartBottomDialogAmountIncrementPressed());
+                                  },
                                   icon: SvgPicture.asset(
                                       'assets/ico_plus_amount.svg'),
                                 ),
@@ -243,11 +264,18 @@ class ProductWidget extends StatelessWidget {
                         Expanded(
                           child: SizedBox(),
                         ),
-                        Text(
-                          'ADD TO CART',
-                          style: AppTextStyle.header6.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.color2,
+                        GestureDetector(
+                          onTap: () {
+                            BlocProvider.of<CartBloc>(context)
+                                .add(CartBottomDialogAddPress());
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            'ADD TO CART',
+                            style: AppTextStyle.header6.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.color2,
+                            ),
                           ),
                         ),
                       ],
@@ -354,9 +382,12 @@ class ProductWidget extends StatelessWidget {
     print(product.image);
     return GestureDetector(
       onTap: () {
-        if (role == RoleType.Seller)
+        if (role == RoleType.Seller) {
+          BlocProvider.of<CartBloc>(context).add(CartBottomDialogPressed(
+              selectedProduct: CartProduct.fromProduct(this.product)));
+
           showBottomDialog(context);
-        else
+        } else
           null;
       },
       child: Container(

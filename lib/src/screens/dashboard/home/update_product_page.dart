@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flower_store/src/blocs/bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/add_product/add_product_bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/add_product/add_product_event.dart';
 import 'package:flower_store/src/blocs/dashboard/add_product/add_product_state.dart';
@@ -32,9 +33,9 @@ class UpdateProductPage extends StatefulWidget {
 class _UpdateProductPageState extends State<UpdateProductPage> {
   late UpdateProductBloc bloc;
   @override
-  void didChangeDependencies() {
+  void initState() {
     bloc = context.read<UpdateProductBloc>();
-    super.didChangeDependencies();
+    super.initState();
     _nameTextController.text = bloc.state.name;
     _priceTextController.text = bloc.state.basePrice.toString();
     _descriptionTextController.text = bloc.state.description;

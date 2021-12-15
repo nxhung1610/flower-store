@@ -1,4 +1,5 @@
 import 'package:flower_store/src/blocs/bloc.dart';
+import 'package:flower_store/src/blocs/cart/cart_bloc.dart';
 import 'package:flower_store/src/screens/init/init_screen.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/general.dart';
@@ -32,6 +33,9 @@ class _AppState extends State<App> {
         ),
         BlocProvider<ManagerAccountBloc>(
           create: (context) => ManagerAccountBloc(),
+        ),
+        BlocProvider<CartBloc>(
+          create: (context) => CartBloc(),
         ),
       ],
       child: GestureDetector(
