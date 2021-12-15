@@ -439,7 +439,7 @@ class ProductWidget extends StatelessWidget {
                                 product.name,
                                 style: AppTextStyle.header5.copyWith(
                                     color: AppColors.color5,
-                                    fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.w600),
                               ),
                               page == pageOfWidget.HOME &&
                                       role != RoleType.Seller
@@ -483,7 +483,7 @@ class ProductWidget extends StatelessWidget {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: AppTextStyle.header6.copyWith(
-                              color: AppColors.color5,
+                              color: AppColors.color8,
                             ),
                           ),
                         ),

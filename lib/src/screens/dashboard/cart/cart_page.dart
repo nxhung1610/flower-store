@@ -1,6 +1,6 @@
 import 'package:flower_store/src/blocs/cart/cart_bloc.dart';
 import 'package:flower_store/src/blocs/cart/cart_state.dart';
-import 'package:flower_store/src/screens/dashboard/cart/cart_widget.dart';
+import 'package:flower_store/src/screens/dashboard/cart/widgets/product_in_cart_widget.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,13 +37,13 @@ class CartPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: ListView.separated(
-                    padding: EdgeInsets.symmetric(vertical: 20.h),
+                    padding: EdgeInsets.all(10.h),
                     physics: BouncingScrollPhysics(),
                     itemCount: state.cartProducts.length,
                     separatorBuilder: (BuildContext context, int index) =>
-                        SizedBox(height: 20.h),
+                        SizedBox(height: 10.h),
                     itemBuilder: (context, index) {
-                      return CartWidget(
+                      return ProductInCartWidget(
                         cartProduct: state.cartProducts[index],
                       );
                     },
@@ -66,14 +66,22 @@ class CartPage extends StatelessWidget {
                                   .toString() +
                               " VND",
                           style: AppTextStyle.header5.copyWith(
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
                               color: AppColors.color2),
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: AppColors.color3,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25.h))),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            primary: AppColors.color3,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25.h),
+                              ),
+                            ),
+                          ),
+                          onPressed: () async {
+                            await Future.delayed(Duration(milliseconds: 300));
+                          },
                           child: Padding(
                             padding: EdgeInsets.symmetric(
                               vertical: 15.h,
@@ -82,7 +90,7 @@ class CartPage extends StatelessWidget {
                             child: Text(
                               "CHECKOUT",
                               style: AppTextStyle.header6.copyWith(
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w600,
                                   color: AppColors.color10),
                             ),
                           ),
