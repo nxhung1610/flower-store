@@ -27,7 +27,7 @@ class Product extends Equatable {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
     data['name'] = this.name;
-    data['image'] = this.image;
+    data['image'] = this.image.replaceAll(AppConstant.baseUrl, '');
     data['description'] = this.description;
     data['basePrice'] = this.basePrice;
     return data;

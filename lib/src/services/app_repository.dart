@@ -1,3 +1,5 @@
+import 'package:flower_store/src/services/bill/bill_provider.dart';
+
 import 'authentication/authentication_provider.dart';
 
 class AppRepository {
@@ -9,4 +11,6 @@ class AppRepository {
   AppRepository._internal();
 
   AuthenticationProvider get authentication => AuthenticationProvider();
+
+  BillProvider get bill => BillProvider();
 }

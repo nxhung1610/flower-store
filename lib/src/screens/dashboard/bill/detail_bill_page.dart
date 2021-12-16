@@ -40,7 +40,7 @@ class DetailBillPage extends StatelessWidget {
                     SizedBox(
                       height: 30,
                     ),
-                    ExpandableWidget(),
+                    DetailBillExpandable(),
                     Container(
                       height: 60.h,
                       width: 345.w,

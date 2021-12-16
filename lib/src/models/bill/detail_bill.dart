@@ -6,11 +6,11 @@ import 'package:flower_store/src/models/cart/cart_product.dart';
 import '../product.dart';
 
 class DetailBill extends Equatable {
-  final Product? product;
+  final Product product;
   final int? quantity;
   final double? totalPrice;
 
-  const DetailBill({this.product, this.quantity, this.totalPrice});
+  const DetailBill({required this.product, this.quantity, this.totalPrice});
 
   factory DetailBill.fromMap(Map<String, dynamic> data) => DetailBill(
         product: data['product'] == null
@@ -21,7 +21,7 @@ class DetailBill extends Equatable {
       );
 
   Map<String, dynamic> toMap() => {
-        'product': product?.toMap(),
+        'product': product.toJson(),
         'quantity': quantity,
         'totalPrice': totalPrice,
       };

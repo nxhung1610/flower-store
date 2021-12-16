@@ -6,14 +6,14 @@ import 'customer.dart';
 import 'detail_bill.dart';
 
 class Bill extends Equatable {
-  final List<DetailBill>? detail;
+  final List<DetailBill>? details;
   final Customer? customer;
   final double? totalPrice;
 
-  const Bill({this.detail, this.customer, this.totalPrice});
+  const Bill({this.details, this.customer, this.totalPrice});
 
   factory Bill.fromMap(Map<String, dynamic> data) => Bill(
-        detail: (data['detail'] as List<dynamic>?)
+        details: (data['details'] as List<dynamic>?)
             ?.map((e) => DetailBill.fromMap(e as Map<String, dynamic>))
             .toList(),
         customer: data['customer'] == null
@@ -23,7 +23,7 @@ class Bill extends Equatable {
       );
 
   Map<String, dynamic> toMap() => {
-        'detail': detail?.map((e) => e.toMap()).toList(),
+        'details': details?.map((e) => e.toMap()).toList(),
         'customer': customer?.toMap(),
         'totalPrice': totalPrice,
       };
@@ -41,17 +41,17 @@ class Bill extends Equatable {
   String toJson() => json.encode(toMap());
 
   Bill copyWith({
-    List<DetailBill>? detail,
+    List<DetailBill>? details,
     Customer? customer,
     double? totalPrice,
   }) {
     return Bill(
-      detail: detail ?? this.detail,
+      details: details ?? this.details,
       customer: customer ?? this.customer,
       totalPrice: totalPrice ?? this.totalPrice,
     );
   }
 
   @override
-  List<Object?> get props => [detail, customer, totalPrice];
+  List<Object?> get props => [details, customer, totalPrice];
 }

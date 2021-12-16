@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AppConstant {
   static const String _devUrl = "http://10.0.2.2:3504";
   static const String _runUrl = "https://flower-store-api.herokuapp.com";
-  static const bool isDebug = false;
+  static const bool isDebug = true;
 
   static const String baseUrl = isDebug ? _devUrl : _runUrl;
 

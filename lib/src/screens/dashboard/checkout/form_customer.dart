@@ -7,7 +7,6 @@ class _FormCustomer extends StatelessWidget {
   Widget build(BuildContext context) {
     final checkoutBloc = context.read<CheckoutBloc>();
     return Container(
-      padding: EdgeInsets.all(25.w),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -71,7 +70,7 @@ class _RowCustomerInfo extends StatelessWidget {
               borderRadius: BorderRadius.circular(10.w),
             ),
             child: TextField(
-              onChanged: (value) => onChanged,
+              onChanged: (value) => onChanged(value),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(horizontal: 10.w),
                 border: InputBorder.none,

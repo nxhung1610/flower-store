@@ -52,3 +52,5 @@ class CartCartPageAmountDecrementPressed extends CartEvent {
   @override
   List<Object> get props => [selectedProduct];
 }
+
+class CartClear extends CartEvent {}
