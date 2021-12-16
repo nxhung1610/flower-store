@@ -7,7 +7,7 @@ abstract class DashboardState extends Equatable {
   List<Object> get props => [];
 }
 
-class DashboardInitState extends DashboardState{}
+class DashboardInitState extends DashboardState {}
 
 class NavigatorTappedPageState extends DashboardState {
   final PageName pageName;
@@ -17,4 +17,3 @@ class NavigatorTappedPageState extends DashboardState {
   // TODO: implement props
   List<Object> get props => [this.pageName];
 }
-

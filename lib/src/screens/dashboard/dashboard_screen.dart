@@ -77,9 +77,9 @@ Widget cartIcon(BuildContext context) {
       : IconButton(
           iconSize: 30.h,
           onPressed: () {
-            Navigator.push(
+            Navigator.pushNamed(
               context,
-              MaterialPageRoute(builder: (context) => CartPage()),
+              CartPage.nameRoute,
             );
           },
           icon: SvgPicture.asset('assets/ico_cart.svg'),

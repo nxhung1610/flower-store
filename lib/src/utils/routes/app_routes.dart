@@ -1,3 +1,5 @@
+import 'package:flower_store/src/screens/dashboard/cart/cart_page.dart';
+import 'package:flower_store/src/screens/dashboard/checkout/checkout_page.dart';
 import 'package:flower_store/src/screens/init/init_screen.dart';
 import 'package:flower_store/src/screens/main/main_screen.dart';
 import 'package:flower_store/src/screens/manager_account/add_account/add_account_page.dart';
@@ -25,6 +27,10 @@ class AppRoutes {
         return DetailAccountPage.route(settings);
       case AddAccountPage.nameRoute:
         return AddAccountPage.route(settings);
+      case CartPage.nameRoute:
+        return CartPage.route(settings);
+      case CheckOutPage.nameRoute:
+        return CheckOutPage.route(settings);
       default:
         return _errorRoute();
     }

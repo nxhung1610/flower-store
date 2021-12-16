@@ -7,7 +7,7 @@ abstract class DashboardEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class DashboardLoaded extends DashboardEvent{}
+class DashboardLoaded extends DashboardEvent {}
 
 class NavigatorPageTappedEvent extends DashboardEvent {
   final PageName curentPage;
@@ -16,4 +16,3 @@ class NavigatorPageTappedEvent extends DashboardEvent {
   // TODO: implement props
   List<Object> get props => [this.curentPage];
 }
-

@@ -8,7 +8,7 @@ class UserHelper {
   UserHelper._internal();
 
   Staff convertToType(Map<String, dynamic> staff) {
-      switch (RoleType.values[staff['role']]) {
+    switch (RoleType.values[staff['role']]) {
       case RoleType.Manager:
         return Manager.fromJson(staff);
       case RoleType.Warehouse:

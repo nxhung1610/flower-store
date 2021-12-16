@@ -9,6 +9,4 @@ class AppRepository {
   AppRepository._internal();
 
   AuthenticationProvider get authentication => AuthenticationProvider();
-
-  
 }

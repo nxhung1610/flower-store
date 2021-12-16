@@ -5,6 +5,4 @@ class AppEffect {
     return _singleton;
   }
   AppEffect._internal();
-
-  
 }

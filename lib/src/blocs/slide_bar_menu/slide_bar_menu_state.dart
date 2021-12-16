@@ -8,4 +8,3 @@ abstract class SlideBarMenuState extends Equatable {
 }
 
 class SlideBarMenuInitial extends SlideBarMenuState {}
-

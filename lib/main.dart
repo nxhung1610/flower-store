@@ -7,7 +7,6 @@ import 'package:flower_store/src/utils/helper/app_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 Future<void> main() async {
   printLog('=========== APP RUN =========');
   WidgetsFlutterBinding.ensureInitialized();

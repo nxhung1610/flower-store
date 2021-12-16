@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 abstract class BaseProvider<T extends BaseRepository> {
   @protected
   late T repository;
-  
+
   BaseProvider() {
     repository = initRepository();
   }

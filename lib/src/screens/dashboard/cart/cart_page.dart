@@ -1,6 +1,8 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flower_store/src/blocs/cart/cart_bloc.dart';
 import 'package:flower_store/src/blocs/cart/cart_state.dart';
 import 'package:flower_store/src/screens/dashboard/cart/widgets/product_in_cart_widget.dart';
+import 'package:flower_store/src/screens/dashboard/checkout/checkout_page.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +12,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:collection/collection.dart';
 
 class CartPage extends StatelessWidget {
+  static const String nameRoute = '/cart';
+  static Route route(RouteSettings settings) {
+    return MaterialPageRoute(
+      builder: (_) => CartPage(),
+      settings: settings,
+    );
+  }
+
   const CartPage({Key? key}) : super(key: key);
 
   @override
@@ -81,6 +91,16 @@ class CartPage extends StatelessWidget {
                           ),
                           onPressed: () async {
                             await Future.delayed(Duration(milliseconds: 300));
+                            if (state.cartProducts.isNotEmpty)
+                              Navigator.pushNamed(
+                                  context, CheckOutPage.nameRoute,
+                                  arguments: state.cartProducts);
+                            else
+                              Flushbar(
+                                  message: 'Please choose one product',
+                                  duration: Duration(
+                                    milliseconds: 1000,
+                                  )).show(context);
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(
