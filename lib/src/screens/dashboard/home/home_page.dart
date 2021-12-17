@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget? floatingActionButton(RoleType role) {
-    if (role == RoleType.Warehouse)
+    if (role == RoleType.Supplier)
       return FloatingActionButton(
         onPressed: () {},
         child: IconButton(

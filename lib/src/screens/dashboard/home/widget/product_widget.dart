@@ -392,7 +392,7 @@ class ProductWidget extends StatelessWidget {
     print(product.image);
     return InkWell(
       onTap: () {
-        if (role == RoleType.Seller) {
+        if (role == RoleType.Seller || role == RoleType.Warehouse) {
           BlocProvider.of<CartBloc>(context).add(CartBottomDialogPressed(
               selectedProduct: CartProduct.fromProduct(this.product)));
 
@@ -442,7 +442,7 @@ class ProductWidget extends StatelessWidget {
                                     fontWeight: FontWeight.w600),
                               ),
                               page == pageOfWidget.HOME &&
-                                      role != RoleType.Seller
+                                      role == RoleType.Supplier
                                   ? IconButton(
                                       constraints: BoxConstraints(),
                                       padding: EdgeInsets.zero,
