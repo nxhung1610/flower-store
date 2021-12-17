@@ -1,4 +1,5 @@
 import 'package:flower_store/src/blocs/bloc.dart';
+import 'package:flower_store/src/models/enums.dart';
 import 'package:flower_store/src/models/model.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';

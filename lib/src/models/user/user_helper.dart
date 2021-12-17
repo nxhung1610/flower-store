@@ -1,3 +1,6 @@
+import 'package:flower_store/src/models/user/supplier.dart';
+
+import '../enums.dart';
 import '../model.dart';
 
 class UserHelper {
@@ -17,6 +20,8 @@ class UserHelper {
         return Accountant.fromJson(staff);
       case RoleType.Seller:
         return Seller.fromJson(staff);
+      case RoleType.Supplier:
+        return Supplier.fromJson(staff);
     }
   }
 }

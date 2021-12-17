@@ -1,7 +1,7 @@
 import 'package:flower_store/src/blocs/bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/home/home_bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/package/package_bloc.dart';
-import 'package:flower_store/src/models/role/role_type.dart';
+import 'package:flower_store/src/models/enums.dart';
 import 'package:flower_store/src/screens/dashboard/cart/cart_page.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';

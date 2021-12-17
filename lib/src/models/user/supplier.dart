@@ -1,8 +1,7 @@
+import '../model.dart';
 
-import 'package:flower_store/src/models/user/staff.dart';
-
-class Manager extends Staff {
-  Manager(
+class Supplier extends Staff {
+  Supplier(
       {required sId,
       required name,
       phone,
@@ -17,5 +16,5 @@ class Manager extends Staff {
             role: role,
             url: url);
 
-  Manager.fromJson(Map<String, dynamic> json) : super.fromJson(json);
+  Supplier.fromJson(Map<String, dynamic> json) : super.fromJson(json);
 }

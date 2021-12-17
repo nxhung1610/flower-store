@@ -1,5 +1,7 @@
-import 'package:flower_store/src/models/role/role_type.dart';
+
 import 'package:flower_store/src/utils/themes/app_constant.dart';
+
+import '../enums.dart';
 
 abstract class Staff {
   final String sId;

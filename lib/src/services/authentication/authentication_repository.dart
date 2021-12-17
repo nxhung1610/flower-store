@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dio/src/dio.dart';
+import 'package:flower_store/src/models/enums.dart';
 import 'package:flower_store/src/models/model.dart';
 import 'package:flower_store/src/services/authentication/authentication_provider.dart';
 import 'package:flower_store/src/services/base/base_provider.dart';

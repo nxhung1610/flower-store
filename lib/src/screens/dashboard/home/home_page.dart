@@ -4,7 +4,7 @@ import 'package:flower_store/src/blocs/dashboard/add_product/add_product_bloc.da
 import 'package:flower_store/src/blocs/dashboard/home/home_bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/home/home_event.dart';
 import 'package:flower_store/src/blocs/dashboard/home/home_state.dart';
-import 'package:flower_store/src/models/role/role_type.dart';
+import 'package:flower_store/src/models/enums.dart';
 import 'package:flower_store/src/utils/components/loading_widget.dart';
 import 'package:flower_store/src/utils/general.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
