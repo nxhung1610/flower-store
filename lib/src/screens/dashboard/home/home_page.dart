@@ -27,7 +27,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    context.read<HomeBloc>().add(HomeLoaded());
+    context.read<HomeBloc>().add(HomeLoaded(
+        role: (context.read<AuthBloc>().state as AuthenticationAuthenticated)
+            .staff
+            .role));
     super.initState();
   }
 
@@ -49,7 +52,11 @@ class _HomePageState extends State<HomePage> {
                 ) ??
                 false;
             if (result == true) {
-              BlocProvider.of<HomeBloc>(context).add(HomeLoaded());
+              BlocProvider.of<HomeBloc>(context).add(HomeLoaded(
+                  role: (context.read<AuthBloc>().state
+                          as AuthenticationAuthenticated)
+                      .staff
+                      .role));
             }
           },
         ),
@@ -80,20 +87,41 @@ class _HomePageState extends State<HomePage> {
               child: BlocBuilder<HomeBloc, HomeState>(
                 builder: (context, state) {
                   if (state is HomeLoadSucess) {
-                    return ListView.separated(
-                      padding: EdgeInsets.symmetric(vertical: 20.h),
-                      physics: BouncingScrollPhysics(),
-                      itemCount: state.productList.length,
-                      separatorBuilder: (BuildContext context, int index) =>
-                          SizedBox(height: 20.h),
-                      itemBuilder: (context, index) {
-                        return ProductWidget(
-                          role: role,
-                          page: pageOfWidget.HOME,
-                          product: state.productList[index],
-                        );
-                      },
-                    );
+                    if (state.productList != null)
+                      return ListView.separated(
+                        padding: EdgeInsets.symmetric(vertical: 20.h),
+                        physics: BouncingScrollPhysics(),
+                        itemCount: state.productList!.length,
+                        separatorBuilder: (BuildContext context, int index) =>
+                            SizedBox(height: 20.h),
+                        itemBuilder: (context, index) {
+                          return ProductWidget(
+                            role: role,
+                            page: pageOfWidget.HOME,
+                            product: state.productList![index],
+                          );
+                        },
+                      );
+                    else if (state.packageList != null)
+                      return ListView.separated(
+                        padding: EdgeInsets.symmetric(vertical: 20.h),
+                        physics: BouncingScrollPhysics(),
+                        itemCount: state.packageList!.length,
+                        separatorBuilder: (BuildContext context, int index) =>
+                            SizedBox(height: 20.h),
+                        itemBuilder: (context, index) {
+                          return ProductWidget(
+                            role: role,
+                            page: pageOfWidget.HOME,
+                            product: state.packageList![index].product,
+                          );
+                        },
+                      );
+                    else {
+                      return Center(
+                        child: LoadingWidget(),
+                      );
+                    }
                   } else {
                     return Center(
                       child: LoadingWidget(),

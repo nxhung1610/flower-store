@@ -3,7 +3,7 @@ import 'package:flower_store/src/blocs/auth/auth.dart';
 import 'package:flower_store/src/blocs/bloc.dart';
 import 'package:flower_store/src/models/model.dart';
 import 'package:flower_store/src/models/user/manager.dart';
-import 'package:flower_store/src/models/user/staff.dart';
+import 'package:flower_store/src/models/base/staff.dart';
 import 'package:flower_store/src/screens/dashboard/widgets/item_action_function.dart';
 import 'package:flower_store/src/screens/manager_account/manager_account_page.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';

@@ -1,5 +1,4 @@
-
-import 'package:flower_store/src/models/user/staff.dart';
+import 'package:flower_store/src/models/base/staff.dart';
 
 class Manager extends Staff {
   Manager(

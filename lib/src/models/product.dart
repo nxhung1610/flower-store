@@ -40,7 +40,7 @@ class Product extends Equatable {
 
   toMap() {}
 
-  static fromMap(x) {}
+  
 
   Product.copy({required Product product}) {
     this.sId = product.sId;

@@ -1,9 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flower_store/src/models/bill/bill.dart';
-import 'package:flower_store/src/models/bill/customer.dart';
-import 'package:flower_store/src/models/bill/detail_bill.dart';
+import 'package:flower_store/src/models/base/bill/detail_bill.dart';
+
 import 'package:flower_store/src/models/cart/cart_product.dart';
+import 'package:flower_store/src/models/invoice/customer.dart';
+import 'package:flower_store/src/models/invoice/invoice.dart';
 import 'package:flower_store/src/services/app_repository.dart';
 
 part 'checkout_event.dart';
@@ -31,8 +32,8 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
       emit(state.copyWith(isLoading: true));
       try {
         _validation(state);
-        await AppRepository().bill.create(
-              bill: Bill(
+        await AppRepository().invoice.create(
+              invoice: Invoice(
                 customer: Customer(
                   name: state.nameCustomer,
                   phone: state.phone,

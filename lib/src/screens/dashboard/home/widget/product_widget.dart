@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flower_store/src/blocs/auth/auth.dart';
 import 'package:flower_store/src/blocs/cart/cart_bloc.dart';
 import 'package:flower_store/src/blocs/cart/cart_event.dart';
 import 'package:flower_store/src/blocs/cart/cart_state.dart';
@@ -463,7 +464,13 @@ class ProductWidget extends StatelessWidget {
                                             false;
                                         if (result == true) {
                                           BlocProvider.of<HomeBloc>(context)
-                                              .add(HomeLoaded());
+                                              .add(HomeLoaded(
+                                                  role: (context
+                                                              .read<AuthBloc>()
+                                                              .state
+                                                          as AuthenticationAuthenticated)
+                                                      .staff
+                                                      .role));
                                         }
                                       },
                                       icon: SvgPicture.asset(

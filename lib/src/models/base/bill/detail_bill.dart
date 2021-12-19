@@ -3,21 +3,19 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:flower_store/src/models/cart/cart_product.dart';
 
-import '../product.dart';
+import '../../product.dart';
 
 class DetailBill extends Equatable {
   final Product product;
   final int? quantity;
-  final double? totalPrice;
+  final int? totalPrice;
 
   const DetailBill({required this.product, this.quantity, this.totalPrice});
 
   factory DetailBill.fromMap(Map<String, dynamic> data) => DetailBill(
-        product: data['product'] == null
-            ? null
-            : Product.fromMap(data['product'] as Map<String, dynamic>),
+        product: Product.fromJson(data['product'] as Map<String, dynamic>),
         quantity: data['quantity'] as int?,
-        totalPrice: data['totalPrice'] as double?,
+        totalPrice: data['totalPrice'] as int?,
       );
 
   Map<String, dynamic> toMap() => {
@@ -41,7 +39,7 @@ class DetailBill extends Equatable {
   DetailBill copyWith({
     Product? product,
     int? quantity,
-    double? totalPrice,
+    int? totalPrice,
   }) {
     return DetailBill(
       product: product ?? this.product,
@@ -54,7 +52,7 @@ class DetailBill extends Equatable {
     return DetailBill(
       product: cartProduct,
       quantity: cartProduct.quantity,
-      totalPrice: (cartProduct.basePrice * cartProduct.quantity).toDouble(),
+      totalPrice: (cartProduct.basePrice * cartProduct.quantity),
     );
   }
 

@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flower_store/src/models/role/role.dart';
-import 'package:flower_store/src/models/user/staff.dart';
+import 'package:flower_store/src/models/base/staff.dart';
 import 'package:flower_store/src/services/app_repository.dart';
 import 'package:flower_store/src/services/base/base_repository.dart';
 import 'package:flower_store/src/utils/general.dart';
