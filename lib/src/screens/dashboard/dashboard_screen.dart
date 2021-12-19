@@ -1,6 +1,8 @@
 import 'package:flower_store/src/blocs/bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/home/home_bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/package/package_bloc.dart';
+import 'package:flower_store/src/blocs/invoice/invoice_bloc.dart';
+import 'package:flower_store/src/blocs/request/request_bloc.dart';
 import 'package:flower_store/src/models/enums.dart';
 import 'package:flower_store/src/screens/dashboard/cart/cart_page.dart';
 import 'package:flower_store/src/screens/screen.dart';
@@ -46,6 +48,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
         BlocProvider<PackageBloc>(
           create: (context) => PackageBloc(),
         ),
+        BlocProvider<InvoiceBloc>(
+          create: (context) => InvoiceBloc(),
+        ),
+        BlocProvider<RequestBloc>(
+          create: (context) => RequestBloc(),
+        )
       ],
       child: ScreenConfig(
         builder: () => BlocBuilder<DashboardBloc, DashboardState>(

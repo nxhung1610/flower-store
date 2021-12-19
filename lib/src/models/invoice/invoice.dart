@@ -10,13 +10,20 @@ import 'customer.dart';
 
 class Invoice extends Bill {
   final Customer? customer;
-  Invoice(
-      {String? id,
-      Staff? staff,
-      required this.customer,
-      List<DetailBill>? details = const [],
-      int? totalPrice})
-      : super(details: details, totalPrice: totalPrice, id: id, staff: staff);
+  Invoice({
+    String? id,
+    Staff? staff,
+    required this.customer,
+    List<DetailBill>? details = const [],
+    int? totalPrice,
+    DateTime? createdAt,
+  }) : super(
+          details: details,
+          totalPrice: totalPrice,
+          id: id,
+          staff: staff,
+          createdAt: createdAt,
+        );
 
   factory Invoice.fromMap(Map<String, dynamic> data) => Invoice(
         details: (data['details'] as List<dynamic>?)
@@ -26,10 +33,13 @@ class Invoice extends Bill {
             ? null
             : Customer.fromMap(data['customer'] as Map<String, dynamic>),
         totalPrice: data['totalPrice'] as int?,
-        staff: data["staff"] == null
-            ? null
-            : Staff.fromMap(data["staff"]),
+        staff: data["staff"] == null ? null : Staff.fromMap(data["staff"]),
         id: data["_id"] as String?,
+        createdAt: data["createdAt"] == null
+            ? null
+            : DateTime.parse(
+                data["createdAt"],
+              ),
       );
 
   Map<String, dynamic> toMap() => {

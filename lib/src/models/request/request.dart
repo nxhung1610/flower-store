@@ -16,7 +16,14 @@ class Request extends Bill {
     this.approve = false,
     this.status,
     int? totalPrice = 0,
-  }) : super(id: id, staff: staff, details: details, totalPrice: totalPrice);
+    DateTime? createdAt,
+  }) : super(
+          id: id,
+          staff: staff,
+          details: details,
+          totalPrice: totalPrice,
+          createdAt: createdAt,
+        );
 
   factory Request.fromMap(Map<String, dynamic> data) => Request(
         id: data['_id'] as String?,
@@ -29,6 +36,11 @@ class Request extends Bill {
         approve: data['approve'] as bool?,
         status: data['status'] as int?,
         totalPrice: data['totalPrice'] as int?,
+        createdAt: data["createdAt"] == null
+            ? null
+            : DateTime.parse(
+                data["createdAt"],
+              ),
       );
 
   Map<String, dynamic> toMap() => {
@@ -59,7 +71,7 @@ class Request extends Bill {
     bool? approve,
     int? status,
     int? totalPrice,
-    int? v,
+    DateTime? createdAt,
   }) {
     return Request(
       id: id ?? this.id,
@@ -68,6 +80,7 @@ class Request extends Bill {
       approve: approve ?? this.approve,
       status: status ?? this.status,
       totalPrice: totalPrice ?? this.totalPrice,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 

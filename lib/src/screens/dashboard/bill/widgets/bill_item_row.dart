@@ -1,69 +1,68 @@
+import 'package:flower_store/src/models/base/bill/bill.dart';
+import 'package:flower_store/src/models/invoice/invoice.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 class BillItem extends StatelessWidget {
+  final Bill bill;
   final Function() onClick;
-  const BillItem({Key? key, required this.onClick}) : super(key: key);
+  const BillItem({Key? key, required this.onClick, required this.bill})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      child: Container(
-        width: 441,
-        height: 64,
-        color: AppColors.color10,
-        child: Center(
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 26),
-                    child: Container(
-                      child: Text(
-                        '#123',
-                        style: AppTextStyle.header6.copyWith(
-                          color: AppColors.color8,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 27),
-                    child: Container(
-                      child: Text(
-                        'Jul 1,2021',
-                        style: AppTextStyle.header6.copyWith(
-                          color: AppColors.color3,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: Container(
-                      child: Text(
-                        '100,000 VND',
-                        style: AppTextStyle.header6.copyWith(
-                          color: AppColors.color6,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
       onTap: () {
         onClick();
       },
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 23.h),
+        width: double.infinity,
+        color: AppColors.color10,
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              child: Container(
+                child: Text(
+                  '#${bill.id.toString().replaceRange(5, bill.id!.length, '...')}',
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: AppTextStyle.header5.copyWith(
+                    color: AppColors.color8,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Text(
+                DateFormat('MMM dd,yyyy').format(bill.createdAt!),
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: AppTextStyle.header5.copyWith(
+                  color: AppColors.color3,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Text(
+                '${NumberFormat("###,###,###").format(bill.totalPrice)} VND',
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: AppTextStyle.header5.copyWith(
+                  color: AppColors.color6,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

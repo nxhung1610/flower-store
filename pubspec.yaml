@@ -45,6 +45,7 @@ dependencies:
   stream_transform: ^2.0.0
   shimmer: ^2.0.0
   optional: ^6.1.0+1
+  intl: ^0.17.0
 
 
 dev_dependencies:
