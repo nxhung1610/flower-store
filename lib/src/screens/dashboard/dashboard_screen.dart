@@ -113,11 +113,6 @@ _buildAppbar(GlobalKey<ScaffoldState> key, BuildContext context) {
     ),
     actions: [
       cartIcon(context),
-      IconButton(
-        iconSize: 30.h,
-        onPressed: () {},
-        icon: SvgPicture.asset('assets/ico_search.svg'),
-      ),
     ],
   );
 }

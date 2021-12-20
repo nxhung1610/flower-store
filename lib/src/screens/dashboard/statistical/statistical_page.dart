@@ -1,7 +1,10 @@
 import 'package:flower_store/src/blocs/bill/bill_bloc.dart';
 import 'package:flower_store/src/blocs/bill/bill_event.dart';
 import 'package:flower_store/src/blocs/bill/bill_state.dart';
+import 'package:flower_store/src/screens/dashboard/statistical/widget/bar_chart.dart';
+import 'package:flower_store/src/screens/dashboard/statistical/widget/line_chart_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/src/provider.dart';
 
 class StatisticalPage extends StatefulWidget {
@@ -22,9 +25,15 @@ class _StatisticalPageState extends State<StatisticalPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text('StatisticalPage'),
+    return BlocProvider(
+      create: (context) => BillBloc(),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            BarChartSample1(),
+            Chart(),
+          ],
+        ),
       ),
     );
   }

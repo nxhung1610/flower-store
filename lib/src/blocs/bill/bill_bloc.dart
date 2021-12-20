@@ -1,3 +1,4 @@
+import 'package:flower_store/src/blocs/auth/auth.dart';
 import 'package:flower_store/src/blocs/bill/bill_event.dart';
 import 'package:flower_store/src/models/base/bill/bill.dart';
 import 'package:flower_store/src/services/invoice/invoice_provider.dart';
