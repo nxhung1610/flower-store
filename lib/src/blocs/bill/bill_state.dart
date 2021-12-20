@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flower_store/src/models/bill/bill.dart';
+import 'package:flower_store/src/models/base/bill/bill.dart';
 
 class BillState extends Equatable {
   @override

@@ -12,9 +12,11 @@ class StatisticalPage extends StatefulWidget {
 }
 
 class _StatisticalPageState extends State<StatisticalPage> {
+  late BillBloc bloc;
   @override
   void initState() {
-    context.read<BillBloc>().add(BillLoaded());
+    bloc = context.read<BillBloc>();
+    bloc.add(BillLoaded());
     super.initState();
   }
 
