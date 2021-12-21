@@ -80,9 +80,8 @@ Widget cartIcon(BuildContext context) {
       (context.read<AuthBloc>().state as AuthenticationAuthenticated)
           .staff
           .role;
-  return role != RoleType.Seller
-      ? SizedBox.shrink()
-      : IconButton(
+  return [RoleType.Seller, RoleType.Warehouse].contains(role)
+      ? IconButton(
           iconSize: 30.h,
           onPressed: () {
             Navigator.pushNamed(
@@ -91,7 +90,8 @@ Widget cartIcon(BuildContext context) {
             );
           },
           icon: SvgPicture.asset('assets/ico_cart.svg'),
-        );
+        )
+      : SizedBox.shrink();
 }
 
 _buildAppbar(GlobalKey<ScaffoldState> key, BuildContext context) {

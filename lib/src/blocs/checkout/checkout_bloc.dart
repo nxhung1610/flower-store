@@ -1,17 +1,22 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flower_store/src/blocs/auth/auth.dart';
 import 'package:flower_store/src/models/base/bill/detail_bill.dart';
 
 import 'package:flower_store/src/models/cart/cart_product.dart';
+import 'package:flower_store/src/models/enums.dart';
 import 'package:flower_store/src/models/invoice/customer.dart';
 import 'package:flower_store/src/models/invoice/invoice.dart';
+import 'package:flower_store/src/models/request/request.dart';
 import 'package:flower_store/src/services/app_repository.dart';
 
 part 'checkout_event.dart';
 part 'checkout_state.dart';
 
 class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
-  CheckoutBloc({required List<CartProduct> productsInCart})
+  final AuthBloc authBloc;
+  CheckoutBloc(
+      {required this.authBloc, required List<CartProduct> productsInCart})
       : super(CheckoutState(
           detailBills: productsInCart
               .map(
@@ -31,20 +36,33 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     on<BillOrder>((event, emit) async {
       emit(state.copyWith(isLoading: true));
       try {
-        _validation(state);
-        await AppRepository().invoice.create(
-              invoice: Invoice(
-                customer: Customer(
-                  name: state.nameCustomer,
-                  phone: state.phone,
-                  email: state.email,
+        if ((authBloc.state as AuthenticationAuthenticated).staff.role ==
+            RoleType.Seller) {
+          _validation(state);
+          await AppRepository().invoice.create(
+                invoice: Invoice(
+                  customer: Customer(
+                    name: state.nameCustomer,
+                    phone: state.phone,
+                    email: state.email,
+                  ),
+                  details: state.detailBills,
+                  totalPrice: state.detailBills
+                      .map((e) => e.totalPrice)
+                      .reduce((value, element) => value! + element!),
                 ),
-                details: state.detailBills,
-                totalPrice: state.detailBills
-                    .map((e) => e.totalPrice)
-                    .reduce((value, element) => value! + element!),
-              ),
-            );
+              );
+        } else if ((authBloc.state as AuthenticationAuthenticated).staff.role ==
+            RoleType.Warehouse) {
+          await AppRepository().request.create(
+                request: Request(
+                  details: state.detailBills,
+                  totalPrice: state.detailBills
+                      .map((e) => e.totalPrice)
+                      .reduce((value, element) => value! + element!),
+                ),
+              );
+        }
 
         emit(state.copyWith(isSuccess: true));
       } catch (error) {

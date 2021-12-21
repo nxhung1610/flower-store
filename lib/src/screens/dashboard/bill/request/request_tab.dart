@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../detail_bill_page.dart';
+
 class RequestTab extends StatefulWidget {
   RequestTab({Key? key}) : super(key: key);
 
@@ -78,10 +80,15 @@ class _RequestTabState extends State<RequestTab> {
                   physics: BouncingScrollPhysics(),
                   itemCount: state.requestList.length,
                   separatorBuilder: (BuildContext context, int index) =>
-                      SizedBox(height: 1.h),
+                      Divider(
+                    height: 1.sp,
+                  ),
                   itemBuilder: (context, index) {
                     return BillItem(
-                      onClick: () {},
+                      onClick: () {
+                        Navigator.pushNamed(context, DetailBillPage.nameRoute,
+                            arguments: state.requestList[index]);
+                      },
                       bill: state.requestList[index],
                     );
                   },

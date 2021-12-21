@@ -1,9 +1,11 @@
 import 'package:another_flushbar/flushbar.dart';
+import 'package:flower_store/src/blocs/auth/auth.dart';
 import 'package:flower_store/src/blocs/cart/cart_bloc.dart';
 import 'package:flower_store/src/blocs/cart/cart_event.dart';
 import 'package:flower_store/src/blocs/checkout/checkout_bloc.dart';
 import 'package:flower_store/src/blocs/manager_account/add_account/add_account.dart';
 import 'package:flower_store/src/models/cart/cart_product.dart';
+import 'package:flower_store/src/models/enums.dart';
 import 'package:flower_store/src/screens/base/screen_config.dart';
 import 'package:flower_store/src/screens/dashboard/bill/detail_bill_widget/detail_bill_expandable_widget.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
@@ -38,9 +40,11 @@ class _CheckOutPageState extends State<CheckOutPage> {
   Widget build(BuildContext context) {
     var productList =
         ModalRoute.of(context)!.settings.arguments! as List<CartProduct>;
+    final authBloc = context.read<AuthBloc>();
     return ScreenConfig(
       builder: () => BlocProvider<CheckoutBloc>(
-        create: (context) => CheckoutBloc(productsInCart: productList),
+        create: (context) =>
+            CheckoutBloc(authBloc: authBloc, productsInCart: productList),
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
@@ -104,7 +108,13 @@ class __BodyScreenState extends State<_BodyScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      _FormCustomer(),
+                      ((context.read<AuthBloc>().state
+                                      as AuthenticationAuthenticated)
+                                  .staff
+                                  .role ==
+                              RoleType.Seller)
+                          ? _FormCustomer()
+                          : Container(),
                       SizedBox(
                         height: 25.h,
                       ),
@@ -117,7 +127,11 @@ class __BodyScreenState extends State<_BodyScreen> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            DetailBillExpandable(),
+                            BlocBuilder<CheckoutBloc, CheckoutState>(
+                              builder: (context, state) => DetailBillExpandable(
+                                details: state.detailBills,
+                              ),
+                            ),
                             Row(
                               children: [
                                 Text(

@@ -1,4 +1,5 @@
 import 'package:flower_store/src/blocs/invoice/invoice_bloc.dart';
+import 'package:flower_store/src/screens/dashboard/bill/detail_bill_page.dart';
 import 'package:flower_store/src/screens/dashboard/bill/widgets/bill_item_row.dart';
 import 'package:flower_store/src/utils/components/error_widget.dart';
 import 'package:flower_store/src/utils/components/loading_widget.dart';
@@ -77,10 +78,15 @@ class _InvoiceTabState extends State<InvoiceTab> {
                   physics: BouncingScrollPhysics(),
                   itemCount: state.invoices.length,
                   separatorBuilder: (BuildContext context, int index) =>
-                      SizedBox(height: 1.h),
+                      Divider(
+                    height: 1.sp,
+                  ),
                   itemBuilder: (context, index) {
                     return BillItem(
-                      onClick: () {},
+                      onClick: () {
+                        Navigator.pushNamed(context, DetailBillPage.nameRoute,
+                            arguments: state.invoices[index]);
+                      },
                       bill: state.invoices[index],
                     );
                   },

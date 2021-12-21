@@ -1,3 +1,4 @@
+import 'package:flower_store/src/screens/dashboard/bill/detail_bill_page.dart';
 import 'package:flower_store/src/screens/dashboard/cart/cart_page.dart';
 import 'package:flower_store/src/screens/dashboard/checkout/checkout_page.dart';
 import 'package:flower_store/src/screens/init/init_screen.dart';
@@ -31,6 +32,8 @@ class AppRoutes {
         return CartPage.route(settings);
       case CheckOutPage.nameRoute:
         return CheckOutPage.route(settings);
+      case DetailBillPage.nameRoute:
+        return DetailBillPage.route(settings);
       default:
         return _errorRoute();
     }
