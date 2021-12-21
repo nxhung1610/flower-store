@@ -16,7 +16,8 @@ class InvoiceTab extends StatefulWidget {
   _InvoiceTabState createState() => _InvoiceTabState();
 }
 
-class _InvoiceTabState extends State<InvoiceTab> {
+class _InvoiceTabState extends State<InvoiceTab>
+    with AutomaticKeepAliveClientMixin<InvoiceTab> {
   @override
   void initState() {
     context.read<InvoiceBloc>().add(InvoiceLoaded());
@@ -71,43 +72,54 @@ class _InvoiceTabState extends State<InvoiceTab> {
           height: 1.w,
         ),
         Expanded(
-          child: BlocBuilder<InvoiceBloc, InvoiceState>(
-            builder: (context, state) {
-              if (state is InvoiceLoadedSuccess) {
-                return ListView.separated(
-                  physics: BouncingScrollPhysics(),
-                  itemCount: state.invoices.length,
-                  separatorBuilder: (BuildContext context, int index) =>
-                      Divider(
-                    height: 1.sp,
-                  ),
-                  itemBuilder: (context, index) {
-                    return BillItem(
-                      onClick: () {
-                        Navigator.pushNamed(context, DetailBillPage.nameRoute,
-                            arguments: state.invoices[index]);
-                      },
-                      bill: state.invoices[index],
-                    );
-                  },
-                );
-              } else if (state is InvoiceLoading) {
-                return Center(
-                  child: LoadingWidget(),
-                );
-              } else if (state is InvoiceLoadedFail) {
-                return Center(
-                  child: CustomErrorWidget(
-                    message: (state).message,
-                  ),
-                );
-              } else {
-                return Container();
-              }
+          child: RefreshIndicator(
+            color: AppColors.color3,
+            onRefresh: () async {
+              context.read<InvoiceBloc>().add(InvoiceLoaded());
             },
+            child: BlocBuilder<InvoiceBloc, InvoiceState>(
+              builder: (context, state) {
+                if (state is InvoiceLoadedSuccess) {
+                  return ListView.separated(
+                    physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
+                    itemCount: state.invoices.length,
+                    separatorBuilder: (BuildContext context, int index) =>
+                        Divider(
+                      height: 1.sp,
+                    ),
+                    itemBuilder: (context, index) {
+                      return BillItem(
+                        onClick: () {
+                          Navigator.pushNamed(context, DetailBillPage.nameRoute,
+                              arguments: state.invoices[index]);
+                        },
+                        bill: state.invoices[index],
+                      );
+                    },
+                  );
+                } else if (state is InvoiceLoading) {
+                  return Center(
+                    child: LoadingWidget(),
+                  );
+                } else if (state is InvoiceLoadedFail) {
+                  return Center(
+                    child: CustomErrorWidget(
+                      message: (state).message,
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
           ),
         )
       ],
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

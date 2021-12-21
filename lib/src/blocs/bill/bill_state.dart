@@ -8,3 +8,6 @@ abstract class BillState extends Equatable {
 }
 
 class BillInitial extends BillState {}
+
+
+class BillLoading extends BillState{}

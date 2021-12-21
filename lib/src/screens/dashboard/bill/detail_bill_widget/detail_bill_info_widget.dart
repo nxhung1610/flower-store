@@ -74,7 +74,7 @@ class DetailBillStaff extends StatelessWidget {
                   child: Container(
                     child: IntrinsicWidth(
                       child: Text(
-                        bill.staff!.name!,
+                        'Staff',
                         style: AppTextStyle.header6.copyWith(
                           color: AppColors.color6,
                           fontWeight: FontWeight.w600,
@@ -139,7 +139,7 @@ class DetailBillStaff extends StatelessWidget {
                         child: Container(
                           child: IntrinsicWidth(
                             child: Text(
-                              '${(bill as Invoice).customer?.name}',
+                              'Customer',
                               style: AppTextStyle.header6.copyWith(
                                 color: AppColors.color6,
                                 fontWeight: FontWeight.w600,
@@ -158,19 +158,30 @@ class DetailBillStaff extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  '#${bill.staff?.id.toString().replaceRange(10, context.read<BillBloc>().bill.staff?.id!.length, '...')}',
-                                  style: AppTextStyle.header6.copyWith(
-                                    color: AppColors.color8,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                Text(
-                                  '${bill.staff?.name}',
+                                  '${bill.customer?.name}',
                                   style: AppTextStyle.header6.copyWith(
                                     color: AppColors.color2,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
+                                bill.customer?.phone != null
+                                    ? Text(
+                                        '${bill.customer?.phone}',
+                                        style: AppTextStyle.header6.copyWith(
+                                          color: AppColors.color8,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      )
+                                    : Container(),
+                                bill.customer?.email != null
+                                    ? Text(
+                                        '${bill.customer?.email}',
+                                        style: AppTextStyle.header6.copyWith(
+                                          color: AppColors.color8,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      )
+                                    : Container(),
                               ],
                             ),
                           ),

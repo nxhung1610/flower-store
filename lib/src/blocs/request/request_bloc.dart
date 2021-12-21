@@ -10,6 +10,7 @@ part 'request_state.dart';
 class RequestBloc extends Bloc<RequestEvent, RequestState> {
   RequestBloc() : super(RequestInitial()) {
     on<RequestLoaded>((event, emit) async {
+      emit(RequestLoading());
       try {
         final requestList = await AppRepository().request.get();
         emit(RequestLoadedSuccess(requestList: requestList));

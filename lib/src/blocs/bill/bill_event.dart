@@ -7,3 +7,8 @@ abstract class BillEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class BillApprove extends BillEvent {}
+
+class BillDone extends BillEvent {}
+
+class BillCancel extends BillEvent {}

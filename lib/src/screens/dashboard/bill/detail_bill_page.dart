@@ -96,6 +96,7 @@ class _DetailBillPageState extends State<DetailBillPage> {
                         ],
                       ),
                     ),
+                    
                   ],
                 )),
           ),

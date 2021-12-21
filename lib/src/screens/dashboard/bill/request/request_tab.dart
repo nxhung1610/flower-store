@@ -18,7 +18,8 @@ class RequestTab extends StatefulWidget {
   _RequestTabState createState() => _RequestTabState();
 }
 
-class _RequestTabState extends State<RequestTab> {
+class _RequestTabState extends State<RequestTab>
+    with AutomaticKeepAliveClientMixin<RequestTab> {
   @override
   void initState() {
     context.read<RequestBloc>().add(RequestLoaded());
@@ -73,43 +74,54 @@ class _RequestTabState extends State<RequestTab> {
           height: 1.w,
         ),
         Expanded(
-          child: BlocBuilder<RequestBloc, RequestState>(
-            builder: (context, state) {
-              if (state is RequestLoadedSuccess) {
-                return ListView.separated(
-                  physics: BouncingScrollPhysics(),
-                  itemCount: state.requestList.length,
-                  separatorBuilder: (BuildContext context, int index) =>
-                      Divider(
-                    height: 1.sp,
-                  ),
-                  itemBuilder: (context, index) {
-                    return BillItem(
-                      onClick: () {
-                        Navigator.pushNamed(context, DetailBillPage.nameRoute,
-                            arguments: state.requestList[index]);
-                      },
-                      bill: state.requestList[index],
-                    );
-                  },
-                );
-              } else if (state is RequestLoading) {
-                return Center(
-                  child: LoadingWidget(),
-                );
-              } else if (state is RequestLoadedFail) {
-                return Center(
-                  child: CustomErrorWidget(
-                    message: (state).message,
-                  ),
-                );
-              } else {
-                return Container();
-              }
+          child: RefreshIndicator(
+            color: AppColors.color3,
+            onRefresh: () async {
+              context.read<RequestBloc>().add(RequestLoaded());
             },
+            child: BlocBuilder<RequestBloc, RequestState>(
+              builder: (context, state) {
+                if (state is RequestLoadedSuccess) {
+                  return ListView.separated(
+                    physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
+                    itemCount: state.requestList.length,
+                    separatorBuilder: (BuildContext context, int index) =>
+                        Divider(
+                      height: 1.sp,
+                    ),
+                    itemBuilder: (context, index) {
+                      return BillItem(
+                        onClick: () {
+                          Navigator.pushNamed(context, DetailBillPage.nameRoute,
+                              arguments: state.requestList[index]);
+                        },
+                        bill: state.requestList[index],
+                      );
+                    },
+                  );
+                } else if (state is RequestLoading) {
+                  return Center(
+                    child: LoadingWidget(),
+                  );
+                } else if (state is RequestLoadedFail) {
+                  return Center(
+                    child: CustomErrorWidget(
+                      message: (state).message,
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
           ),
         )
       ],
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

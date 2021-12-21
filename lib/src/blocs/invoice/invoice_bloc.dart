@@ -10,6 +10,7 @@ part 'invoice_state.dart';
 class InvoiceBloc extends Bloc<InvoiceLoaded, InvoiceState> {
   InvoiceBloc() : super(InvoiceInitial()) {
     on<InvoiceLoaded>((event, emit) async {
+      emit(InvoiceLoading());
       try {
         final listInvoice = await AppRepository().invoice.get();
         emit(InvoiceLoadedSuccess(invoices: listInvoice));
