@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
-class BillEvent extends Equatable {
+class StatisticEvent extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [];
 }
 
-class BillLoaded extends BillEvent {}
+class StatisticLoaded extends StatisticEvent {}

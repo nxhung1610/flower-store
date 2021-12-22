@@ -1,4 +1,4 @@
-import 'package:flower_store/src/blocs/bill/bill_bloc.dart';
+import 'package:flower_store/src/blocs/Statistic/statistic_bloc.dart';
 import 'package:flower_store/src/blocs/bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/home/home_bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/package/package_bloc.dart';
@@ -197,7 +197,7 @@ class _BodyScreen extends StatelessWidget {
         return BillPage();
       case PageName.Statistical:
         return BlocProvider(
-          create: (context) => BillBloc(),
+          create: (context) => StatisticBloc(),
           child: StatisticalPage(),
         );
       default:

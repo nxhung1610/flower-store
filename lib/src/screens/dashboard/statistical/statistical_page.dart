@@ -1,6 +1,5 @@
-import 'package:flower_store/src/blocs/bill/bill_bloc.dart';
-import 'package:flower_store/src/blocs/bill/bill_event.dart';
-import 'package:flower_store/src/blocs/bill/bill_state.dart';
+import 'package:flower_store/src/blocs/Statistic/statistic_bloc.dart';
+import 'package:flower_store/src/blocs/Statistic/statistic_event.dart';
 import 'package:flower_store/src/screens/dashboard/statistical/widget/line_chart_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,18 +14,18 @@ class StatisticalPage extends StatefulWidget {
 }
 
 class _StatisticalPageState extends State<StatisticalPage> {
-  late BillBloc bloc;
+  late StatisticBloc bloc;
   @override
   void initState() {
-    bloc = context.read<BillBloc>();
-    bloc.add(BillLoaded());
+    bloc = context.read<StatisticBloc>();
+    bloc.add(StatisticLoaded());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => BillBloc(),
+      create: (context) => StatisticBloc(),
       child: SingleChildScrollView(
         child: Column(
           children: [
