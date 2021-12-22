@@ -27,13 +27,20 @@ class _StatisticalPageState extends State<StatisticalPage> {
     return BlocProvider(
       create: (context) => StatisticBloc(),
       child: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 5.h,
-            ),
-            Chart(),
-          ],
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 15.h,
+              ),
+              Chart(isInvoice: true),
+              SizedBox(
+                height: 15.h,
+              ),
+              Chart(isInvoice: false),
+            ],
+          ),
         ),
       ),
     );

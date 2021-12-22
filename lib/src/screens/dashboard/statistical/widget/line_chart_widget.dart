@@ -1,11 +1,14 @@
 import 'package:fl_chart/fl_chart.dart';
-
-import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
+import 'package:flower_store/src/utils/themes/app_colors.dart';
 
 class Chart extends StatefulWidget {
-  const Chart({Key? key}) : super(key: key);
+  final bool isInvoice;
+  const Chart({
+    Key? key,
+    required this.isInvoice,
+  }) : super(key: key);
 
   @override
   _ChartState createState() => _ChartState();
@@ -25,12 +28,14 @@ class _ChartState extends State<Chart> {
           borderRadius: BorderRadius.all(
             Radius.circular(18),
           ),
-          color: AppColors.color2),
+          color: AppColors.color3),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            "Monthly Report",
+            widget.isInvoice
+                ? "Invoice Monthly Report"
+                : "Request Monthly Report",
             style: TextStyle(
                 fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
           ),
@@ -104,7 +109,6 @@ class _ChartState extends State<Chart> {
                 return '11';
               case 11:
                 return '12';
-              case 12:
             }
             return '';
           },

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flower_store/src/models/base/bill/bill.dart';
+import 'package:flower_store/src/models/invoice/invoice.dart';
 
 class StatisticState extends Equatable {
   @override
@@ -10,10 +11,10 @@ class StatisticState extends Equatable {
 class StatisticInitial extends StatisticState {}
 
 class StatisticLoadSucess extends StatisticState {
-  final List<Bill> billList;
+  final List<Invoice> invoiceList;
 
-  StatisticLoadSucess({required this.billList});
+  StatisticLoadSucess({required this.invoiceList});
 
   @override
-  List<Object> get props => [billList];
+  List<Object> get props => [invoiceList];
 }
