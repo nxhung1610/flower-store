@@ -1,5 +1,8 @@
+import 'package:flower_store/src/blocs/auth/auth.dart';
 import 'package:flower_store/src/blocs/bill/bill_bloc.dart';
 import 'package:flower_store/src/models/base/bill/bill.dart';
+import 'package:flower_store/src/models/enums.dart';
+import 'package:flower_store/src/models/request/request.dart';
 import 'package:flower_store/src/screens/dashboard/bill/detail_bill_widget/detail_bill_expandable_widget.dart';
 import 'package:flower_store/src/screens/dashboard/bill/detail_bill_widget/detail_bill_info_widget.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
@@ -29,6 +32,9 @@ class _DetailBillPageState extends State<DetailBillPage> {
   @override
   Widget build(BuildContext context) {
     var bill = ModalRoute.of(context)!.settings.arguments! as Bill;
+    var role = (context.read<AuthBloc>().state as AuthenticationAuthenticated)
+        .staff
+        .role;
     return BlocProvider<BillBloc>(
       create: (context) => BillBloc(bill: bill),
       child: Scaffold(
@@ -96,7 +102,106 @@ class _DetailBillPageState extends State<DetailBillPage> {
                         ],
                       ),
                     ),
-                    
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    bill is Request
+                        ? Builder(
+                            builder: (context) {
+                              switch (RequestExtension.getValue(bill.status!)) {
+                                case RequestStatus.Pending:
+                                  switch (role) {
+                                    case RoleType.Warehouse:
+                                      return Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Material(
+                                            borderRadius:
+                                                BorderRadius.circular(10.w),
+                                            color: AppColors.color3,
+                                            child: InkWell(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.w),
+                                              onTap: () {},
+                                              child: Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 50.w,
+                                                    vertical: 14.h),
+                                                child: Text(
+                                                  'Done',
+                                                  style: AppTextStyle.header5
+                                                      .copyWith(
+                                                          color:
+                                                              AppColors.color10,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 20.w,
+                                          ),
+                                          Material(
+                                            borderRadius:
+                                                BorderRadius.circular(10.w),
+                                            color: AppColors.color10,
+                                            child: InkWell(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.w),
+                                              onTap: () {},
+                                              child: Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 50.w,
+                                                    vertical: 14.h),
+                                                child: Text(
+                                                  'Cancel',
+                                                  style: AppTextStyle.header5
+                                                      .copyWith(
+                                                          color:
+                                                              AppColors.color3,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    case RoleType.Supplier:
+                                      return Material(
+                                        borderRadius:
+                                            BorderRadius.circular(10.w),
+                                        color: AppColors.color3,
+                                        child: InkWell(
+                                          borderRadius:
+                                              BorderRadius.circular(10.w),
+                                          onTap: () {},
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 50.w,
+                                                vertical: 14.h),
+                                            child: Text(
+                                              'Approve',
+                                              style: AppTextStyle.header5
+                                                  .copyWith(
+                                                      color: AppColors.color10,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    default:
+                                      return Container();
+                                  }
+                                  break;
+                                default:
+                                  return Container();
+                              }
+                            },
+                          )
+                        : Container(),
                   ],
                 )),
           ),
