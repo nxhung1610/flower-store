@@ -13,14 +13,6 @@ class Chart extends StatefulWidget {
 }
 
 class _ChartState extends State<Chart> {
-  late BillBloc bloc;
-  @override
-  void initState() {
-    bloc = context.read<BillBloc>();
-    bloc.add(BillLoaded());
-    super.initState();
-  }
-
   List<Color> gradientColors = [
     AppColors.color10,
     AppColors.color10,
@@ -34,7 +26,7 @@ class _ChartState extends State<Chart> {
           borderRadius: BorderRadius.all(
             Radius.circular(18),
           ),
-          color: AppColors.color1),
+          color: AppColors.color2),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -44,10 +36,10 @@ class _ChartState extends State<Chart> {
                 fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
           ),
           AspectRatio(
-            aspectRatio: 1.3,
+            aspectRatio: 1.7,
             child: Padding(
-              padding: const EdgeInsets.only(
-                  right: 10.0, left: 10.0, top: 8, bottom: 10),
+              padding:
+                  const EdgeInsets.only(right: 5, left: 5, top: 8, bottom: 10),
               child: LineChart(
                 monthChart(),
               ),
@@ -80,39 +72,40 @@ class _ChartState extends State<Chart> {
       titlesData: FlTitlesData(
         show: true,
         bottomTitles: SideTitles(
-          interval: 3,
+          interval: 1,
           showTitles: true,
-          reservedSize: 22,
+          reservedSize: 12,
           getTextStyles: (context, value) => const TextStyle(
               color: AppColors.color10,
               fontWeight: FontWeight.bold,
               fontSize: 16),
           getTitles: (value) {
             switch (value.toInt()) {
+              case 0:
+                return '1';
               case 1:
-                return 'JAN';
+                return '2';
               case 2:
-                return 'FEB';
+                return '3';
               case 3:
-                return 'MAR';
+                return '4';
               case 4:
-                return 'APR';
+                return '5';
               case 5:
-                return 'MAY';
+                return '6';
               case 6:
-                return 'JUN';
+                return '7';
               case 7:
-                return 'JUL';
+                return '8';
               case 8:
-                return 'AUG';
+                return '9';
               case 9:
-                return 'SEP';
+                return '10';
               case 10:
-                return 'OCT';
+                return '11';
               case 11:
-                return 'NOV';
+                return '12';
               case 12:
-                return 'DEC';
             }
             return '';
           },
@@ -123,30 +116,33 @@ class _ChartState extends State<Chart> {
           getTextStyles: (context, value) => const TextStyle(
             color: AppColors.color10,
             fontWeight: FontWeight.bold,
-            fontSize: 15,
+            fontSize: 13,
           ),
           getTitles: (value) {
             return value.toString();
           },
-          reservedSize: 25,
-          interval: 6,
+          interval: 1,
           margin: 12,
         ),
         topTitles: SideTitles(showTitles: false),
         rightTitles: SideTitles(showTitles: false),
       ),
       borderData: FlBorderData(
-          show: true, border: Border.all(color: AppColors.color10, width: 1)),
+        show: true,
+        border: Border.all(color: AppColors.color10, width: 1),
+      ),
+      minX: 0,
+      minY: 0,
       lineBarsData: [
         LineChartBarData(
           spots: const [
             FlSpot(0, 3),
-            FlSpot(2.6, 2.44),
-            FlSpot(4.9, 6.44),
-            FlSpot(6.8, 2.44),
-            FlSpot(8, 4.44),
-            FlSpot(9.5, 5.44),
-            FlSpot(11, 3.44),
+            FlSpot(2.6, 2),
+            FlSpot(4.9, 5),
+            FlSpot(6.8, 3.1),
+            FlSpot(8, 4),
+            FlSpot(9.5, 3),
+            FlSpot(11, 4),
           ],
           isCurved: true,
           colors: [
@@ -155,7 +151,7 @@ class _ChartState extends State<Chart> {
             ColorTween(begin: gradientColors[0], end: gradientColors[1])
                 .lerp(0.2)!,
           ],
-          barWidth: 5,
+          barWidth: 3,
           isStrokeCapRound: true,
           dotData: FlDotData(
             show: false,
@@ -163,10 +159,10 @@ class _ChartState extends State<Chart> {
           belowBarData: BarAreaData(show: true, colors: [
             ColorTween(begin: gradientColors[0], end: gradientColors[1])
                 .lerp(0.2)!
-                .withOpacity(0.1),
+                .withOpacity(0.5),
             ColorTween(begin: gradientColors[0], end: gradientColors[1])
                 .lerp(0.2)!
-                .withOpacity(0.1),
+                .withOpacity(0.5),
           ]),
         ),
       ],
