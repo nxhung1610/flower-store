@@ -46,6 +46,8 @@ dependencies:
   shimmer: ^2.0.0
   optional: ^6.1.0+1
   intl: ^0.17.0
+  fl_chart: ^0.40.6
+  charts_flutter: ^0.12.0
 
 
 dev_dependencies:

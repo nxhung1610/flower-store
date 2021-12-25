@@ -1,3 +1,4 @@
+import 'package:flower_store/src/blocs/Statistic/statistic_bloc.dart';
 import 'package:flower_store/src/blocs/bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/home/home_bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/package/package_bloc.dart';
@@ -112,11 +113,6 @@ _buildAppbar(GlobalKey<ScaffoldState> key, BuildContext context) {
     ),
     actions: [
       cartIcon(context),
-      IconButton(
-        iconSize: 30.h,
-        onPressed: () {},
-        icon: SvgPicture.asset('assets/ico_search.svg'),
-      ),
     ],
   );
 }
@@ -200,7 +196,10 @@ class _BodyScreen extends StatelessWidget {
       case PageName.Bill:
         return BillPage();
       case PageName.Statistical:
-        return StatisticalPage();
+        return BlocProvider(
+          create: (context) => StatisticBloc(),
+          child: StatisticalPage(),
+        );
       default:
         return Container();
     }
