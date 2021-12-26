@@ -12,7 +12,7 @@ import 'package:flower_store/src/models/cart/cart_product.dart';
 import 'package:flower_store/src/models/enums.dart';
 import 'package:flower_store/src/models/product.dart';
 import 'package:flower_store/src/screens/dashboard/home/widget/product_bottom_sheet.dart';
-import 'package:flower_store/src/screens/dashboard/home/widget/product_widget_temp.dart';
+import 'package:flower_store/src/screens/dashboard/home/widget/product_widget.dart';
 import 'package:flower_store/src/utils/components/loading_widget.dart';
 import 'package:flower_store/src/utils/general.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
@@ -24,7 +24,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'add_product_page.dart';
 import 'update_product_page.dart';
-import 'widget/product_widget.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -104,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                         separatorBuilder: (BuildContext context, int index) =>
                             SizedBox(height: 5.h),
                         itemBuilder: (context, index) {
-                          return ProductWidgetTemp(
+                          return ProductWidget(
                             role: role,
                             onEdit: () async {
                               final result = await Navigator.push(
@@ -151,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                         separatorBuilder: (BuildContext context, int index) =>
                             SizedBox(height: 5.h),
                         itemBuilder: (context, index) {
-                          return ProductWidgetTemp(
+                          return ProductWidget(
                             role: role,
                             onClick: () {
                               if (role == RoleType.Seller ||

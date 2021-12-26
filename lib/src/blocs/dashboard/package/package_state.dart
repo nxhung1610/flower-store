@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flower_store/src/blocs/dashboard/home/home_helper.dart';
+import 'package:flower_store/src/models/package/package.dart';
 import 'package:flower_store/src/models/product.dart';
 
 class PackageState extends Equatable {
@@ -10,11 +11,22 @@ class PackageState extends Equatable {
 
 class PackageInitState extends PackageState {}
 
-class PackageLoadSucess extends PackageState {
-  final List<Product> productList;
+class PackageLoading extends PackageState {}
 
-  PackageLoadSucess({required this.productList});
+class PackageLoadSucess extends PackageState {
+  final List<Package> packageList;
+
+  PackageLoadSucess({required this.packageList});
 
   @override
-  List<Object> get props => [productList];
+  List<Object> get props => [packageList];
+}
+
+class PackageLoadFail extends PackageState {
+  final String message;
+
+  PackageLoadFail({required this.message});
+  @override
+  // TODO: implement props
+  List<Object?> get props => [message];
 }
