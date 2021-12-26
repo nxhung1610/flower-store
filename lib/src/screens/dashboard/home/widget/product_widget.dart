@@ -19,7 +19,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import '../update_product_page.dart';
 
 enum pageOfWidget { HOME, PACKAGE, NOEDIT }
@@ -464,13 +463,15 @@ class ProductWidget extends StatelessWidget {
                                             false;
                                         if (result == true) {
                                           BlocProvider.of<HomeBloc>(context)
-                                              .add(HomeLoaded(
-                                                  role: (context
-                                                              .read<AuthBloc>()
-                                                              .state
-                                                          as AuthenticationAuthenticated)
-                                                      .staff
-                                                      .role));
+                                              .add(
+                                            HomeLoaded(
+                                                role: (context
+                                                            .read<AuthBloc>()
+                                                            .state
+                                                        as AuthenticationAuthenticated)
+                                                    .staff
+                                                    .role),
+                                          );
                                         }
                                       },
                                       icon: SvgPicture.asset(
