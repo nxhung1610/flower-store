@@ -15,11 +15,16 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
         final requestList = await AppRepository().request.get();
         emit(RequestLoadedSuccess(requestList: requestList));
       } catch (error) {
+        emit(RequestLoading());
         if (error is Response)
           emit(RequestLoadedFail(message: error.data["message"]));
         else
           emit(RequestLoadedFail(message: error.toString()));
       }
+    });
+    on<RequestApprove>((event, emit) async {
+      event.loadingState(true);
+      try {} catch (error) {}
     });
   }
 }

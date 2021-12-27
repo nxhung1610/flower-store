@@ -37,53 +37,58 @@ class AddProductPage extends StatelessWidget {
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 60.h),
+          padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 30.h),
           child: Column(
             children: [
-              InkWell(
-                onTap: () => BlocProvider.of<AddProductBloc>(context)
-                    .add(AddProductChooseImage()),
-                child: BlocBuilder<AddProductBloc, AddProductState>(
-                  builder: (context, state) {
-                    return state.image != ""
-                        ? SizedBox(
-                            width: 260.w,
-                            height: 190.h,
-                            child: Container(
-                              color: Colors.transparent,
-                              child: FittedBox(
-                                fit: BoxFit.fill,
-                                child: Image.file(
-                                  File(
-                                    state.image,
+              Container(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20.w),
+                  child: InkWell(
+                    onTap: () => BlocProvider.of<AddProductBloc>(context)
+                        .add(AddProductChooseImage()),
+                    child: BlocBuilder<AddProductBloc, AddProductState>(
+                      builder: (context, state) {
+                        return state.image != ""
+                            ? SizedBox(
+                                width: 260.w,
+                                height: 260.w,
+                                child: Container(
+                                  color: Colors.transparent,
+                                  child: FittedBox(
+                                    fit: BoxFit.fill,
+                                    child: Image.file(
+                                      File(
+                                        state.image,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          )
-                        : Container(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/icon.svg',
+                              )
+                            : Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(
+                                      'assets/icon.svg',
+                                    ),
+                                    SizedBox(height: 20.h),
+                                    Container(
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 77.w),
+                                      child: Text('Choose your product image',
+                                          textAlign: TextAlign.center,
+                                          style: AppTextStyle.header4.copyWith(
+                                              color: AppColors.color2)),
+                                    )
+                                  ],
                                 ),
-                                SizedBox(height: 20.h),
-                                Container(
-                                  margin:
-                                      EdgeInsets.symmetric(horizontal: 77.w),
-                                  child: Text('Choose your product image',
-                                      textAlign: TextAlign.center,
-                                      style: AppTextStyle.header4
-                                          .copyWith(color: AppColors.color2)),
-                                )
-                              ],
-                            ),
-                          );
-                  },
+                              );
+                      },
+                    ),
+                  ),
                 ),
               ),
-              SizedBox(height: 60.h),
+              SizedBox(height: 30.h),
               TextField(
                 controller: _nameTextController,
                 cursorColor: AppColors.color8,

@@ -123,50 +123,55 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 60.h),
+            padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 30.h),
             child: Column(
               children: [
-                InkWell(
-                  onTap: () => BlocProvider.of<UpdateProductBloc>(context)
-                      .add(UpdateProductChooseImage()),
-                  child: BlocBuilder<UpdateProductBloc, UpdateProductState>(
-                    builder: (context, state) {
-                      return !state.image.contains("http")
-                          ? Container(
-                              width: 260.w,
-                              height: 190.h,
-                              child: FittedBox(
-                                fit: BoxFit.fill,
-                                child: Image.file(
-                                  File(
-                                    state.image,
-                                  ),
-                                ),
-                              ),
-                            )
-                          : Center(
-                              child: Container(
-                                width: 260.w,
-                                height: 190.h,
-                                child: FittedBox(
-                                  fit: BoxFit.cover,
-                                  child: CachedNetworkImage(
-                                    imageUrl: state.image,
-                                    placeholder: (context, url) => SpinKitRing(
-                                      color: Colors.transparent,
-                                    ),
-                                    errorWidget: (context, url, error) => Image(
-                                      image: AssetImage(
-                                          'assets/template_plant.png'),
+                Container(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.w),
+                    child: InkWell(
+                      onTap: () => BlocProvider.of<UpdateProductBloc>(context)
+                          .add(UpdateProductChooseImage()),
+                      child: BlocBuilder<UpdateProductBloc, UpdateProductState>(
+                        builder: (context, state) {
+                          return !state.image.contains("http")
+                              ? Container(
+                                  width: 260.w,
+                                  height: 260.w,
+                                  child: FittedBox(
+                                    fit: BoxFit.fill,
+                                    child: Image.file(
+                                      File(
+                                        state.image,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            );
-                    },
+                                )
+                              : Container(
+                                  width: 260.w,
+                                  height: 260.w,
+                                  child: FittedBox(
+                                    fit: BoxFit.cover,
+                                    child: CachedNetworkImage(
+                                      imageUrl: state.image,
+                                      placeholder: (context, url) =>
+                                          SpinKitRing(
+                                        color: Colors.transparent,
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Image(
+                                        image: AssetImage(
+                                            'assets/template_plant.png'),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                        },
+                      ),
+                    ),
                   ),
                 ),
-                SizedBox(height: 60.h),
+                SizedBox(height: 30.h),
                 TextField(
                   controller: _nameTextController,
                   cursorColor: AppColors.color8,

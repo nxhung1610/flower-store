@@ -1,6 +1,7 @@
+import 'package:flower_store/src/blocs/auth/auth.dart';
 import 'package:flower_store/src/blocs/invoice/invoice_bloc.dart';
 import 'package:flower_store/src/blocs/request/request_bloc.dart';
-import 'package:flower_store/src/screens/dashboard/bill/widgets/bill_item_row.dart';
+import 'package:flower_store/src/screens/dashboard/bill/widgets/bill_item.dart';
 import 'package:flower_store/src/utils/components/error_widget.dart';
 import 'package:flower_store/src/utils/components/loading_widget.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
@@ -30,49 +31,6 @@ class _RequestTabState extends State<RequestTab>
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 23.h),
-          width: double.infinity,
-          color: AppColors.color3,
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Expanded(
-                child: Text(
-                  'REQUEST',
-                  textAlign: TextAlign.center,
-                  style: AppTextStyle.header5.copyWith(
-                    color: AppColors.color10,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Text(
-                  'DUE DATE',
-                  textAlign: TextAlign.center,
-                  style: AppTextStyle.header5.copyWith(
-                    color: AppColors.color10,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Text(
-                  'BALANCE',
-                  textAlign: TextAlign.center,
-                  style: AppTextStyle.header5.copyWith(
-                    color: AppColors.color10,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 1.w,
-        ),
         Expanded(
           child: RefreshIndicator(
             color: AppColors.color3,
@@ -97,6 +55,10 @@ class _RequestTabState extends State<RequestTab>
                               arguments: state.requestList[index]);
                         },
                         bill: state.requestList[index],
+                        role: (context.read<AuthBloc>().state
+                                as AuthenticationAuthenticated)
+                            .staff
+                            .role,
                       );
                     },
                   );

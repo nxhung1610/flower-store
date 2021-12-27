@@ -1,6 +1,7 @@
+import 'package:flower_store/src/blocs/auth/auth.dart';
 import 'package:flower_store/src/blocs/invoice/invoice_bloc.dart';
 import 'package:flower_store/src/screens/dashboard/bill/detail_bill_page.dart';
-import 'package:flower_store/src/screens/dashboard/bill/widgets/bill_item_row.dart';
+import 'package:flower_store/src/screens/dashboard/bill/widgets/bill_item.dart';
 import 'package:flower_store/src/utils/components/error_widget.dart';
 import 'package:flower_store/src/utils/components/loading_widget.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
@@ -28,49 +29,6 @@ class _InvoiceTabState extends State<InvoiceTab>
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 23.h),
-          width: double.infinity,
-          color: AppColors.color3,
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Expanded(
-                child: Text(
-                  'INVOICE',
-                  textAlign: TextAlign.center,
-                  style: AppTextStyle.header5.copyWith(
-                    color: AppColors.color10,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Text(
-                  'DUE DATE',
-                  textAlign: TextAlign.center,
-                  style: AppTextStyle.header5.copyWith(
-                    color: AppColors.color10,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Text(
-                  'BALANCE',
-                  textAlign: TextAlign.center,
-                  style: AppTextStyle.header5.copyWith(
-                    color: AppColors.color10,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 1.w,
-        ),
         Expanded(
           child: RefreshIndicator(
             color: AppColors.color3,
@@ -90,9 +48,19 @@ class _InvoiceTabState extends State<InvoiceTab>
                     ),
                     itemBuilder: (context, index) {
                       return BillItem(
+                        role: (context.read<AuthBloc>().state
+                                as AuthenticationAuthenticated)
+                            .staff
+                            .role,
                         onClick: () {
                           Navigator.pushNamed(context, DetailBillPage.nameRoute,
                               arguments: state.invoices[index]);
+                        },
+                        onNegative: () {
+                          
+                        },
+                        onPositive: () {
+                          
                         },
                         bill: state.invoices[index],
                       );

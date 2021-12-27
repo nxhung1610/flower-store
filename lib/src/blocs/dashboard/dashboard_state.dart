@@ -17,3 +17,12 @@ class NavigatorTappedPageState extends DashboardState {
   // TODO: implement props
   List<Object> get props => [this.pageName];
 }
+
+class DashboardLoading extends DashboardState {
+  final bool isLoading;
+
+  DashboardLoading({required this.isLoading});
+  @override
+  // TODO: implement props
+  List<Object> get props => [isLoading];
+}

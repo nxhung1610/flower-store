@@ -9,6 +9,7 @@ import 'package:flower_store/src/screens/dashboard/cart/cart_page.dart';
 import 'package:flower_store/src/screens/screen.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
+import 'package:flower_store/src/utils/tools/screen_tool.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -188,20 +189,29 @@ class _BodyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (state is DashboardInitState) return Container();
-    switch ((state as NavigatorTappedPageState).pageName) {
-      case PageName.Home:
-        return HomePage();
-      case PageName.Package:
-        return PackagePage();
-      case PageName.Bill:
-        return BillPage();
-      case PageName.Statistical:
-        return BlocProvider(
-          create: (context) => StatisticBloc(),
-          child: StatisticalPage(),
-        );
-      default:
-        return Container();
-    }
+    return BlocListener<DashboardBloc, DashboardState>(
+      listener: (context, state) {
+        if (state is DashboardLoading) {
+          ScreenTool.showLoading(context, state.isLoading);
+        }
+      },
+      child: (() {
+        switch ((state as NavigatorTappedPageState).pageName) {
+          case PageName.Home:
+            return HomePage();
+          case PageName.Package:
+            return PackagePage();
+          case PageName.Bill:
+            return BillPage();
+          case PageName.Statistical:
+            return BlocProvider(
+              create: (context) => StatisticBloc(),
+              child: StatisticalPage(),
+            );
+          default:
+            return Container();
+        }
+      }()),
+    );
   }
 }
