@@ -24,4 +24,15 @@ class RequestRepository extends BaseRepository {
       throw error.response as Response;
     }
   }
+
+  Future<Response> approve({required Request request}) async {
+    try {
+      var client = init();
+      final requestApprove =
+          await client.post('/request/${request.id}/approve');
+      return requestApprove;
+    } on DioError catch (error) {
+      throw error.response as Response;
+    }
+  }
 }

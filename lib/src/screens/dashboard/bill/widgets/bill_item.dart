@@ -118,21 +118,6 @@ class BillItem extends StatelessWidget {
                 ],
               ),
             ),
-            Divider(
-              height: 1.h,
-              color: AppColors.color9,
-            ),
-            bill is Invoice
-                ? Container()
-                : (() {
-                    switch (
-                        RequestExtension.getValue((bill as Request).status!)) {
-                      case RequestStatus.Pending:
-                        return _bottomBill();
-                      default:
-                        return Container();
-                    }
-                  }()),
           ],
         ),
       ),
@@ -145,83 +130,5 @@ class BillItem extends StatelessWidget {
     }).join(", ");
   }
 
-  Widget _bottomBill() {
-    return Container(
-      child: IntrinsicHeight(
-        child: Row(
-          children: [
-            role != RoleType.Supplier && ((bill as Request).approve??false)
-                ? Container()
-                : Expanded(
-                    child: InkWell(
-                      splashFactory: InkRipple.splashFactory,
-                      onTap: () {
-                        if (onPositive != null) onPositive!();
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 15.h),
-                        child: Text(
-                          'Approve',
-                          textAlign: TextAlign.center,
-                          style: AppTextStyle.header5.copyWith(
-                            color: AppColors.color3,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-            role != RoleType.Warehouse
-                ? Container()
-                : Expanded(
-                    child: InkWell(
-                      splashFactory: InkRipple.splashFactory,
-                      onTap: () {
-                        if (onPositive != null) onPositive!();
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 15.h),
-                        child: Text(
-                          'Done',
-                          textAlign: TextAlign.center,
-                          style: AppTextStyle.header5.copyWith(
-                            color: AppColors.color3,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-            role == RoleType.Supplier
-                ? Container()
-                : VerticalDivider(
-                    width: 1.w,
-                    color: AppColors.color9,
-                  ),
-            role == RoleType.Supplier
-                ? Container()
-                : Expanded(
-                    child: InkWell(
-                      splashFactory: InkRipple.splashFactory,
-                      onTap: () {
-                        if (onPositive != null) onPositive!();
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 15.h),
-                        child: Text(
-                          'Cancel',
-                          textAlign: TextAlign.center,
-                          style: AppTextStyle.header5.copyWith(
-                            color: AppColors.color8,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-          ],
-        ),
-      ),
-    );
-  }
+  
 }

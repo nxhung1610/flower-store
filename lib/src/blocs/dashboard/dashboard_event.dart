@@ -17,3 +17,12 @@ class NavigatorPageTappedEvent extends DashboardEvent {
   List<Object> get props => [this.curentPage];
 }
 
+class DashboardLoadingEvent extends DashboardEvent {
+  final bool isLoading;
+
+  DashboardLoadingEvent({required this.isLoading});
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [isLoading];
+}

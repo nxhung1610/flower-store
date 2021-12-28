@@ -38,6 +38,7 @@ class _BillPageState extends State<BillPage>
             children: [
               TabBar(
                 indicatorColor: AppColors.color3,
+                indicatorWeight: 3.h,
                 tabs: [
                   Tab(
                     child: Text(
@@ -59,6 +60,9 @@ class _BillPageState extends State<BillPage>
                   )
                 ],
                 controller: tabController,
+              ),
+              Divider(
+                height: 1.h,
               ),
               Expanded(
                 child: TabBarView(

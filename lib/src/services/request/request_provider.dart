@@ -18,4 +18,8 @@ class RequestProvider extends BaseProvider<RequestRepository> {
   Future create({required Request request}) async {
     await repository.create(request: request);
   }
+
+  Future approve({required Request request}) async {
+    
+   }
 }

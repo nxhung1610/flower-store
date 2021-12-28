@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flower_store/src/blocs/bloc.dart';
 import 'package:flower_store/src/models/request/request.dart';
 import 'package:flower_store/src/services/app_repository.dart';
 
@@ -22,9 +23,6 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
           emit(RequestLoadedFail(message: error.toString()));
       }
     });
-    on<RequestApprove>((event, emit) async {
-      event.loadingState(true);
-      try {} catch (error) {}
-    });
+    
   }
 }
