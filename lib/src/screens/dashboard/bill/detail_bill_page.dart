@@ -79,8 +79,7 @@ class _BodyScreen extends StatelessWidget {
               duration: Duration(
                 milliseconds: 1000,
               )).show(context);
-        }
-        else if (state is BillActionSuccess) {
+        } else if (state is BillActionSuccess) {
           Navigator.pop(context, true);
         }
       },
@@ -359,9 +358,14 @@ class _BodyScreen extends StatelessWidget {
               ),
             ),
           ),
-          billBloc.bill is Invoice
-              ? Container()
-              : _BottomBill(role: role, bill: billBloc.bill),
+          Divider(
+            color: AppColors.color9,
+            height: 1.h,
+          ),
+          [RoleType.Supplier, RoleType.Warehouse].contains(role) &&
+                  billBloc.bill is Request
+              ? _BottomBill(role: role, bill: billBloc.bill)
+              : Container(),
         ],
       ),
     );
