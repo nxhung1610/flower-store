@@ -1,5 +1,8 @@
+import 'package:badges/badges.dart';
 import 'package:flower_store/src/blocs/Statistic/statistic_bloc.dart';
 import 'package:flower_store/src/blocs/bloc.dart';
+import 'package:flower_store/src/blocs/cart/cart_bloc.dart';
+import 'package:flower_store/src/blocs/cart/cart_state.dart';
 import 'package:flower_store/src/blocs/dashboard/home/home_bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/package/package_bloc.dart';
 import 'package:flower_store/src/blocs/invoice/invoice_bloc.dart';
@@ -14,7 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:collection/collection.dart';
 import 'app_slider_bar.dart';
 import 'bill/bill_page.dart';
 import 'home/home_page.dart';
@@ -83,16 +86,28 @@ Widget cartIcon(BuildContext context) {
           .staff
           .role;
   return [RoleType.Seller, RoleType.Warehouse].contains(role)
-      ? IconButton(
-          iconSize: 30.h,
-          onPressed: () {
-            Navigator.pushNamed(
-              context,
-              CartPage.nameRoute,
-            );
-          },
-          icon: SvgPicture.asset('assets/ico_cart.svg'),
-        )
+      ? BlocBuilder<CartBloc, CartState>(builder: (context, state) {
+          return Badge(
+              badgeColor: AppColors.color3,
+              position: BadgePosition.topEnd(top: 1.h, end: 3.h),
+              elevation: 0,
+              badgeContent: Text(
+                '${state.cartProducts.map((product) => product.quantity).sum}',
+                style: AppTextStyle.header7.copyWith(
+                  color: AppColors.color10,
+                ),
+              ),
+              child: IconButton(
+                iconSize: 30.h,
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    CartPage.nameRoute,
+                  );
+                },
+                icon: SvgPicture.asset('assets/ico_cart.svg'),
+              ));
+        })
       : SizedBox.shrink();
 }
 
