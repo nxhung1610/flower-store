@@ -12,3 +12,4 @@ class BillApprove extends BillEvent {}
 class BillDone extends BillEvent {}
 
 class BillCancel extends BillEvent {}
+

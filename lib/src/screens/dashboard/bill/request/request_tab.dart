@@ -38,9 +38,7 @@ class _RequestTabState extends State<RequestTab>
         .role;
     final requestBoc = context.read<RequestBloc>();
     return BlocListener<RequestBloc, RequestState>(
-      listener: (context, state) {
-        
-      },
+      listener: (context, state) {},
       child: Column(
         children: [
           Expanded(
@@ -64,17 +62,21 @@ class _RequestTabState extends State<RequestTab>
                         return BillItem(
                           onPositive: () {
                             if (role == RoleType.Warehouse) {
-                            } else if (role == RoleType.Supplier) {
-                             
-                            }
+                            } else if (role == RoleType.Supplier) {}
                           },
                           onNegative: () {
                             if (role == RoleType.Warehouse) {}
                           },
-                          onClick: () {
-                            Navigator.pushNamed(
-                                context, DetailBillPage.nameRoute,
-                                arguments: state.requestList[index]);
+                          onClick: () async {
+                            final result = await Navigator.pushNamed(
+                              context,
+                              DetailBillPage.nameRoute,
+                              arguments: state.requestList[index],
+                            ) as bool;
+
+                            if (result) {
+                              context.read<RequestBloc>().add(RequestLoaded());
+                            }
                           },
                           bill: state.requestList[index],
                           role: role,

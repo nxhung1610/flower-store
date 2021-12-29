@@ -1,4 +1,3 @@
-
 import 'package:flower_store/src/models/request/request.dart';
 import 'package:flower_store/src/services/base/base_provider.dart';
 
@@ -20,6 +19,14 @@ class RequestProvider extends BaseProvider<RequestRepository> {
   }
 
   Future approve({required Request request}) async {
-    
-   }
+    await repository.approve(request: request);
+  }
+
+  Future done({required Request request}) async {
+    await repository.done(request: request);
+  }
+
+  Future cancel({required Request request}) async {
+    await repository.cancel(request: request);
+  }
 }

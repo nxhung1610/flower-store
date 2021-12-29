@@ -16,10 +16,10 @@ enum RoleType {
 }
 
 enum RequestStatus {
+  Unknown,
   Pending,
   Done,
   Cancel,
-  Unknown,
 }
 
 extension RequestExtension on RequestStatus {

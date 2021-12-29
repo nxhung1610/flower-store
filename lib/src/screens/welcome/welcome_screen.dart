@@ -60,7 +60,7 @@ class _BodyScreen extends StatelessWidget {
           SvgPicture.asset(
             'assets/ico_welcome.svg',
             width: 1.sw,
-            height: 461.h,
+            height: 0.45.sh,
           ),
           Padding(
             padding: EdgeInsets.only(
