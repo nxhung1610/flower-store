@@ -1,5 +1,6 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flower_store/src/blocs/auth/auth.dart';
+import 'package:flower_store/src/blocs/bill/bill_bloc.dart';
 import 'package:flower_store/src/blocs/cart/cart_bloc.dart';
 import 'package:flower_store/src/blocs/cart/cart_event.dart';
 import 'package:flower_store/src/blocs/checkout/checkout_bloc.dart';
@@ -7,7 +8,7 @@ import 'package:flower_store/src/blocs/manager_account/add_account/add_account.d
 import 'package:flower_store/src/models/cart/cart_product.dart';
 import 'package:flower_store/src/models/enums.dart';
 import 'package:flower_store/src/screens/base/screen_config.dart';
-import 'package:flower_store/src/screens/dashboard/bill/detail_bill_widget/detail_bill_expandable_widget.dart';
+import 'package:flower_store/src/screens/dashboard/bill/widgets/product_detail_bill.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
 import 'package:flower_store/src/utils/tools/screen_tool.dart';
@@ -79,6 +80,9 @@ class __BodyScreenState extends State<_BodyScreen> {
   @override
   Widget build(BuildContext context) {
     final checkoutBloc = context.read<CheckoutBloc>();
+    final role = (context.read<AuthBloc>().state as AuthenticationAuthenticated)
+        .staff
+        .role;
     return BlocListener<CheckoutBloc, CheckoutState>(
       listener: (context, state) {
         ScreenTool.showLoading(context, state.isLoading);
@@ -104,20 +108,16 @@ class __BodyScreenState extends State<_BodyScreen> {
               child: SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 child: Padding(
-                  padding: EdgeInsets.all(25.w),
+                  padding: EdgeInsets.all(20.w),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      ((context.read<AuthBloc>().state
-                                      as AuthenticationAuthenticated)
-                                  .staff
-                                  .role ==
-                              RoleType.Seller)
-                          ? _FormCustomer()
+                      (role == RoleType.Seller) ? _FormCustomer() : Container(),
+                      (role == RoleType.Seller)
+                          ? SizedBox(
+                              height: 25.h,
+                            )
                           : Container(),
-                      SizedBox(
-                        height: 25.h,
-                      ),
                       Container(
                         decoration: BoxDecoration(
                           color: AppColors.color10,
@@ -126,10 +126,26 @@ class __BodyScreenState extends State<_BodyScreen> {
                         padding: EdgeInsets.all(10.w),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Text(
+                              'Item(s)',
+                              style: AppTextStyle.header5.copyWith(
+                                color: AppColors.color6,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                             BlocBuilder<CheckoutBloc, CheckoutState>(
-                              builder: (context, state) => DetailBillExpandable(
-                                details: state.detailBills,
+                              builder: (context, state) => ListView.separated(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: state.detailBills.length,
+                                separatorBuilder:
+                                    (BuildContext context, int index) =>
+                                        SizedBox(height: 10.h),
+                                itemBuilder: (context, index) =>
+                                    ProductDetailBill(
+                                        detailBill: state.detailBills[index]),
                               ),
                             ),
                             Row(
@@ -162,31 +178,28 @@ class __BodyScreenState extends State<_BodyScreen> {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 21.w, vertical: 5.h),
               color: AppColors.color10,
               width: double.infinity,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: AppColors.color3,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.w),
-                    ),
-                  ),
-                  onPressed: () {
-                    checkoutBloc.add(BillOrder());
+              child: Material(
+                child: InkWell(
+                  splashFactory: InkRipple.splashFactory,
+                  onTap: () {
+                    context.read<CheckoutBloc>().add(BillOrder());
                   },
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 14.h),
+                    padding: EdgeInsets.symmetric(vertical: 20.h),
                     child: Text(
                       'BILL',
+                      textAlign: TextAlign.center,
                       style: AppTextStyle.header5.copyWith(
-                        color: AppColors.color10,
+                        color: AppColors.color3,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                  )),
-            )
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

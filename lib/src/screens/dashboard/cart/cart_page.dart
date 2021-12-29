@@ -59,6 +59,10 @@ class CartPage extends StatelessWidget {
                     },
                   ),
                 ),
+                Divider(
+                  color: AppColors.color9,
+                  height: 1.h,
+                ),
                 Card(
                   margin: EdgeInsets.zero,
                   elevation: 500,
