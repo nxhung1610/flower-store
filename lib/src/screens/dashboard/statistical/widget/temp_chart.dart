@@ -4,51 +4,53 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class _LineChart extends StatelessWidget {
-  const _LineChart();
+  final Map _request;
+  final Map _invoice;
+  _LineChart(this._request, this._invoice);
 
   @override
   Widget build(BuildContext context) {
     return LineChart(
-      sampleData2,
+      Data,
     );
   }
 
-  LineChartData get sampleData2 => LineChartData(
-        lineTouchData: lineTouchData2,
+  LineChartData get Data => LineChartData(
+        lineTouchData: lineTouchData,
         gridData: gridData,
-        titlesData: titlesData2,
+        titlesData: titlesData,
         borderData: borderData,
-        lineBarsData: lineBarsData2,
+        lineBarsData: lineBarsData,
         minX: 0,
         maxX: 11,
         minY: 0,
       );
 
-  LineTouchData get lineTouchData2 => LineTouchData(
+  LineTouchData get lineTouchData => LineTouchData(
         enabled: false,
       );
 
-  FlTitlesData get titlesData2 => FlTitlesData(
+  FlTitlesData get titlesData => FlTitlesData(
         bottomTitles: bottomTitles,
         rightTitles: SideTitles(showTitles: false),
         topTitles: SideTitles(showTitles: false),
         leftTitles: leftTitles(
           getTitles: (value) {
-            return value.toString();
+            return value.toString() + 'K';
           },
         ),
       );
 
-  List<LineChartBarData> get lineBarsData2 => [
-        lineChartBarData2_1,
-        lineChartBarData2_3,
+  List<LineChartBarData> get lineBarsData => [
+        invoiceLine,
+        requestLine,
       ];
 
   SideTitles leftTitles({required GetTitleFunction getTitles}) => SideTitles(
         getTitles: getTitles,
         showTitles: true,
         margin: 8,
-        interval: 1,
+        interval: 150000,
         reservedSize: 40,
         getTextStyles: (context, value) => const TextStyle(
           color: AppColors.color10,
@@ -135,55 +137,66 @@ class _LineChart extends StatelessWidget {
         ),
       );
 
-  LineChartBarData get lineChartBarData2_1 => LineChartBarData(
-        isCurved: true,
+  double getSpot(Map map, int index) {
+    if (map.isEmpty) return 0;
+
+    double result = map[index + 1] != null ? map[index + 1] * 1.0 : 0.0;
+
+    return result;
+  }
+
+  LineChartBarData get invoiceLine => LineChartBarData(
+        isCurved: false,
         colors: [AppColors.color10],
         barWidth: 5,
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(0, 1),
-          FlSpot(1, 4),
-          FlSpot(2, 1.8),
-          FlSpot(3, 5),
-          FlSpot(4, 2),
-          FlSpot(5, 2.2),
-          FlSpot(6, 1),
-          FlSpot(7, 4),
-          FlSpot(8, 1.8),
-          FlSpot(9, 5),
-          FlSpot(10, 2),
-          FlSpot(11, 2.2),
+        spots: [
+          FlSpot(0, getSpot(_invoice, 0)),
+          FlSpot(1, getSpot(_invoice, 1)),
+          FlSpot(2, getSpot(_invoice, 2)),
+          FlSpot(3, getSpot(_invoice, 3)),
+          FlSpot(4, getSpot(_invoice, 4)),
+          FlSpot(5, getSpot(_invoice, 5)),
+          FlSpot(6, getSpot(_invoice, 6)),
+          FlSpot(7, getSpot(_invoice, 7)),
+          FlSpot(8, getSpot(_invoice, 8)),
+          FlSpot(9, getSpot(_invoice, 9)),
+          FlSpot(10, getSpot(_invoice, 10)),
+          FlSpot(11, getSpot(_invoice, 11)),
         ],
       );
 
-  LineChartBarData get lineChartBarData2_3 => LineChartBarData(
-        isCurved: true,
+  LineChartBarData get requestLine => LineChartBarData(
+        isCurved: false,
         colors: const [AppColors.color7],
         barWidth: 3,
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(show: true),
-        spots: const [
-          FlSpot(0, 0),
-          FlSpot(1, 1.9),
-          FlSpot(2, 5),
-          FlSpot(3, 3.3),
-          FlSpot(4, 3.8),
-          FlSpot(5, 1.9),
-          FlSpot(6, 5),
-          FlSpot(7, 3.3),
-          FlSpot(8, 3.8),
-          FlSpot(9, 1.9),
-          FlSpot(10, 5),
-          FlSpot(11, 3.3),
+        spots: [
+          FlSpot(0, getSpot(_request, 0)),
+          FlSpot(1, getSpot(_request, 1)),
+          FlSpot(2, getSpot(_request, 2)),
+          FlSpot(3, getSpot(_request, 3)),
+          FlSpot(4, getSpot(_request, 4)),
+          FlSpot(5, getSpot(_request, 5)),
+          FlSpot(6, getSpot(_request, 6)),
+          FlSpot(7, getSpot(_request, 7)),
+          FlSpot(8, getSpot(_request, 8)),
+          FlSpot(9, getSpot(_request, 9)),
+          FlSpot(10, getSpot(_request, 10)),
+          FlSpot(11, getSpot(_request, 11)),
         ],
       );
 }
 
 class LineChartSample1 extends StatefulWidget {
-  const LineChartSample1({Key? key}) : super(key: key);
+  final Map request;
+  final Map invoice;
+  LineChartSample1({Key? key, required this.request, required this.invoice})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => LineChartSample1State();
@@ -220,7 +233,7 @@ class LineChartSample1State extends State<LineChartSample1> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(right: 15, top: 8, bottom: 10),
-                child: _LineChart(),
+                child: _LineChart(widget.request, widget.invoice),
               ),
             ),
             const SizedBox(

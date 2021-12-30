@@ -62,7 +62,10 @@ class _StatisticalPageState extends State<StatisticalPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  child: LineChartSample1(),
+                  child: LineChartSample1(
+                    request: state.requestMap,
+                    invoice: state.invoiceMap,
+                  ),
                 ),
                 SizedBox(
                   height: 20.h,
