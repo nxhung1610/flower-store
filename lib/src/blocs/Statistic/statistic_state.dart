@@ -10,11 +10,19 @@ class StatisticState extends Equatable {
 
 class StatisticInitial extends StatisticState {}
 
-class StatisticLoadSucess extends StatisticState {
-  final List<Invoice> invoiceList;
+class StatisticLoading extends StatisticState {}
 
-  StatisticLoadSucess({required this.invoiceList});
+class StatisticLoadSucess extends StatisticState {
+  final Map invoiceMap;
+  final Map requestMap;
+  StatisticLoadSucess({
+    required this.invoiceMap,
+    required this.requestMap,
+  });
 
   @override
-  List<Object> get props => [invoiceList];
+  List<Object> get props => [
+        invoiceMap,
+        requestMap,
+      ];
 }
