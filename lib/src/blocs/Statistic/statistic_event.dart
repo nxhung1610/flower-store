@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:flower_store/src/models/base/bill/staff.dart';
+import 'package:flutter/cupertino.dart';
 
 class StatisticEvent extends Equatable {
   @override
@@ -6,4 +8,8 @@ class StatisticEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class StatisticLoaded extends StatisticEvent {}
+class StatisticLoaded extends StatisticEvent {
+  String staffId;
+  StatisticLoaded(@required this.staffId);
+  List<Object?> get props => [staffId];
+}
