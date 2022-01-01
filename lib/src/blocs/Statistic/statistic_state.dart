@@ -13,7 +13,7 @@ class StatisticInitial extends StatisticState {}
 class StatisticLoading extends StatisticState {}
 
 class StatisticLoadSucess extends StatisticState {
-  final Map billMap;
+  final Map<int,Map<int,List<Bill>>> billMap;
   final List<int> years;
   final int selectYear;
   StatisticLoadSucess({
@@ -30,7 +30,7 @@ class StatisticLoadSucess extends StatisticState {
       ];
 
   StatisticLoadSucess copyWith({
-    Map? billMap,
+    Map<int,Map<int,List<Bill>>>? billMap,
     List<int>? years,
     int? selectYear,
   }) {

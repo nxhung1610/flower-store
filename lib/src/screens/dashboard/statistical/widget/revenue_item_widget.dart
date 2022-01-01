@@ -1,3 +1,7 @@
+import 'package:collection/src/iterable_extensions.dart';
+import 'package:flower_store/src/models/base/bill/bill.dart';
+import 'package:flower_store/src/models/invoice/invoice.dart';
+import 'package:flower_store/src/models/request/request.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
 import 'package:flower_store/src/utils/themes/app_constant.dart';
 import 'package:flower_store/src/utils/themes/app_text_style.dart';
@@ -5,10 +9,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 
-class InvoiceReport extends StatelessWidget {
-  
-  const InvoiceReport({Key? key}) : super(key: key);
+class RevenueItemWidget extends StatelessWidget {
+  final DateTime dateTime;
+  final List<Bill> bills;
+  const RevenueItemWidget(
+      {Key? key, required this.bills, required this.dateTime})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +29,11 @@ class InvoiceReport extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  'July 2021',
+                  DateFormat('MMM yyyy').format(dateTime),
                   style: AppTextStyle.header6.copyWith(
-                      color: AppColors.color7, fontWeight: FontWeight.w600),
+                    color: AppColors.color7,
+                    fontWeight: FontWeight.w600,
+                  ),
                 )
               ],
             ),
@@ -39,18 +49,24 @@ class InvoiceReport extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    'Icome',
+                    'Income',
                     style: AppTextStyle.header6.copyWith(
                         color: AppColors.color5, fontWeight: FontWeight.w600),
                   ),
                 ),
-                Text(
-                  '+ 1000000 VND',
-                  style: AppTextStyle.header6.copyWith(
-                    color: AppColors.color8,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                Builder(builder: (context) {
+                  final sum = bills
+                      .where((element) => element is Invoice)
+                      .map((e) => e.totalPrice!)
+                      .sum;
+                  return Text(
+                    '+ ${NumberFormat("###,###,###").format(sum)} VND',
+                    style: AppTextStyle.header6.copyWith(
+                      color: AppColors.color8,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  );
+                }),
               ],
             ),
           ),
@@ -72,13 +88,19 @@ class InvoiceReport extends StatelessWidget {
                         color: AppColors.color5, fontWeight: FontWeight.w600),
                   ),
                 ),
-                Text(
-                  '- 800000 VND',
-                  style: AppTextStyle.header6.copyWith(
-                    color: AppColors.color8,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                Builder(builder: (context) {
+                  final sum = bills
+                      .where((element) => element is Request)
+                      .map((e) => e.totalPrice!)
+                      .sum;
+                  return Text(
+                    '- ${NumberFormat("###,###,###").format(sum)} VND',
+                    style: AppTextStyle.header6.copyWith(
+                      color: AppColors.color8,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  );
+                }),
               ],
             ),
           ),

@@ -1,4 +1,3 @@
-
 import 'package:flower_store/src/blocs/statistic/statistic_state.dart';
 import 'package:flower_store/src/utils/components/loading_widget.dart';
 import 'package:flutter/material.dart';
@@ -31,25 +30,51 @@ class _StatisticalPageState extends State<StatisticalPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<StatisticBloc, StatisticState>(
-      builder: (context, state) {
-        if (state is StatisticLoadSucess) {
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [],
-            ),
-          );
-        } else if (state is StatisticLoading) {
-          return SizedBox.expand(
-            child: Center(
-              child: LoadingWidget(),
-            ),
-          );
-        } else {
-          return SizedBox.expand();
-        }
-      },
+    return Container(
+      width: double.infinity,
+      child: BlocBuilder<StatisticBloc, StatisticState>(
+        builder: (context, state) {
+          if (state is StatisticLoadSucess) {
+            return SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(15.h),
+                    child: Text(
+                      'Detail(s)',
+                      textAlign: TextAlign.center,
+                      style: AppTextStyle.header5.copyWith(
+                        color: AppColors.color6,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: state.billMap[state.selectYear]!.values.length,
+                    itemBuilder: (context, index) => RevenueItemWidget(
+                        bills: state.billMap[state.selectYear]!.values
+                            .toList()[index],
+                        dateTime: DateTime(
+                            state.selectYear,
+                            state.billMap[state.selectYear]!.keys
+                                .toList()[index])),
+                  ),
+                ],
+              ),
+            );
+          } else if (state is StatisticLoading) {
+            return SizedBox.expand(
+              child: Center(
+                child: LoadingWidget(),
+              ),
+            );
+          } else {
+            return SizedBox.expand();
+          }
+        },
+      ),
     );
   }
 }
