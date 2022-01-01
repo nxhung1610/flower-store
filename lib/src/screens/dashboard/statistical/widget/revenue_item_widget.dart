@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class InvoiceReport extends StatelessWidget {
+  
   const InvoiceReport({Key? key}) : super(key: key);
 
   @override

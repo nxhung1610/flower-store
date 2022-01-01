@@ -1,43 +1,69 @@
-import 'package:flower_store/src/blocs/Statistic/statistic_state.dart';
-import 'package:flower_store/src/blocs/auth/auth.dart';
-
+import 'package:flower_store/src/blocs/statistic/statistic_state.dart';
 import 'package:flower_store/src/models/base/bill/bill.dart';
 import 'package:flower_store/src/models/invoice/invoice.dart';
 import 'package:flower_store/src/models/request/request.dart';
-import 'package:flower_store/src/services/base/base_repository.dart';
-import 'package:flower_store/src/services/invoice/invoice_provider.dart';
-import 'package:flower_store/src/services/request/request_provider.dart';
+import 'package:flower_store/src/services/app_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import "package:collection/collection.dart";
 import 'statistic_event.dart';
 
 class StatisticBloc extends Bloc<StatisticEvent, StatisticState> {
   StatisticBloc() : super(StatisticInitial()) {
     on<StatisticLoaded>((event, emit) async {
       emit(StatisticLoading());
-      List<Invoice> _invoiceList = [];
-      List<Request> _requestList = [];
-      _requestList = await RequestProvider().get();
-      _invoiceList = await InvoiceProvider().get();
-      var _requestMap = new Map();
-      var _invoiceMap = new Map();
+      final _requestList = (await AppRepository().request.get()) as List<Bill>;
+      final _invoiceList = (await AppRepository().invoice.get()) as List<Bill>;
+      Map<int, Map<int, List<Bill>>> _billMap = {};
+      final _requestTempMap =
+          _requestList.groupListsBy((element) => element.createdAt!.year);
 
-      _requestList.where((e) => e.staff!.id == event.staffId).forEach((e) {
-        if (_requestMap.containsKey(e.createdAt!.month)) {
-          _requestMap[e.createdAt!.month] += e.totalPrice;
+      _requestTempMap.forEach((key, value) {
+        if (_billMap.containsKey(key)) {
+          value
+              .groupListsBy((element) => element.createdAt!.month)
+              .forEach((keyChild, valueChild) {
+            if (_billMap[key]!.containsKey(keyChild)) {
+              _billMap[key]![keyChild]!.addAll(valueChild);
+            } else {
+              _billMap[key]![keyChild] = valueChild;
+            }
+          });
         } else {
-          _requestMap[e.createdAt!.month] = e.totalPrice;
+          _billMap[key] =
+              value.groupListsBy((element) => element.createdAt!.month);
         }
       });
-      _invoiceList.where((e) => e.staff!.id == event.staffId).forEach((e) {
-        if (_invoiceMap.containsKey(e.createdAt!.month)) {
-          _invoiceMap[e.createdAt!.month] += e.totalPrice;
+
+      final _invoiceTempMap =
+          _invoiceList.groupListsBy((element) => element.createdAt!.year);
+
+      _invoiceTempMap.forEach((key, value) {
+        if (_billMap.containsKey(key)) {
+          value
+              .groupListsBy((element) => element.createdAt!.month)
+              .forEach((keyChild, valueChild) {
+            if (_billMap[key]!.containsKey(keyChild)) {
+              _billMap[key]![keyChild]!.addAll(valueChild);
+            } else {
+              _billMap[key]![keyChild] = valueChild;
+            }
+          });
         } else {
-          _invoiceMap[e.createdAt!.month] = e.totalPrice;
+          _billMap[key] =
+              value.groupListsBy((element) => element.createdAt!.month);
         }
       });
 
-      emit(StatisticLoadSucess(
-          invoiceMap: _invoiceMap, requestMap: _requestMap));
+      final years = [..._billMap.keys].toSet().toList();
+
+      emit(
+        StatisticLoadSucess(
+          years: years,
+          selectYear: years.first,
+          billMap: _billMap,
+        ),
+      );
     });
   }
+
 }

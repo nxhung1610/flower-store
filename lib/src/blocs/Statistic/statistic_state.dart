@@ -13,16 +13,31 @@ class StatisticInitial extends StatisticState {}
 class StatisticLoading extends StatisticState {}
 
 class StatisticLoadSucess extends StatisticState {
-  final Map invoiceMap;
-  final Map requestMap;
+  final Map billMap;
+  final List<int> years;
+  final int selectYear;
   StatisticLoadSucess({
-    required this.invoiceMap,
-    required this.requestMap,
+    required this.selectYear,
+    required this.years,
+    required this.billMap,
   });
 
   @override
   List<Object> get props => [
-        invoiceMap,
-        requestMap,
+        billMap,
+        years,
+        selectYear,
       ];
+
+  StatisticLoadSucess copyWith({
+    Map? billMap,
+    List<int>? years,
+    int? selectYear,
+  }) {
+    return StatisticLoadSucess(
+      years: years ?? this.years,
+      billMap: billMap ?? this.billMap,
+      selectYear: selectYear ?? this.selectYear,
+    );
+  }
 }

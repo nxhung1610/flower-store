@@ -8,8 +8,6 @@ class StatisticEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class StatisticLoaded extends StatisticEvent {
-  String staffId;
-  StatisticLoaded(@required this.staffId);
-  List<Object?> get props => [staffId];
-}
+class StatisticLoaded extends StatisticEvent {}
+
+
