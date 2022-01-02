@@ -1,5 +1,4 @@
 import 'package:badges/badges.dart';
-import 'package:flower_store/src/blocs/Statistic/statistic_bloc.dart';
 import 'package:flower_store/src/blocs/bloc.dart';
 import 'package:flower_store/src/blocs/cart/cart_bloc.dart';
 import 'package:flower_store/src/blocs/cart/cart_state.dart';
@@ -7,6 +6,7 @@ import 'package:flower_store/src/blocs/dashboard/home/home_bloc.dart';
 import 'package:flower_store/src/blocs/dashboard/package/package_bloc.dart';
 import 'package:flower_store/src/blocs/invoice/invoice_bloc.dart';
 import 'package:flower_store/src/blocs/request/request_bloc.dart';
+import 'package:flower_store/src/blocs/statistic/statistic_bloc.dart';
 import 'package:flower_store/src/models/enums.dart';
 import 'package:flower_store/src/screens/dashboard/cart/cart_page.dart';
 import 'package:flower_store/src/screens/screen.dart';
@@ -58,6 +58,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
         BlocProvider<RequestBloc>(
           create: (context) => RequestBloc(),
+        ),
+        BlocProvider<StatisticBloc>(
+          create: (context) => StatisticBloc(),
         )
       ],
       child: ScreenConfig(
@@ -219,10 +222,7 @@ class _BodyScreen extends StatelessWidget {
           case PageName.Bill:
             return BillPage();
           case PageName.Statistical:
-            return BlocProvider(
-              create: (context) => StatisticBloc(),
-              child: StatisticalPage(),
-            );
+            return StatisticalPage();
           default:
             return Container();
         }

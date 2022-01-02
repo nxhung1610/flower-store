@@ -1,6 +1,6 @@
-import 'package:equatable/equatable.dart';
-import 'package:flower_store/src/models/base/bill/bill.dart';
-import 'package:flower_store/src/models/invoice/invoice.dart';
+part of 'statistic_bloc.dart';
+
+
 
 class StatisticState extends Equatable {
   @override

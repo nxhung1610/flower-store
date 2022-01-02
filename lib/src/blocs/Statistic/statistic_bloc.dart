@@ -1,11 +1,10 @@
-import 'package:flower_store/src/blocs/statistic/statistic_state.dart';
-import 'package:flower_store/src/models/base/bill/bill.dart';
-import 'package:flower_store/src/models/invoice/invoice.dart';
-import 'package:flower_store/src/models/request/request.dart';
+import 'package:collection/src/iterable_extensions.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flower_store/src/services/app_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import "package:collection/collection.dart";
-import 'statistic_event.dart';
+import 'package:flower_store/src/models/base/bill/bill.dart';
+part './statistic_event.dart';
+part './statistic_state.dart';
 
 class StatisticBloc extends Bloc<StatisticEvent, StatisticState> {
   StatisticBloc() : super(StatisticInitial()) {
@@ -64,6 +63,8 @@ class StatisticBloc extends Bloc<StatisticEvent, StatisticState> {
         ),
       );
     });
+    on<StatisticChangeYear>((event, emit) async {
+      emit((state as StatisticLoadSucess).copyWith(selectYear: event.year));
+    });
   }
-
 }

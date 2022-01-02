@@ -1,8 +1,6 @@
-import 'package:equatable/equatable.dart';
-import 'package:flower_store/src/models/base/bill/staff.dart';
-import 'package:flutter/cupertino.dart';
+part of 'statistic_bloc.dart';
 
-class StatisticEvent extends Equatable {
+abstract class StatisticEvent extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [];
@@ -10,4 +8,11 @@ class StatisticEvent extends Equatable {
 
 class StatisticLoaded extends StatisticEvent {}
 
+class StatisticChangeYear extends StatisticEvent {
+  final int year;
 
+  StatisticChangeYear({required this.year});
+  @override
+  // TODO: implement props
+  List<Object?> get props => [year];
+}

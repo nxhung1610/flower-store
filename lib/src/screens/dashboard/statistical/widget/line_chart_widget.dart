@@ -72,9 +72,10 @@ class LineChartWidget extends StatelessWidget {
       ...pointsInvoice.map((e) => e.y)
     ].reduce(min).toDouble();
     final maxY = [
-      ...pointsRequest.map((e) => e.y),
-      ...pointsInvoice.map((e) => e.y)
-    ].reduce(max).toDouble();
+          ...pointsRequest.map((e) => e.y),
+          ...pointsInvoice.map((e) => e.y)
+        ].reduce(max).toDouble() +
+        10000;
 
     return Container(
       color: AppColors.color3,
@@ -113,12 +114,18 @@ class LineChartWidget extends StatelessWidget {
           titlesData: getTitleData(),
           lineBarsData: [
             LineChartBarData(
+              dotData: FlDotData(
+                show: false,
+              ),
               // ignore: unnecessary_cast
               spots: pointsRequest,
               colors: [AppColors.color10],
               barWidth: 3.w,
             ),
             LineChartBarData(
+              dotData: FlDotData(
+                show: false,
+              ),
               // ignore: unnecessary_cast
               spots: pointsInvoice,
               colors: [AppColors.color10],
