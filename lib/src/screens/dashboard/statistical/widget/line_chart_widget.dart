@@ -1,174 +1,160 @@
+import 'package:collection/src/iterable_extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
+import 'package:flower_store/src/models/base/bill/bill.dart';
+import 'package:flower_store/src/models/invoice/invoice.dart';
+import 'package:flower_store/src/models/request/request.dart';
 import 'package:flower_store/src/utils/themes/app_colors.dart';
+import 'package:flower_store/src/utils/themes/app_text_style.dart';
+import 'package:flutter/material.dart';
+import 'dart:math';
+import "package:collection/collection.dart";
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
-class Chart extends StatefulWidget {
-  final bool isInvoice;
-  const Chart({
-    Key? key,
-    required this.isInvoice,
-  }) : super(key: key);
+class LineChartWidget extends StatelessWidget {
+  final Map<int, List<Bill>> data;
 
-  @override
-  _ChartState createState() => _ChartState();
-}
-
-class _ChartState extends State<Chart> {
-  List<Color> gradientColors = [
-    AppColors.color10,
-    AppColors.color10,
-  ];
+  const LineChartWidget({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(8),
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(18),
-          ),
-          color: AppColors.color3),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            widget.isInvoice
-                ? "Invoice Monthly Report"
-                : "Request Monthly Report",
-            style: TextStyle(
-                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          AspectRatio(
-            aspectRatio: 1.7,
-            child: Padding(
-              padding:
-                  const EdgeInsets.only(right: 5, left: 5, top: 8, bottom: 10),
-              child: LineChart(
-                monthChart(),
-              ),
+    Map<int, Map<int, List<Bill>>> mapDataBill = {};
+    data.entries.forEach((element) {
+      if (mapDataBill.containsKey(element.key)) {
+        element.value
+            .groupListsBy((element) => element.createdAt!.day)
+            .forEach((keyChild, valueChild) {
+          if (mapDataBill[element.key]!.containsKey(keyChild)) {
+            mapDataBill[element.key]![keyChild]!.addAll(valueChild);
+          } else {
+            mapDataBill[element.key]![keyChild] = valueChild;
+          }
+        });
+      } else {
+        mapDataBill[element.key] =
+            element.value.groupListsBy((element) => element.createdAt!.day);
+      }
+    });
+
+    List<FlSpot> pointsRequest = [];
+    List<FlSpot> pointsInvoice = [];
+    mapDataBill.forEach((month, groupDay) {
+      groupDay.forEach((day, bills) {
+        final requests = bills.where((element) => element is Request);
+        if (requests.isNotEmpty) {
+          pointsRequest.add(
+            FlSpot(
+              month + day / 30,
+              requests.map((e) => e.totalPrice!).sum.toDouble(),
             ),
+          );
+        }
+
+        final invoices = bills.where((element) => element is Invoice);
+        if (invoices.isNotEmpty) {
+          pointsInvoice.add(
+            FlSpot(
+              month + day / 30,
+              invoices.map((e) => e.totalPrice!).sum.toDouble(),
+            ),
+          );
+        }
+      });
+    });
+
+    pointsRequest.sort((a, b) => a.x.compareTo(b.x));
+    pointsInvoice.sort((a, b) => a.x.compareTo(b.x));
+
+    final minX = data.keys.sorted((a, b) => a.compareTo(b)).first.toDouble();
+    final maxX = data.keys.sorted((a, b) => a.compareTo(b)).last.toDouble() + 1;
+    final minY = [
+      ...pointsRequest.map((e) => e.y),
+      ...pointsInvoice.map((e) => e.y)
+    ].reduce(min).toDouble();
+    final maxY = [
+      ...pointsRequest.map((e) => e.y),
+      ...pointsInvoice.map((e) => e.y)
+    ].reduce(max).toDouble();
+
+    return Container(
+      color: AppColors.color3,
+      padding: EdgeInsets.only(
+        top: 20.h,
+        bottom: 10.h,
+        right: 30.w,
+        left: 20.w,
+      ),
+      child: LineChart(
+        LineChartData(
+          gridData: FlGridData(
+            show: true,
+            drawVerticalLine: true,
+            getDrawingHorizontalLine: (value) {
+              return FlLine(
+                color: AppColors.color10,
+                strokeWidth: 1,
+              );
+            },
+            getDrawingVerticalLine: (value) {
+              return FlLine(
+                color: AppColors.color10,
+                strokeWidth: 1,
+              );
+            },
           ),
-        ],
+          borderData: FlBorderData(
+            show: true,
+            border: Border.all(color: AppColors.color10),
+          ),
+          minX: minX,
+          maxX: maxX,
+          minY: minY,
+          maxY: maxY,
+          titlesData: getTitleData(),
+          lineBarsData: [
+            LineChartBarData(
+              // ignore: unnecessary_cast
+              spots: pointsRequest,
+              colors: [AppColors.color10],
+              barWidth: 3.w,
+            ),
+            LineChartBarData(
+              // ignore: unnecessary_cast
+              spots: pointsInvoice,
+              colors: [AppColors.color10],
+              barWidth: 3.w,
+            )
+          ],
+        ),
+        swapAnimationDuration: Duration(milliseconds: 150), // Optional
+        swapAnimationCurve: Curves.linear,
       ),
     );
   }
 
-  LineChartData monthChart() {
-    return LineChartData(
-      lineTouchData: LineTouchData(enabled: false),
-      gridData: FlGridData(
+  static getTitleData() => FlTitlesData(
         show: true,
-        drawHorizontalLine: true,
-        getDrawingVerticalLine: (value) {
-          return FlLine(
-            color: AppColors.color10,
-            strokeWidth: 1,
-          );
-        },
-        getDrawingHorizontalLine: (value) {
-          return FlLine(
-            color: AppColors.color10,
-            strokeWidth: 1,
-          );
-        },
-      ),
-      titlesData: FlTitlesData(
-        show: true,
+        rightTitles: SideTitles(showTitles: false),
+        topTitles: SideTitles(showTitles: false),
         bottomTitles: SideTitles(
-          interval: 1,
+          getTextStyles: (context, value) => AppTextStyle.header6.copyWith(
+            fontWeight: FontWeight.w600,
+            color: AppColors.color10,
+          ),
           showTitles: true,
-          reservedSize: 12,
-          getTextStyles: (context, value) => const TextStyle(
-              color: AppColors.color10,
-              fontWeight: FontWeight.bold,
-              fontSize: 16),
+          interval: 1,
           getTitles: (value) {
-            switch (value.toInt()) {
-              case 0:
-                return '1';
-              case 1:
-                return '2';
-              case 2:
-                return '3';
-              case 3:
-                return '4';
-              case 4:
-                return '5';
-              case 5:
-                return '6';
-              case 6:
-                return '7';
-              case 7:
-                return '8';
-              case 8:
-                return '9';
-              case 9:
-                return '10';
-              case 10:
-                return '11';
-              case 11:
-                return '12';
-            }
-            return '';
+            return DateFormat('MMM').format(DateTime(0, value.toInt()));
           },
-          margin: 8,
         ),
         leftTitles: SideTitles(
-          showTitles: true,
-          getTextStyles: (context, value) => const TextStyle(
+          reservedSize: 35.w,
+          interval: 20000,
+          getTextStyles: (context, value) => AppTextStyle.header6.copyWith(
+            fontWeight: FontWeight.w600,
             color: AppColors.color10,
-            fontWeight: FontWeight.bold,
-            fontSize: 13,
           ),
-          getTitles: (value) {
-            return value.toString();
-          },
-          interval: 1,
-          margin: 12,
+          showTitles: true,
         ),
-        topTitles: SideTitles(showTitles: false),
-        rightTitles: SideTitles(showTitles: false),
-      ),
-      borderData: FlBorderData(
-        show: true,
-        border: Border.all(color: AppColors.color10, width: 1),
-      ),
-      minX: 0,
-      minY: 0,
-      lineBarsData: [
-        LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
-          ],
-          isCurved: true,
-          colors: [
-            ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                .lerp(0.2)!,
-            ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                .lerp(0.2)!,
-          ],
-          barWidth: 3,
-          isStrokeCapRound: true,
-          dotData: FlDotData(
-            show: false,
-          ),
-          belowBarData: BarAreaData(show: true, colors: [
-            ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                .lerp(0.2)!
-                .withOpacity(0.5),
-            ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                .lerp(0.2)!
-                .withOpacity(0.5),
-          ]),
-        ),
-      ],
-    );
-  }
+      );
 }

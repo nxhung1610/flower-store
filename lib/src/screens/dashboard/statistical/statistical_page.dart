@@ -1,4 +1,5 @@
 import 'package:flower_store/src/blocs/statistic/statistic_state.dart';
+import 'package:flower_store/src/screens/dashboard/statistical/widget/line_chart_widget.dart';
 import 'package:flower_store/src/utils/components/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,9 +37,16 @@ class _StatisticalPageState extends State<StatisticalPage> {
         builder: (context, state) {
           if (state is StatisticLoadSucess) {
             return SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  Container(
+                    height: 0.4.sh,
+                    child: LineChartWidget(
+                      data: state.billMap[state.selectYear]!,
+                    ),
+                  ),
                   Padding(
                     padding: EdgeInsets.all(15.h),
                     child: Text(
@@ -52,6 +60,7 @@ class _StatisticalPageState extends State<StatisticalPage> {
                   ),
                   ListView.builder(
                     shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
                     itemCount: state.billMap[state.selectYear]!.values.length,
                     itemBuilder: (context, index) => RevenueItemWidget(
                         bills: state.billMap[state.selectYear]!.values
