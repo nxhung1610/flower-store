@@ -1,5 +1,6 @@
 import 'package:flower_store/src/blocs/statistic/statistic_bloc.dart';
 import 'package:flower_store/src/screens/dashboard/statistical/widget/line_chart_widget.dart';
+import 'package:flower_store/src/utils/components/error_widget.dart';
 import 'package:flower_store/src/utils/components/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -73,7 +74,7 @@ class _StatisticalPageState extends State<StatisticalPage> {
                               .toList(),
                           value: state.selectYear,
                           onChanged: (value) async {
-                            if (value != null )
+                            if (value != null)
                               bloc.add(StatisticChangeYear(year: value));
                           },
                         )
@@ -99,6 +100,12 @@ class _StatisticalPageState extends State<StatisticalPage> {
             return SizedBox.expand(
               child: Center(
                 child: LoadingWidget(),
+              ),
+            );
+          } else if (state is StatisticalLoadFail) {
+            return Center(
+              child: CustomErrorWidget(
+                message: (state).message,
               ),
             );
           } else {

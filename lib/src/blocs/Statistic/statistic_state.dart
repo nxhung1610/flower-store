@@ -1,7 +1,5 @@
 part of 'statistic_bloc.dart';
 
-
-
 class StatisticState extends Equatable {
   @override
   // TODO: implement props
@@ -13,7 +11,7 @@ class StatisticInitial extends StatisticState {}
 class StatisticLoading extends StatisticState {}
 
 class StatisticLoadSucess extends StatisticState {
-  final Map<int,Map<int,List<Bill>>> billMap;
+  final Map<int, Map<int, List<Bill>>> billMap;
   final List<int> years;
   final int selectYear;
   StatisticLoadSucess({
@@ -30,7 +28,7 @@ class StatisticLoadSucess extends StatisticState {
       ];
 
   StatisticLoadSucess copyWith({
-    Map<int,Map<int,List<Bill>>>? billMap,
+    Map<int, Map<int, List<Bill>>>? billMap,
     List<int>? years,
     int? selectYear,
   }) {
@@ -40,4 +38,14 @@ class StatisticLoadSucess extends StatisticState {
       selectYear: selectYear ?? this.selectYear,
     );
   }
+}
+
+class StatisticalLoadFail extends StatisticState {
+  final String message;
+
+  StatisticalLoadFail({required this.message});
+  @override
+  // TODO: implement props
+  List<Object?> get props => [message];
+
 }
