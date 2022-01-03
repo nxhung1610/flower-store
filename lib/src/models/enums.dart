@@ -9,7 +9,6 @@ enum FormStatus {
 
 enum RoleType {
   Warehouse,
-  Accountant,
   Seller,
   Manager,
   Supplier,

@@ -159,34 +159,6 @@ class ActionsFunction extends StatelessWidget {
                   title: 'Manager Account',
                 )
               : Container(),
-          (staff is Manager)
-              ? ItemActionFunction(
-                  listener: () {},
-                  icon: SvgPicture.asset('assets/ico_notification.svg'),
-                  title: 'Notification Manager',
-                )
-              : Container(),
-          !(staff is Manager)
-              ? ItemActionFunction(
-                  listener: () {},
-                  icon: SvgPicture.asset('assets/ico_notification.svg'),
-                  title: 'Notification',
-                )
-              : Container(),
-          (staff is Manager)
-              ? ItemActionFunction(
-                  listener: () {},
-                  icon: SvgPicture.asset('assets/ico_report.svg'),
-                  title: 'Reports',
-                )
-              : Container(),
-          (staff is Accountant)
-              ? ItemActionFunction(
-                  listener: () {},
-                  icon: SvgPicture.asset('assets/ico_report.svg'),
-                  title: 'Request Reports',
-                )
-              : Container(),
           ItemActionFunction(
             listener: () {
               authBLoc.add(UserLoggedOut());

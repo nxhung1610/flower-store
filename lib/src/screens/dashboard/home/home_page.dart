@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
             .role;
     return Scaffold(
       backgroundColor: AppColors.color4,
-      body: (role == RoleType.Accountant || role == RoleType.Manager)
+      body: (role == RoleType.Manager)
           ? Center(
               child: SvgPicture.asset(
                 'assets/icon.svg',

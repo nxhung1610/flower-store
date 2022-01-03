@@ -16,8 +16,6 @@ class UserHelper {
         return Manager.fromJson(staff);
       case RoleType.Warehouse:
         return Warehouse.fromJson(staff);
-      case RoleType.Accountant:
-        return Accountant.fromJson(staff);
       case RoleType.Seller:
         return Seller.fromJson(staff);
       case RoleType.Supplier:
