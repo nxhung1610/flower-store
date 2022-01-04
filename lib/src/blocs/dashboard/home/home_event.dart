@@ -10,4 +10,7 @@ class HomeLoaded extends HomeEvent {
   final RoleType role;
 
   HomeLoaded({required this.role});
+  @override
+  // TODO: implement props
+  List<Object?> get props => [role];
 }

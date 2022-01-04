@@ -96,87 +96,120 @@ class _HomePageState extends State<HomePage> {
                 builder: (context, state) {
                   if (state is HomeLoadSucess) {
                     if (state.productList != null)
-                      return ListView.separated(
-                        padding: EdgeInsets.symmetric(vertical: 5.h),
-                        physics: BouncingScrollPhysics(),
-                        itemCount: state.productList!.length,
-                        separatorBuilder: (BuildContext context, int index) =>
-                            SizedBox(height: 5.h),
-                        itemBuilder: (context, index) {
-                          return ProductWidget(
-                            role: role,
-                            onEdit: () async {
-                              final result = await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => BlocProvider(
-                                        create: (context) => UpdateProductBloc(
-                                            state.productList![index]),
-                                        child: UpdateProductPage(),
-                                      ),
-                                    ),
-                                  ) ??
-                                  false;
-                              if (result == true) {
-                                BlocProvider.of<HomeBloc>(context).add(
-                                    HomeLoaded(
-                                        role: (context.read<AuthBloc>().state
-                                                as AuthenticationAuthenticated)
-                                            .staff
-                                            .role));
-                              }
-                            },
-                            onClick: () async {
-                              if (role == RoleType.Seller ||
-                                  role == RoleType.Warehouse) {
-                                BlocProvider.of<CartBloc>(context).add(
-                                    CartBottomDialogPressed(
-                                        selectedProduct:
-                                            CartProduct.fromProduct(
-                                                state.productList![index])));
-
-                                showBottomDialog(
-                                    context, state.productList![index]);
-                              }
-                            },
-                            product: state.productList![index],
-                          );
+                      return RefreshIndicator(
+                        color: AppColors.color3,
+                        onRefresh: () async {
+                          context.read<HomeBloc>().add(HomeLoaded(
+                              role: (context.read<AuthBloc>().state
+                                      as AuthenticationAuthenticated)
+                                  .staff
+                                  .role));
                         },
+                        child: ListView.separated(
+                          padding: EdgeInsets.symmetric(vertical: 5.h),
+                          physics: const BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics()),
+                          itemCount: state.productList!.length,
+                          separatorBuilder: (BuildContext context, int index) =>
+                              SizedBox(height: 5.h),
+                          itemBuilder: (context, index) {
+                            return ProductWidget(
+                              role: role,
+                              onEdit: () async {
+                                final result = await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => BlocProvider(
+                                          create: (context) =>
+                                              UpdateProductBloc(
+                                                  state.productList![index]),
+                                          child: UpdateProductPage(),
+                                        ),
+                                      ),
+                                    ) ??
+                                    false;
+                                if (result == true) {
+                                  BlocProvider.of<HomeBloc>(context).add(
+                                      HomeLoaded(
+                                          role: (context.read<AuthBloc>().state
+                                                  as AuthenticationAuthenticated)
+                                              .staff
+                                              .role));
+                                }
+                              },
+                              onClick: () async {
+                                if (role == RoleType.Seller ||
+                                    role == RoleType.Warehouse) {
+                                  BlocProvider.of<CartBloc>(context).add(
+                                      CartBottomDialogPressed(
+                                          selectedProduct:
+                                              CartProduct.fromProduct(
+                                                  state.productList![index])));
+
+                                  showBottomDialog(
+                                      context, state.productList![index]);
+                                }
+                              },
+                              product: state.productList![index],
+                            );
+                          },
+                        ),
                       );
                     else if (state.packageList != null)
-                      return ListView.separated(
-                        physics: BouncingScrollPhysics(),
-                        itemCount: state.packageList!.length,
-                        separatorBuilder: (BuildContext context, int index) =>
-                            SizedBox(height: 5.h),
-                        itemBuilder: (context, index) {
-                          return ProductWidget(
-                            role: role,
-                            onClick: () {
-                              if (role == RoleType.Seller ||
-                                  role == RoleType.Warehouse) {
-                                BlocProvider.of<CartBloc>(context).add(
-                                    CartBottomDialogPressed(
-                                        selectedProduct:
-                                            CartProduct.fromProduct(state
-                                                .packageList![index].product)));
-
-                                showBottomDialog(
-                                    context, state.packageList![index].product);
-                              }
-                            },
-                            product: state.packageList![index].product,
-                          );
+                      return RefreshIndicator(
+                        color: AppColors.color3,
+                        onRefresh: () async {
+                          context.read<HomeBloc>().add(HomeLoaded(
+                              role: (context.read<AuthBloc>().state
+                                      as AuthenticationAuthenticated)
+                                  .staff
+                                  .role));
                         },
+                        child: ListView.separated(
+                          physics: const BouncingScrollPhysics(
+                              parent: AlwaysScrollableScrollPhysics()),
+                          itemCount: state.packageList!.length,
+                          separatorBuilder: (BuildContext context, int index) =>
+                              SizedBox(height: 5.h),
+                          itemBuilder: (context, index) {
+                            return ProductWidget(
+                              role: role,
+                              onClick: () {
+                                if (role == RoleType.Seller ||
+                                    role == RoleType.Warehouse) {
+                                  BlocProvider.of<CartBloc>(context).add(
+                                      CartBottomDialogPressed(
+                                          selectedProduct:
+                                              CartProduct.fromProduct(state
+                                                  .packageList![index]
+                                                  .product)));
+
+                                  showBottomDialog(context,
+                                      state.packageList![index].product);
+                                }
+                              },
+                              product: state.packageList![index].product,
+                            );
+                          },
+                        ),
                       );
                     else {
                       return Center(
                         child: LoadingWidget(),
                       );
                     }
-                  } else {
+                  } else if (state is HomeLoading) {
                     return Center(
                       child: LoadingWidget(),
+                    );
+                  } else {
+                    return Center(
+                      child: SvgPicture.asset(
+                        'assets/icon.svg',
+                        height: 110.h,
+                        width: 112.w,
+                        fit: BoxFit.fill,
+                      ),
                     );
                   }
                 },

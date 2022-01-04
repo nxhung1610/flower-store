@@ -12,6 +12,17 @@ class HomeState extends Equatable {
 
 class HomeInitState extends HomeState {}
 
+class HomeLoading extends HomeState {}
+
+class HomeLoadedFail extends HomeState {
+  final String message;
+
+  HomeLoadedFail({required this.message});
+  @override
+  // TODO: implement props
+  List<Object?> get props => [message];
+}
+
 class HomeLoadSucess extends HomeState {
   final List<Product>? productList;
   final List<Package>? packageList;
