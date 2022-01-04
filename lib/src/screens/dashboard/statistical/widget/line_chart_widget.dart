@@ -119,7 +119,7 @@ class LineChartWidget extends StatelessWidget {
               ),
               // ignore: unnecessary_cast
               spots: pointsRequest,
-              colors: [AppColors.color10],
+              colors: [AppColors.color8],
               barWidth: 3.w,
             ),
             LineChartBarData(
