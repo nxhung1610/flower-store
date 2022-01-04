@@ -1,5 +1,5 @@
 import 'package:flower_store/src/blocs/statistic/statistic_bloc.dart';
-import 'package:flower_store/src/screens/dashboard/statistical/widget/line_chart_widget.dart';
+import 'package:flower_store/src/screens/dashboard/statistical/widget/bar_chart_widget.dart';
 import 'package:flower_store/src/utils/components/error_widget.dart';
 import 'package:flower_store/src/utils/components/loading_widget.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +42,7 @@ class _StatisticalPageState extends State<StatisticalPage> {
                 children: [
                   Container(
                     height: 0.4.sh,
-                    child: LineChartWidget(
+                    child: BarChartWidget(
                       data: state.billMap[state.selectYear]!,
                     ),
                   ),
