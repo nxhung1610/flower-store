@@ -392,8 +392,8 @@ class _BottomBill extends StatelessWidget {
                               RequestStatus.Pending.index) ||
                       (role == RoleType.Warehouse &&
                           ((bill as Request).approve ?? false) &&
-                          (bill as Request).status !=
-                              RequestStatus.Cancel.index))
+                          (bill as Request).status ==
+                              RequestStatus.Pending.index))
                   ? Expanded(
                       child: InkWell(
                         splashFactory: InkRipple.splashFactory,
