@@ -50,11 +50,15 @@ class BarChartWidget extends StatelessWidget {
     barGroups.sort((a, b) => a.x.compareTo(b.x));
 
     final minY = [
-      for (BarChartGroupData item in barGroups) ...item.barRods.map((e) => e.y),
-    ].reduce(min).toDouble();
+          for (BarChartGroupData item in barGroups)
+            ...item.barRods.map((e) => e.y),
+        ].reduce(min).toDouble() -
+        10000;
     final maxY = [
-      for (BarChartGroupData item in barGroups) ...item.barRods.map((e) => e.y),
-    ].reduce(max).toDouble();
+          for (BarChartGroupData item in barGroups)
+            ...item.barRods.map((e) => e.y),
+        ].reduce(max).toDouble() +
+        10000;
 
     return Container(
       padding: EdgeInsets.only(
