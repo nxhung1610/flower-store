@@ -95,11 +95,11 @@ class CartPage extends StatelessWidget {
                           ),
                           onPressed: () async {
                             await Future.delayed(Duration(milliseconds: 300));
-                            if (state.cartProducts.isNotEmpty)
-                              Navigator.pushNamed(
-                                  context, CheckOutPage.nameRoute,
-                                  arguments: state.cartProducts);
-                            else
+                            if (state.cartProducts.isNotEmpty) if (await Navigator
+                                .pushNamed(context, CheckOutPage.nameRoute,
+                                    arguments: state.cartProducts) as bool) {
+                              Navigator.pop(context, true);
+                            } else
                               Flushbar(
                                   message: 'Please choose one product',
                                   duration: Duration(

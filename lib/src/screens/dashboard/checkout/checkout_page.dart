@@ -4,6 +4,8 @@ import 'package:flower_store/src/blocs/bill/bill_bloc.dart';
 import 'package:flower_store/src/blocs/cart/cart_bloc.dart';
 import 'package:flower_store/src/blocs/cart/cart_event.dart';
 import 'package:flower_store/src/blocs/checkout/checkout_bloc.dart';
+import 'package:flower_store/src/blocs/dashboard/home/home_bloc.dart';
+import 'package:flower_store/src/blocs/dashboard/home/home_event.dart';
 import 'package:flower_store/src/blocs/manager_account/add_account/add_account.dart';
 import 'package:flower_store/src/models/cart/cart_product.dart';
 import 'package:flower_store/src/models/enums.dart';
@@ -88,8 +90,11 @@ class __BodyScreenState extends State<_BodyScreen> {
         ScreenTool.showLoading(context, state.isLoading);
         if (state.isSuccess) {
           context.read<CartBloc>().add(CartClear());
-          Navigator.popUntil(
-              context, ModalRoute.withName(MainScreen.nameRoute));
+          
+          Navigator.pop(
+              context, true);
+
+              
         } else if (state.isError) {
           Flushbar(
               message: state.message,

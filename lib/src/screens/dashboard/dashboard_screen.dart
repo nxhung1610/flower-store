@@ -3,6 +3,7 @@ import 'package:flower_store/src/blocs/bloc.dart';
 import 'package:flower_store/src/blocs/cart/cart_bloc.dart';
 import 'package:flower_store/src/blocs/cart/cart_state.dart';
 import 'package:flower_store/src/blocs/dashboard/home/home_bloc.dart';
+import 'package:flower_store/src/blocs/dashboard/home/home_event.dart';
 import 'package:flower_store/src/blocs/dashboard/package/package_bloc.dart';
 import 'package:flower_store/src/blocs/invoice/invoice_bloc.dart';
 import 'package:flower_store/src/blocs/request/request_bloc.dart';
@@ -102,11 +103,17 @@ Widget cartIcon(BuildContext context) {
               ),
               child: IconButton(
                 iconSize: 30.h,
-                onPressed: () {
-                  Navigator.pushNamed(
+                onPressed: () async {
+                  if (await Navigator.pushNamed(
                     context,
                     CartPage.nameRoute,
-                  );
+                  ) as bool) {
+                    context.read<HomeBloc>().add(HomeLoaded(
+                        role: (context.read<AuthBloc>().state
+                                as AuthenticationAuthenticated)
+                            .staff
+                            .role));
+                  }
                 },
                 icon: SvgPicture.asset('assets/ico_cart.svg'),
               ));
