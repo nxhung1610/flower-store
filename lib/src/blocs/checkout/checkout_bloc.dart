@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flower_store/src/blocs/auth/auth.dart';
 import 'package:flower_store/src/models/base/bill/detail_bill.dart';
@@ -67,7 +68,10 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
         emit(state.copyWith(isSuccess: true));
       } catch (error) {
         await Future.delayed(Duration(milliseconds: 300));
-        emit(state.copyWith(isError: true, message: error.toString()));
+        if (error is Response)
+          emit(state.copyWith(isError: true, message: error.data["message"]));
+        else
+          emit(state.copyWith(isError: true, message: error.toString()));
       }
     });
   }
