@@ -21,10 +21,10 @@ class ProductRepository extends BaseRepository {
     var client = init();
     var image;
     if (imagePath.isNotEmpty) {
-      String mimeType = mime(imagePath)!;
-      String mimee = mimeType.split('/')[0];
-      String type = mimeType.split('/')[1];
-      image = await MultipartFile.fromFile(image,
+      var mimeType = mime(imagePath)!.split('/');
+      String mimee = mimeType.first;
+      String type = mimeType.last;
+      image = await MultipartFile.fromFile(imagePath,
           contentType: MediaType(mimee, type));
     }
 
@@ -55,6 +55,7 @@ class ProductRepository extends BaseRepository {
     String mimeType = '';
     String mimee = '';
     String type = '';
+
     final result = image.contains('http');
     if (!result) {
       mimeType = mime(image)!;

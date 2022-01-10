@@ -23,15 +23,18 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
               image: state.image,
               description: event.description,
               basePrice: event.basePrice);
-          if (event.onComplete == null) return;
-          event.onComplete!(true);
+          emit(state.copyWith(loading: false));
+          if (event.onComplete != null) event.onComplete!(true);
         } on DioError catch (e) {
           print(e);
           print(" res ${e.response!.data}");
-          if (event.onComplete == null) return;
-          event.onComplete!(false);
+          emit(state.copyWith(loading: false));
+          if (event.onComplete != null) event.onComplete!(false);
+        } catch (e) {
+          emit(state.copyWith(loading: false));
+          await Future.delayed(Duration(milliseconds: 500));
+          if (event.onComplete != null) event.onComplete!(false);
         }
-        emit(state.copyWith(loading: false));
       },
     );
   }

@@ -22,5 +22,5 @@ class AddProductAddNewProduct extends AddProductEvent {
     required this.basePrice,
   });
   @override
-  List<Object> get props => [name, description, basePrice];
+  List<Object> get props => [name, description, basePrice ];
 }

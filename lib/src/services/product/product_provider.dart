@@ -9,7 +9,7 @@ class ProductProvider extends BaseProvider<ProductRepository> {
   }
 
   Future<List<Product>> getAllProduct() async {
-    final response = await ProductRepository().getAllProduct();
+    final response = await repository.getAllProduct();
 
     final jsonResultList = (response.data["data"] as List);
     List<Product> productList = jsonResultList
@@ -24,7 +24,7 @@ class ProductProvider extends BaseProvider<ProductRepository> {
     required String description,
     required int basePrice,
   }) async {
-    final response = await ProductRepository().submitAddProduct(
+    await repository.submitAddProduct(
         name: name,
         imagePath: image,
         description: description,
@@ -38,7 +38,7 @@ class ProductProvider extends BaseProvider<ProductRepository> {
     required int basePrice,
     required String sId,
   }) async {
-    final response = await ProductRepository().updateProduct(
+    await repository.updateProduct(
         sId: sId,
         name: name,
         image: image,
@@ -49,7 +49,7 @@ class ProductProvider extends BaseProvider<ProductRepository> {
   Future<void> deleteProduct({
     required String sId,
   }) async {
-    final response = await ProductRepository().deleteProduct(
+    await repository.deleteProduct(
       sId: sId,
     );
   }
