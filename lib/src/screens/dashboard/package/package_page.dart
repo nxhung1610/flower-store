@@ -38,7 +38,8 @@ class _PackagePageState extends State<PackagePage> {
             .role;
     return Scaffold(
       backgroundColor: AppColors.color4,
-      body: (![RoleType.Warehouse, RoleType.Seller].contains(role))
+      body: (![RoleType.Warehouse, RoleType.Seller, RoleType.Manager]
+              .contains(role))
           ? Center(
               child: SvgPicture.asset(
                 'assets/icon.svg',

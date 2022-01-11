@@ -227,10 +227,22 @@ class __BodyScreenState extends State<_BodyScreen> {
                                         child: state.isAvatarLocal
                                             ? Image.file(
                                                 File(state.avatarPath),
-                                                fit: BoxFit.fill,
+                                                fit: BoxFit.cover,
                                               )
                                             : CachedNetworkImage(
                                                 imageUrl: state.avatarPath,
+                                                imageBuilder:
+                                                    (context, imageProvider) {
+                                                  return Container(
+                                                    decoration: BoxDecoration(
+                                                      color: AppColors.color9,
+                                                      shape: BoxShape.circle,
+                                                      image: DecorationImage(
+                                                          image: imageProvider,
+                                                          fit: BoxFit.cover),
+                                                    ),
+                                                  );
+                                                },
                                                 errorWidget:
                                                     (context, url, error) =>
                                                         Container(),

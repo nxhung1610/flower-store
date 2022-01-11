@@ -14,6 +14,7 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
       emit(RequestLoading());
       try {
         final requestList = await AppRepository().request.get();
+        requestList.sort((a,b)=> b.createdAt!.compareTo(a.createdAt!));
         emit(RequestLoadedSuccess(requestList: requestList));
       } catch (error) {
         emit(RequestLoading());

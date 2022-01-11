@@ -73,8 +73,7 @@ class CartPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Total : " +
-                              state.cartProducts
+                          state.cartProducts
                                   .map((e) => e.basePrice * e.quantity)
                                   .sum
                                   .toString() +
@@ -109,7 +108,7 @@ class CartPage extends StatelessWidget {
                           child: Padding(
                             padding: EdgeInsets.symmetric(
                               vertical: 15.h,
-                              horizontal: 25.w,
+                              horizontal: 20.w,
                             ),
                             child: Text(
                               "CHECKOUT",

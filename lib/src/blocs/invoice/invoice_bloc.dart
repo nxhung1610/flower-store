@@ -13,6 +13,7 @@ class InvoiceBloc extends Bloc<InvoiceLoaded, InvoiceState> {
       emit(InvoiceLoading());
       try {
         final listInvoice = await AppRepository().invoice.get();
+        listInvoice.sort((a,b)=> b.createdAt!.compareTo(a.createdAt!));
         emit(InvoiceLoadedSuccess(invoices: listInvoice));
       } catch (error) {
         if (error is Response)

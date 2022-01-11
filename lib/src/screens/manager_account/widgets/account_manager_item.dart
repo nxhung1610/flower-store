@@ -40,7 +40,8 @@ class AccountManagerItem extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: AppColors.color9,
                     shape: BoxShape.circle,
-                    image: DecorationImage(image: imageProvider),
+                    image: DecorationImage(
+                        image: imageProvider, fit: BoxFit.cover),
                   ),
                 );
               },
@@ -60,6 +61,7 @@ class AccountManagerItem extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 13.w),
               child: Text(
                 staff.name,
+                overflow: TextOverflow.ellipsis,
                 style: AppTextStyle.header5.copyWith(
                   color: AppColors.color6,
                   fontWeight: FontWeight.bold,
