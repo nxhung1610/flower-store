@@ -92,7 +92,7 @@ class BarChartWidget extends StatelessWidget {
             ),
           ),
           barGroups: barGroups,
-          titlesData: getTitleData(),
+          titlesData: getTitleData((maxY - minY) / 5),
           minY: minY,
           maxY: maxY,
         ),
@@ -100,7 +100,7 @@ class BarChartWidget extends StatelessWidget {
     );
   }
 
-  static getTitleData() => FlTitlesData(
+  static getTitleData(double interval) => FlTitlesData(
         show: true,
         rightTitles: SideTitles(showTitles: false),
         topTitles: SideTitles(showTitles: false),
@@ -116,13 +116,20 @@ class BarChartWidget extends StatelessWidget {
           },
         ),
         leftTitles: SideTitles(
-          reservedSize: 35.w,
-          interval: 20000,
+          reservedSize: 45.w,
+          interval: interval,
           getTextStyles: (context, value) => AppTextStyle.header6.copyWith(
             fontWeight: FontWeight.w600,
             color: AppColors.color7,
           ),
           showTitles: true,
+          getTitles: (value) {
+            return NumberFormat.compactCurrency(
+              decimalDigits: 2,
+              symbol:
+                  '', // if you want to add currency symbol then pass that in this else leave it empty.
+            ).format(value);
+          },
         ),
       );
 }
